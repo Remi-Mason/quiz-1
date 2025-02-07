@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<link rel="preload" as="image" href="https://i.imgur.com/2y2kmUp.png">
+<link rel="preload" as="image" href="https://i.imgur.com/mpMMoec.gif">
+<link rel="preload" as="image" href="https://i.imgur.com/AM2FkWm.gif">
+<link rel="preload" as="image" href="https://i.imgur.com/AhLyHkm.png">
+<link rel="preload" as="image" href="https://i.imgur.com/5twMjUW.png">
+<link rel="preload" as="image" href="https://i.imgur.com/wGqNOcs.png">
+<link rel="preload" as="image" href="https://i.imgur.com/Ns6suhD.png">
+<link rel="preload" as="image" href="https://i.imgur.com/6yai60z.png">
+
+  <meta charset="UTF-8">
+  <title>Quiz à Réponses Multiples</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Couleur pour Android (Chrome) -->
+<meta name="theme-color" content="#87CEFA">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <style>
+@keyframes quizBGAnimation {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+    @keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+    }
+    @keyframes blink {
+  0% { opacity: 1; }
+  50% { opacity: 0; }
+  100% { opacity: 1; }
+}
+    @keyframes glow {
+  0% {
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(255, 255, 255, 1);
+  }
+  100% {
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+  }
+}
+    /* Style général pour occuper toute la hauteur */
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(-45deg, #87CEFA, #A7C7E7, #66CCFF, #ADD8E6);
+      background-size: 400% 400%;
+      animation: gradientBG 10s ease infinite;
+    }
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    /* Pour simuler un écran de téléphone (fixe à 360px de large) */
+    .container {
+      background: #fff;
+      border: 3px solid #1a73e8;
+      padding: 0px 0px;
+      width: 360px;       /* Largeur fixe pour reproduire un mobile */
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      text-align: center;
+      margin-bottom: 20px;
+       overflow: hidden;
+    }
+    /* Page d'accueil */
+    #home {
+      position: relative;
+     margin-top: 20px;
+     background: url('https://i.imgur.com/K5WfEUQ.jpeg') no-repeat center center;
+     background-size: cover;
+     height: 550px;
+     display: flex; /* Active Flexbox */
+     flex-direction: column; /* Organise les éléments en colonne */
+     align-items: center; /* Centre horizontalement */
+     justify-content: center; /* Centre verticalement */
+     width: 350px; /* Permet au container de prendre toute la largeur de l'écran */
+     flex-shrink: 0; 
+    }
+    #start-btn {
+      border: 3px solid #00FFFF;
+      border-radius: 10px;
+      width: 120px;  /* Change cette valeur pour ajuster la largeur */
+      height: auto;
+      padding: 5px 10px;
+      background-color: #1E90FF;
+      cursor: pointer;
+      animation: glow 1.5s infinite ease-in-out;
+      transition: transform 0.1s ease, box-shadow 0.1s ease;
+    }
+    #start-btn:active {
+  transform: scale(0.95); /* Réduit légèrement le bouton pour simuler l'effet de pression */
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.7); /* Réduit le glow pendant la pression */
+}
+    /* Zone du quiz */
+    #quiz-container {
+      background: linear-gradient(135deg, #A2D9FF, #74B9FF, #4A90E2, #2C3E50);
+      background-size: 300% 300%;
+      border: solid white;
+       border-radius: 10px;
+      display: none;
+      animation: quizBGAnimation 10s ease infinite;
+    }
+    .question-counter {
+      font-weight: bold;
+      margin-bottom: 5px;
+      font-family: 'Arial', Arial, sans-serif;
+      color: white;
+      margin-top: 10px;
+    }
+    .question-text {
+      width: 95%;
+      margin: 0 auto;
+      font-family: 'Arial Black', Arial, sans-serif;
+      font-weight: bold;
+      font-size: 22px;
+      margin-bottom: 15px;
+       color: white;
+    text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000,
+    3px 3px 5px black;
+	  line-height: 1.5;
+    }
+    .options {
+      font-family: Arial, sans-serif;  /* Utilise Arial sans graisse */
+     font-weight: normal;  
+     font-size: 18px;
+     color: white;
+     text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000,
+    3px 3px 5px black;
+      text-align: left;
+      margin-bottom: 15px;
+      margin-left: 20px;
+    }
+    .option {
+      margin-bottom: 20px;
+    }
+    .option input[type="checkbox"] {
+  display: none;
+  width: 40px;            /* Taille de la checkbox */
+  height: 40px;
+  margin-right: 8px;      /* Espace entre la checkbox et le texte */
+  vertical-align: middle; /* Centre verticalement la checkbox par rapport au texte */
+  cursor: pointer;
+}
+.option label {
+  position: relative;
+  padding-left: 50px;  /* Espace pour l'image */
+  cursor: pointer;
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 18px;
+  line-height: 1.3;    /* Pour les textes sur plusieurs lignes */
+  min-height: 40px;    /* La hauteur de la checkbox */
+}
+
+.option label:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;              
+  transform: translateY(-50%); /* Centre l'image verticalement */
+  width: 40px;
+  height: 40px;
+  background: url('https://i.imgur.com/4RkFot0.png') no-repeat center center;
+  background-size: cover;
+}
+
+.option input[type="checkbox"]:checked + label:before {
+  background: url('https://i.imgur.com/PQs374i.png') no-repeat center center;
+  background-size: cover;
+}
+#validate-btn {
+  position: relative;
+  margin: 20px auto;
+  width: 150px;
+  padding: 15px 25px;
+  font-size: 22px;
+  font-weight: bold;
+  font-family: 'Arial Black', Arial, sans-serif;
+  text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000,
+    3px 3px 5px black;
+  background-color: #1E90FF;
+  border: 3px solid #00FFFF;
+  border-radius: 10px;
+  color: white;
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+      margin-bottom: 0px;
+	 margin-top: 0px;
+  
+  **user-select: none;**  /* Empêche la sélection du texte */
+}
+#validate-btn:active {
+  transform: scale(0.95);  /* Effet d'enfoncement au clic */
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+}
+    /* Zone de résultat de chaque question */
+    #result {
+      margin-top: 20px;
+    }
+.result-image {
+  display: block;
+  margin: 0 auto 20px auto; /* Top: 0, Right: auto, Bottom: 20px, Left: auto */
+  max-width: 150px;
+}
+    .result-text {
+      margin-top: 10px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .correct-answer-text {
+      color: green;
+      margin-top: 8px;
+    }
+    .incorrect-answer-text {
+     color: green;      /* Choisissez la couleur souhaitée, ici rouge */
+     font-size: 20px;     /* Ajustez la taille du texte */
+     font-weight: bold;   /* Par exemple, en gras */
+	font-family: 'Arial Black', Arial, sans-serif;
+    text-shadow:
+    -1px -1px 0 #fff,
+    1px -1px 0 #fff,
+    -1px 1px 0 #fff,
+    1px 1px 0 #fff;
+	margin-bottom: 10px;
+	margin-top: 5px;
+    }
+    /* Page de résultats finale */
+    #result-page {
+	 position: relative;
+	 background: linear-gradient(135deg, #A2D9FF, #74B9FF, #4A90E2, #2C3E50);
+     background-size: 300% 300%;
+	 animation: quizBGAnimation 10s ease infinite;
+      display: none;
+    }
+    #result-page h2 {
+      margin-bottom: 20px;
+    }
+ #restart-btn {
+  position: relative;
+  margin: 20px auto;
+  padding: 15px 25px;
+  font-size: 22px;
+  font-weight: bold;
+  font-family: 'Arial Black', Arial, sans-serif;
+  text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000,
+    3px 3px 5px black;
+  background-color: #1E90FF;
+  border: 3px solid #00FFFF;
+  border-radius: 10px;
+  color: white;
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  user-select: none;
+  display: flex;              /* Permet d'utiliser Flexbox */
+  align-items: center;        /* Centre verticalement */
+  justify-content: center;    /* Centre horizontalement */
+  text-align: center;         /* Assure le centrage du texte */
+}
+#restart-btn:active {
+  transform: scale(0.95);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+}
+    @keyframes floatImage {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+    }
+    .title-image {
+     animation: floatImage 3s ease-in-out infinite;    
+    }
+    .clouding {
+       position: absolute;
+    margin-bottom: 350px;
+         z-index: 0;
+      width: 500px;
+    }
+        .decoring {
+          position: absolute;
+    margin-top: 100px;    
+    }
+            .pikachu {
+              position: absolute;
+    margin-top: 120px;
+    z-index: 2;
+    }
+    .welcome {
+    margin-top: -370px;  
+        z-index: 1;
+    }
+    .grassy {
+      position: absolute;
+      margin-bottom: -180px;
+        z-index: 3;
+    }
+    .startu{
+      position: absolute;
+      margin-top: 360px;
+    }
+    .mute-btn {
+  position: absolute;
+  margin-top: 490px; /* Ajuste cette valeur pour placer le bouton juste en dessous du bouton Start */
+  width: 30px;       /* Ajuste la taille si nécessaire */
+  cursor: pointer;
+}  
+    .hidden {
+  display: none !important;  /* Cache complètement le contenu */
+}
+    img {
+  user-select: none;  /* Empêche la sélection des images */
+  -webkit-user-drag: none;  /* Empêche de glisser les images sur les navigateurs WebKit (comme Chrome, Safari) */
+}
+@keyframes popAnimation {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+/* Appliquer l'animation et augmenter la marge inférieure uniquement pour l'image de bonne réponse */
+.result-image.correct {
+  animation: popAnimation 0.5s ease-out;
+  margin-bottom: 26px; /* Ajustez cette valeur pour agrandir la marge inférieure */
+  margin-top: 1px;
+}
+.correct-images-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.incorrect-images-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.side-image {
+  width: 60px;  /* Taille des images latérales */
+  margin: 0;
+  padding: 0;
+}
+
+/* Pour la première image (gauche) : réduire l'espace en tirant vers la droite */
+.correct-images-wrapper img:first-child {
+  animation: levitateLeft 2s ease-in-out infinite !important;
+  }
+
+/* Pour la troisième image (droite) : réduire l'espace en tirant vers la gauche */
+.correct-images-wrapper img:last-child {
+  animation: levitateRight 2s ease-in-out infinite !important;
+}
+/* Pour la première image (gauche) : réduire l'espace en tirant vers la droite */
+.incorrect-images-wrapper img:first-child {
+  animation: levitateLeft2 2s ease-in-out infinite !important;
+  }
+
+/* Pour la troisième image (droite) : réduire l'espace en tirant vers la gauche */
+.incorrect-images-wrapper img:last-child {
+  animation: levitateRight2 2s ease-in-out infinite !important;
+}
+@keyframes levitateLeft {
+  0%   { transform: translateX(70px) translateY(-10px); }
+  50%  { transform: translateX(70px) translateY(-15px); }
+  100% { transform: translateX(70px) translateY(-10px); }
+}
+
+@keyframes levitateRight {
+  0%   { transform: translateX(-70px) translateY(-10px); }
+  50%  { transform: translateX(-70px) translateY(-15px); }
+  100% { transform: translateX(-70px) translateY(-10px); }
+}
+.result-image.incorrect {
+  animation: shake 0.5s ease-in-out;
+  margin-bottom: 26px;
+  margin-top: 1px;
+}
+@keyframes shake {
+  0% { transform: translate(0, 0); }
+  10% { transform: translate(-10px, 0); }
+  20% { transform: translate(10px, 0); }
+  30% { transform: translate(-10px, 0); }
+  40% { transform: translate(10px, 0); }
+  50% { transform: translate(-10px, 0); }
+  60% { transform: translate(10px, 0); }
+  70% { transform: translate(-10px, 0); }
+  80% { transform: translate(10px, 0); }
+  90% { transform: translate(-10px, 0); }
+  100% { transform: translate(0, 0); }
+}
+@keyframes levitateLeft2 {
+  0%   { transform: translateX(70px) translateY(-10px); }
+  50%  { transform: translateX(70px) translateY(-15px); }
+  100% { transform: translateX(70px) translateY(-10px); }
+}
+
+@keyframes levitateRight2 {
+  0%   { transform: translateX(-70px) translateY(-10px); }
+  50%  { transform: translateX(-70px) translateY(-15px); }
+  100% { transform: translateX(-70px) translateY(-10px); }
+}
+.incorrect-answer-header {
+  margin-top: -25px; /* Ajustez cette valeur pour positionner le texte plus haut */
+  font-weight: bold; 
+  font-size: 18px;   /* Vous pouvez adapter la taille selon vos préférences */
+   font-family: 'Arial Black', Arial, sans-serif;
+  text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000,
+    3px 3px 5px black;
+	color: white;
+}
+#final-score {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  font-weight: bold; 
+  font-size: 25px;   /* Vous pouvez adapter la taille selon vos préférences */
+   font-family: 'Arial Black', Arial, sans-serif;
+  text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000,
+    3px 3px 5px black;
+	color: #00ff1a;
+}
+#final-score2 {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  font-weight: bold; 
+  font-size: 25px;   /* Vous pouvez adapter la taille selon vos préférences */
+   font-family: 'Arial Black', Arial, sans-serif;
+  text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000,
+    3px 3px 5px black;
+	color: #e53517;
+}
+@keyframes shakeVertical {
+  0% { transform: translateY(0); }
+  10% { transform: translateY(-5px); }
+  20% { transform: translateY(5px); }
+  30% { transform: translateY(-5px); }
+  40% { transform: translateY(5px); }
+  50% { transform: translateY(0); }
+  100% { transform: translateY(0); }
+}
+
+.shake-vertical {
+  animation: shakeVertical 4s ease-in-out infinite;
+}
+.gif-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1; /* Derrière le contenu avec z-index:2 */
+  pointer-events: none; /* Pour ne pas bloquer les interactions */
+}
+
+.gif-overlay img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+@keyframes shakeWindmillPause {
+  0%   { transform: rotate(0deg); }
+  5%   { transform: rotate(-8deg); }
+  10%  { transform: rotate(8deg); }
+  15%  { transform: rotate(-8deg); }
+  20%  { transform: rotate(8deg); }
+  25%  { transform: rotate(-8deg); }
+  30%  { transform: rotate(0deg); } /* Fin de la phase de secousse (environ 1.05s pour un cycle total de 3.5s) */
+  100% { transform: rotate(0deg); } /* Pause pendant le reste du cycle (environ 2.45s) */
+}
+
+.shake-windmill {
+  animation: shakeWindmillPause 3.5s ease-in-out infinite;
+  transform-origin: center;
+}
+  </style>
+</head>
+<body>
+  <audio id="start-sound" src="audio/start.mp3" preload="auto"></audio>
+  <audio id="checkbox-sound" src="audio/select.mp3" preload="auto"></audio>
+  <audio id="correct-sound" src="audio/correct.mp3" preload="auto"></audio>
+  <audio id="incorrect-sound" src="audio/incorrect.mp3" preload="auto"></audio>
+  <audio id="perfect-sound" src="audio/perfect.mp3" preload="auto"></audio>
+<audio id="imperfect-sound" src="audio/imperfect.mp3" preload="auto"></audio>
+  <!-- Page d'accueil -->
+  <div class="container" id="home">
+    <img src="https://i.imgur.com/yq5gEEG.png" alt="Welcome" width="90%" class="title-image welcome">
+    <img src="https://i.imgur.com/BOaVNTh.gif" alt="clouds" class="clouding">
+    <img src="https://i.imgur.com/r168SIR.gif" alt="decor" class="decoring">
+    <img src="https://i.imgur.com/jLmstuK.gif" alt="pik" class="pikachu">
+    <img src="https://i.imgur.com/ORqzcB0.gif" alt="grass" class="grassy">
+    <img src="https://i.imgur.com/yKbGhYw.png" alt="Start" class="startu" id="start-btn">
+    <img src="https://i.imgur.com/BXlVlJl.png" alt="Mute" class="mute-btn" id="mute-btn">
+
+  </div>
+
+  <!-- Zone du quiz -->
+<div class="container" id="quiz-container">
+  <div class="question-counter" id="question-counter">Question 1 sur 3</div>
+  <div class="question-text" id="question-text">[Texte de la question]</div>
+  <div class="options" id="options">
+    <!-- Les options seront générées ici -->
+  </div>
+  <button id="validate-btn">Valider</button>
+  <div id="result"></div>
+</div>
+
+  <!-- Page de résultats finale -->
+  <div class="container" id="result-page">
+    <h2>Résultat du Quiz</h2>
+    <p id="final-score">Score : 0 sur 3</p>
+    <button id="restart-btn">Recommencer</button>
+  </div>
+
+  <script>
+    // Données du quiz
+    const quizData = [
+      {
+        question: "Sur quel feu peut-on utiliser un extincteur à eau pulvérisée avec additif (A.F.F.F):",
+        options: ["Classe A", "Classe B", "Classe C", "Classe D", "Classe F", "Aucune des réponses"],
+        correctAnswers: ["Classe A", "Classe B"]
+      },
+      {
+        question: "Qu'est-ce qu'une main courante:",
+        options: ["le cahier de consignes du service sécurité", "un document où l'on enregistre tous les événement de chaque journée", "un document où l'on archive les rapports des bureaux de contrôles", "Aucune des réponses"],
+        correctAnswers: ["un document où l'on enregistre tous les événement de chaque journée"]
+      },
+      {
+        question: "Qu'est-ce que l'alerte:",
+        options: ["Demander l'intervention des Équipiers de Première Intervention", "Prevenir le directeur", "Prevenir le poste de sécurité", "Demander l'intervention des secours (sapeurs-pompiers/EDF/Police...)", "Aucune des réponses"],
+        correctAnswers: ["Prevenir le poste de sécurité"]
+      }
+    ];
+
+    let currentQuestion = 0; // Index de la question en cours
+    let score = 0; // Nombre de réponses correctes
+
+    // Références aux éléments HTML
+    const homeDiv = document.getElementById("home");
+    const quizContainer = document.getElementById("quiz-container");
+    const startBtn = document.getElementById("start-btn");
+    const questionCounter = document.getElementById("question-counter");
+    const questionText = document.getElementById("question-text");
+    const optionsDiv = document.getElementById("options");
+    const validateBtn = document.getElementById("validate-btn");
+    const resultDiv = document.getElementById("result");
+    const resultPage = document.getElementById("result-page");
+    const finalScoreText = document.getElementById("final-score");
+    const restartBtn = document.getElementById("restart-btn");
+
+    // Événements
+    startBtn.addEventListener("click", startQuiz);
+    validateBtn.addEventListener("click", validateAnswer);
+    restartBtn.addEventListener("click", restartQuiz);
+
+    // Démarrage du quiz
+      function startQuiz() {
+  const startSound = document.getElementById("start-sound");
+  startSound.play();  // Joue le son au clic
+  
+  startBtn.style.animation = "blink 0.3s infinite";  // Démarre le clignotement rapide
+
+  setTimeout(() => {
+    startBtn.style.animation = "";  // Arrête le clignotement après 3 secondes
+    homeDiv.style.display = "none";
+    resultPage.style.display = "none";
+    quizContainer.style.display = "block";
+    currentQuestion = 0;
+    score = 0;
+    showQuestion();
+  }, 2500);  
+}
+
+    // Affiche la question en cours et ses options
+   // Affiche la question en cours et ses options avec son lors du clic sur une checkbox
+// Fonction d'ajustement pour centrer les labels à ligne unique
+function adjustSingleLineLabels() {
+  const labels = optionsDiv.querySelectorAll("label");
+  labels.forEach(label => {
+    // Si la hauteur du label est inférieure ou égale à 40px, on considère que c'est une ligne unique
+    if (label.offsetHeight <= 40) {
+      label.style.display = "flex";
+      label.style.alignItems = "center";
+      label.style.height = "40px";  // Force la hauteur pour centrer correctement
+    } else {
+      // Pour les labels sur plusieurs lignes, on rétablit le style par défaut
+      label.style.display = "inline-block";
+      label.style.height = "auto";
+    }
+  });
+}
+
+// Fonction showQuestion complète
+function showQuestion() {
+  resultDiv.innerHTML = "";
+  // Afficher le bouton de validation pour chaque nouvelle question
+  validateBtn.style.display = "inline-block";
+  validateBtn.disabled = false;
+  
+  const data = quizData[currentQuestion];
+  questionCounter.textContent = (currentQuestion + 1) + "/" + quizData.length;
+  questionText.textContent = data.question;
+  optionsDiv.innerHTML = "";
+  
+  // Création des options avec checkbox et label associé
+  data.options.forEach((option, index) => {
+    const div = document.createElement("div");
+    div.className = "option";
+
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.value = option;
+    checkbox.name = "option";
+    checkbox.id = "option_" + index;
+
+    // Ajout du son lors du clic sur la checkbox
+    checkbox.addEventListener("click", () => {
+      const checkboxSound = document.getElementById("checkbox-sound");
+      checkboxSound.currentTime = 0;
+      checkboxSound.play();
+    });
+
+    const label = document.createElement("label");
+    label.textContent = option;
+    label.htmlFor = checkbox.id;
+
+    div.appendChild(checkbox);
+    div.appendChild(label);
+    optionsDiv.appendChild(div);
+  });
+
+  // Laisser le temps au navigateur de calculer la hauteur et ajuster les labels
+  setTimeout(adjustSingleLineLabels, 0);
+}
+
+   // Vérifie la réponse de l'utilisateur
+    function validateAnswer() {
+      const data = quizData[currentQuestion];
+      const selectedOptions = Array.from(document.querySelectorAll('input[name="option"]:checked'))
+                                  .map(el => el.value);
+      // Si aucune option n'est sélectionnée, afficher un popup et ne rien faire
+      if (selectedOptions.length === 0) {
+        alert("Veuillez sélectionner au moins une réponse");
+        return;
+      }
+      
+      // Pour la comparaison, utiliser des copies triées
+      const sortedSelectedOptions = selectedOptions.slice().sort();
+      const sortedCorrectAnswers = data.correctAnswers.slice().sort();
+      const isCorrect = arraysEqual(sortedSelectedOptions, sortedCorrectAnswers);
+      
+      // Masquer le bouton de validation pour la question courante
+      validateBtn.style.display = "none";
+
+     if (isCorrect) {
+  score++; // Incrémente le score pour une réponse correcte
+  
+  // Jouer le son de bonne réponse
+  const correctSound = document.getElementById("correct-sound");
+  correctSound.currentTime = 0;  // Remet le son au début
+  correctSound.play();
+
+  // Affiche le pouce central avec les images latérales
+  resultDiv.innerHTML = `
+    <div class="correct-images-wrapper">
+      <img src="https://i.imgur.com/Ns6suhD.png" alt="Left decoration" class="side-image">
+      <img src="https://i.imgur.com/2y2kmUp.png" alt="Correct" class="result-image correct" style="width:60px;">
+      <img src="https://i.imgur.com/6yai60z.png" alt="Right decoration" class="side-image">
+    </div>
+  `;
+      } else {
+        // Jouer le son pour une réponse incorrecte
+  const incorrectSound = document.getElementById("incorrect-sound");
+  incorrectSound.currentTime = 0;  // Remet le son au début
+  incorrectSound.play();
+
+  // Filtrer les bonnes réponses pour les afficher
+  const correctAnswersInOrder = data.options.filter(option => data.correctAnswers.includes(option));
+  resultDiv.innerHTML = `
+    <div class="incorrect-images-wrapper">
+      <img src="https://i.imgur.com/AhLyHkm.png" alt="Left decoration" class="side-image">
+      <img src="https://i.imgur.com/wGqNOcs.png" alt="Incorrect" class="result-image incorrect" style="width:60px;">
+      <img src="https://i.imgur.com/5twMjUW.png" alt="Right decoration" class="side-image">
+    </div>
+    <div class="incorrect-answer-header">Réponse :</div>
+    <div class="incorrect-answer-text">${correctAnswersInOrder.join(", ")}</div>
+  `;
+}
+      
+   // Définir le délai d'affichage : 2000 ms pour une réponse correcte, 4000 ms pour une réponse incorrecte
+  const delay = isCorrect ? 2000 : 4000;
+  
+  setTimeout(() => {
+    currentQuestion++;
+    if (currentQuestion < quizData.length) {
+      showQuestion();
+    } else {
+      showResultPage();
+    }
+  }, delay);
+}
+ function showResultPage() {
+  // Masquer le conteneur du quiz
+  quizContainer.style.display = "none";
+
+  // Préparer le texte du score
+  const scoreText = "Score : " + score + " sur " + quizData.length;
+
+  if (score === quizData.length) {
+    // Si le score est parfait, inclure le GIF overlay
+    resultPage.innerHTML = `
+      <!-- GIF overlay pour le score parfait -->
+      <div class="gif-overlay">
+        <img src="https://i.imgur.com/66ppZv0.gif" alt="Perfect GIF">
+      </div>
+	  <img src="https://i.imgur.com/IGPRzpC.png" alt="res quiz" class="shake-vertical" style="margin-top: 10px">
+      <img src="https://i.imgur.com/AM2FkWm.gif" alt="Perfect" style="width:120px; margin-bottom: -20px; margin-left: -22px; position: relative; z-index: 2;">
+      <p id="final-score" style="font-weight:bold; color:#00ff1a;">${scoreText}</p>
+      <button id="restart-btn" style="position: relative; z-index: 2;">RECOMMENCER</button>
+    `;
+    const perfectSound = document.getElementById("perfect-sound");
+    perfectSound.currentTime = 0;
+    perfectSound.play();
+  } else {
+    // Pour un score imparfait, pas de GIF overlay
+    resultPage.innerHTML = `
+      <img src="https://i.imgur.com/H16Il0Z.png" alt="res quiz2" style="margin-top: 10px" class="shake-windmill">
+      <img src="https://i.imgur.com/mpMMoec.gif" alt="Imperfect" style="width:200px; margin-bottom: -10px; margin-top: -10px;">
+      <p id="final-score2" style="font-weight:bold; color:#FF0000;">${scoreText}</p>
+      <button id="restart-btn">RECOMMENCER</button>
+    `;
+    const imperfectSound = document.getElementById("imperfect-sound");
+    imperfectSound.currentTime = 0;
+    imperfectSound.play();
+  }
+
+  // Afficher la page de résultats
+  resultPage.style.display = "block";
+
+  // Réaffecter l'écouteur d'événement sur le bouton de redémarrage
+  document.getElementById("restart-btn").addEventListener("click", restartQuiz);
+}
+function restartQuiz() {
+  // Arrêter et réinitialiser tous les éléments audio
+  document.querySelectorAll('audio').forEach(audio => {
+    audio.pause();
+    audio.currentTime = 0;
+  });
+
+  document.body.classList.add('hidden');  // Cache le contenu avant de recharger
+  setTimeout(() => {
+    window.location.reload();  // Recharge la page après un court délai
+  }, 100);
+}
+
+    // Fonction utilitaire pour comparer deux tableaux (ordre non important)
+    function arraysEqual(arr1, arr2) {
+      if (arr1.length !== arr2.length) return false;
+      for (let i = 0; i < arr1.length; i++) {
+        if (arr1[i] !== arr2[i]) return false;
+      }
+      return true;
+    }
+  const muteBtn = document.getElementById("mute-btn");
+let isMuted = false;
+
+muteBtn.addEventListener("click", () => {
+  isMuted = !isMuted;
+  if (isMuted) {
+    // Mute le son
+    document.querySelectorAll('audio, video').forEach(media => media.muted = true);
+    // Change l'image pour l'état muet
+    muteBtn.src = "https://i.imgur.com/pXbvxY4.png"; // Remplace par l'image du mute
+  } else {
+    // Active le son
+    document.querySelectorAll('audio, video').forEach(media => media.muted = false);
+    // Remet l'image du son activé
+    muteBtn.src = "https://i.imgur.com/3WSvsVf.png"; // Image du son activé
+  }
+});
+
+ 
+  </script>
+</body>
+</html>
