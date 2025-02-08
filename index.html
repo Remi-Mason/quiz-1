@@ -671,25 +671,25 @@ function showQuestion() {
   // Masquer le bouton de validation pour la question courante
   validateBtn.style.display = "none";
   
-if (isCorrect) {
-  score++; // Incrémente le score pour une réponse correcte
+  if (isCorrect) {
+    score++; // Incrémente le score pour une réponse correcte
 
-  // Joue le son de bonne réponse
-  const correctSound = document.getElementById("correct-sound");
-  correctSound.currentTime = 0;
-  correctSound.play();
+    // Joue le son de bonne réponse
+    const correctSound = document.getElementById("correct-sound");
+    correctSound.currentTime = 0;
+    correctSound.play();
 
-  // Affiche les images de réponse correcte avec des GIF pour les décorations
-  resultDiv.innerHTML = `
-    <div class="correct-images-wrapper">
-      <img src="https://i.imgur.com/zri8rll.gif" alt="Left decoration" class="side-image left">
-      <img src="https://i.imgur.com/2y2kmUp.png" alt="Correct" class="result-image correct" style="width: 60px;">
-      <img src="https://i.imgur.com/VwNEffr.gif" alt="Right decoration" class="side-image right">
-    </div>
-  `;
-  // Réinitialise les GIF en clonant les éléments
-  resetGifs();
-
+    // Affiche les images de réponse correcte avec des GIF pour les décorations
+    resultDiv.innerHTML = `
+      <div class="correct-images-wrapper">
+        <img src="https://i.imgur.com/zri8rll.gif" alt="Left decoration" class="side-image left">
+        <img src="https://i.imgur.com/2y2kmUp.png" alt="Correct" class="result-image correct" style="width: 60px;">
+        <img src="https://i.imgur.com/VwNEffr.gif" alt="Right decoration" class="side-image right">
+      </div>
+    `;
+    // Réinitialise les GIF afin qu'ils redémarrent leur animation
+    resetGifs();
+    
   } else {
     // Joue le son de mauvaise réponse
     const incorrectSound = document.getElementById("incorrect-sound");
