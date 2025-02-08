@@ -2,14 +2,6 @@
 <html lang="fr">
 <head>
 <link rel="preload" as="image" href="https://i.imgur.com/2y2kmUp.png">
-<link rel="preload" as="image" href="https://i.imgur.com/mpMMoec.gif">
-<link rel="preload" as="image" href="https://i.imgur.com/AM2FkWm.gif">
-<link rel="preload" as="image" href="https://i.imgur.com/AhLyHkm.png">
-<link rel="preload" as="image" href="https://i.imgur.com/5twMjUW.png">
-<link rel="preload" as="image" href="https://i.imgur.com/wGqNOcs.png">
-<link rel="preload" as="image" href="https://i.imgur.com/Ns6suhD.png">
-<link rel="preload" as="image" href="https://i.imgur.com/6yai60z.png">
-
   <meta charset="UTF-8">
   <title>Quiz à Réponses Multiples</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -32,15 +24,26 @@
   50% { opacity: 0; }
   100% { opacity: 1; }
 }
-    @keyframes glow {
+@keyframes glow-green {
   0% {
-    box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+    box-shadow: 0 0 5px rgba(0, 255, 0, 0.7);  /* Début du glow vert */
   }
   50% {
-    box-shadow: 0 0 20px rgba(255, 255, 255, 1);
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.9);  /* Intensification du glow vert */
   }
   100% {
-    box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+    box-shadow: 0 0 5px rgba(0, 255, 0, 0.7);  /* Retour au glow plus doux */
+  }
+}
+    @keyframes glow {
+  0% {
+    box-shadow: 0 0 5px rgba(255, 0, 0, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.7);
+  }
+  100% {
+    box-shadow: 0 0 5px rgba(255, 0, 0, 0.7);
   }
 }
     /* Style général pour occuper toute la hauteur */
@@ -48,9 +51,9 @@
       height: 100%;
       margin: 0;
       padding: 0;
-      background: linear-gradient(-45deg, #87CEFA, #A7C7E7, #66CCFF, #ADD8E6);
+       background: linear-gradient(135deg, #2C2C2C, #555555, #888888, #BBBBBB);
       background-size: 400% 400%;
-      animation: gradientBG 10s ease infinite;
+      animation: quizBGAnimation 10s ease infinite;
     }
     body {
       display: flex;
@@ -61,7 +64,7 @@
     /* Pour simuler un écran de téléphone (fixe à 360px de large) */
     .container {
       background: #fff;
-      border: 3px solid #1a73e8;
+      border: 3px solid black;
       padding: 0px 0px;
       width: 360px;       /* Largeur fixe pour reproduire un mobile */
       border-radius: 8px;
@@ -74,7 +77,7 @@
     #home {
       position: relative;
      margin-top: 20px;
-     background: url('https://i.imgur.com/K5WfEUQ.jpeg') no-repeat center center;
+     background: linear-gradient(135deg, #2C2C2C, #555555, #888888, #BBBBBB);
      background-size: cover;
      height: 550px;
      display: flex; /* Active Flexbox */
@@ -85,23 +88,23 @@
      flex-shrink: 0; 
     }
     #start-btn {
-      border: 3px solid #00FFFF;
+	  border: 2px solid white;
       border-radius: 10px;
       width: 120px;  /* Change cette valeur pour ajuster la largeur */
       height: auto;
       padding: 5px 10px;
-      background-color: #1E90FF;
+      background-color: #1a1d21;
       cursor: pointer;
       animation: glow 1.5s infinite ease-in-out;
       transition: transform 0.1s ease, box-shadow 0.1s ease;
     }
-    #start-btn:active {
-  transform: scale(0.95); /* Réduit légèrement le bouton pour simuler l'effet de pression */
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.7); /* Réduit le glow pendant la pression */
+#start-btn:active {
+  transform: scale(0.95);  /* Effet d'enfoncement au clic */
+   animation: glow-green 1.5s infinite ease-in-out, blink 0.3s infinite ease-in-out;  /* Glow vert et clignotement au clic */
 }
-    /* Zone du quiz */
+  /* Zone du quiz */
     #quiz-container {
-      background: linear-gradient(135deg, #A2D9FF, #74B9FF, #4A90E2, #2C3E50);
+      background: linear-gradient(135deg, #2C2C2C, #555555, #888888, #BBBBBB);
       background-size: 300% 300%;
       border: solid white;
        border-radius: 10px;
@@ -143,7 +146,7 @@
     1px 1px 0 #000,
     3px 3px 5px black;
       text-align: left;
-      margin-bottom: 15px;
+      margin-bottom: 20px;
       margin-left: 20px;
     }
     .option {
@@ -159,7 +162,7 @@
 }
 .option label {
   position: relative;
-  padding-left: 50px;  /* Espace pour l'image */
+  padding-left: 55px;  /* Espace pour l'image */
   cursor: pointer;
   display: inline-block;
   vertical-align: middle;
@@ -174,21 +177,21 @@
   left: 0;
   top: 50%;              
   transform: translateY(-50%); /* Centre l'image verticalement */
-  width: 40px;
+  width: 50px;
   height: 40px;
-  background: url('https://i.imgur.com/4RkFot0.png') no-repeat center center;
+  background: url('https://i.imgur.com/tbgGwwi.png') no-repeat center center;
   background-size: cover;
 }
 
 .option input[type="checkbox"]:checked + label:before {
-  background: url('https://i.imgur.com/PQs374i.png') no-repeat center center;
+  background: url('https://i.imgur.com/8bK2QHk.png') no-repeat center center;
   background-size: cover;
 }
 #validate-btn {
   position: relative;
   margin: 20px auto;
-  width: 150px;
-  padding: 15px 25px;
+  width: 120px;
+  padding: 0px 10px;
   font-size: 22px;
   font-weight: bold;
   font-family: 'Arial Black', Arial, sans-serif;
@@ -198,8 +201,8 @@
     -1px 1px 0 #000,
     1px 1px 0 #000,
     3px 3px 5px black;
-  background-color: #1E90FF;
-  border: 3px solid #00FFFF;
+  background-color: #1a1d21;
+  border: 3px solid red;
   border-radius: 10px;
   color: white;
   cursor: pointer;
@@ -290,6 +293,7 @@
   100% { transform: translateY(0px); }
     }
     .title-image {
+	margin-bottom: 10px;
      animation: floatImage 3s ease-in-out infinite;    
     }
     .clouding {
@@ -300,15 +304,17 @@
     }
         .decoring {
           position: absolute;
-    margin-top: 100px;    
+    margin-top: 20px;
+
     }
-            .pikachu {
+    .pikachu {
+			 width: 263px;
               position: absolute;
-    margin-top: 120px;
-    z-index: 2;
+    margin-top: -30px;
+    z-index: 0;
     }
     .welcome {
-    margin-top: -370px;  
+    margin-top: -390px;  
         z-index: 1;
     }
     .grassy {
@@ -318,13 +324,15 @@
     }
     .startu{
       position: absolute;
-      margin-top: 360px;
+      margin-top: 425px;
+	    border-radius: 10px;
     }
     .mute-btn {
   position: absolute;
-  margin-top: 490px; /* Ajuste cette valeur pour placer le bouton juste en dessous du bouton Start */
+  margin-top: 240px; /* Ajuste cette valeur pour placer le bouton juste en dessous du bouton Start */
   width: 30px;       /* Ajuste la taille si nécessaire */
   cursor: pointer;
+  margin-right: 150px;
 }  
     .hidden {
   display: none !important;  /* Cache complètement le contenu */
@@ -343,7 +351,9 @@
 .result-image.correct {
   animation: popAnimation 0.5s ease-out;
   margin-bottom: 26px; /* Ajustez cette valeur pour agrandir la marge inférieure */
-  margin-top: 1px;
+    position: relative; /* Nécessaire pour appliquer le z-index */
+  z-index: 10; 
+
 }
 .correct-images-wrapper {
   display: flex;
@@ -356,40 +366,19 @@
   justify-content: center;
 }
 
-.side-image {
-  width: 60px;  /* Taille des images latérales */
-  margin: 0;
-  padding: 0;
-}
+.side-image.left {
+  position: absolute;
+  margin-right: -30px;
+    margin-bottom: 25px;
+	  z-index: 1;
 
-/* Pour la première image (gauche) : réduire l'espace en tirant vers la droite */
-.correct-images-wrapper img:first-child {
-  animation: levitateLeft 2s ease-in-out infinite !important;
-  }
-
-/* Pour la troisième image (droite) : réduire l'espace en tirant vers la gauche */
-.correct-images-wrapper img:last-child {
-  animation: levitateRight 2s ease-in-out infinite !important;
 }
-/* Pour la première image (gauche) : réduire l'espace en tirant vers la droite */
-.incorrect-images-wrapper img:first-child {
-  animation: levitateLeft2 2s ease-in-out infinite !important;
-  }
+.side-image.right {
+  position: absolute;
+  margin-left: -30px;
+  margin-bottom: 25px;
+    z-index: 1;
 
-/* Pour la troisième image (droite) : réduire l'espace en tirant vers la gauche */
-.incorrect-images-wrapper img:last-child {
-  animation: levitateRight2 2s ease-in-out infinite !important;
-}
-@keyframes levitateLeft {
-  0%   { transform: translateX(70px) translateY(-10px); }
-  50%  { transform: translateX(70px) translateY(-15px); }
-  100% { transform: translateX(70px) translateY(-10px); }
-}
-
-@keyframes levitateRight {
-  0%   { transform: translateX(-70px) translateY(-10px); }
-  50%  { transform: translateX(-70px) translateY(-15px); }
-  100% { transform: translateX(-70px) translateY(-10px); }
 }
 .result-image.incorrect {
   animation: shake 0.5s ease-in-out;
@@ -408,17 +397,6 @@
   80% { transform: translate(10px, 0); }
   90% { transform: translate(-10px, 0); }
   100% { transform: translate(0, 0); }
-}
-@keyframes levitateLeft2 {
-  0%   { transform: translateX(70px) translateY(-10px); }
-  50%  { transform: translateX(70px) translateY(-15px); }
-  100% { transform: translateX(70px) translateY(-10px); }
-}
-
-@keyframes levitateRight2 {
-  0%   { transform: translateX(-70px) translateY(-10px); }
-  50%  { transform: translateX(-70px) translateY(-15px); }
-  100% { transform: translateX(-70px) translateY(-10px); }
 }
 .incorrect-answer-header {
   margin-top: -25px; /* Ajustez cette valeur pour positionner le texte plus haut */
@@ -515,12 +493,10 @@
 <audio id="imperfect-sound" src="audio/imperfect.mp3" preload="auto"></audio>
   <!-- Page d'accueil -->
   <div class="container" id="home">
-    <img src="https://i.imgur.com/yq5gEEG.png" alt="Welcome" width="90%" class="title-image welcome">
-    <img src="https://i.imgur.com/BOaVNTh.gif" alt="clouds" class="clouding">
-    <img src="https://i.imgur.com/r168SIR.gif" alt="decor" class="decoring">
-    <img src="https://i.imgur.com/jLmstuK.gif" alt="pik" class="pikachu">
-    <img src="https://i.imgur.com/ORqzcB0.gif" alt="grass" class="grassy">
-    <img src="https://i.imgur.com/yKbGhYw.png" alt="Start" class="startu" id="start-btn">
+    <img src="https://i.imgur.com/WoDyxTe.png" alt="Welcome" width="80%" class="title-image welcome">
+    <img src="https://i.imgur.com/9KYnYVl.gif" alt="pik" class="pikachu">
+	<img src="https://i.imgur.com/x1sDt8Y.png" alt="tv" class="decoring" width="95%">
+<img src="https://i.imgur.com/76PVpq3.png" alt="Start" class="startu" id="start-btn">
     <img src="https://i.imgur.com/BXlVlJl.png" alt="Mute" class="mute-btn" id="mute-btn">
 
   </div>
@@ -532,7 +508,7 @@
   <div class="options" id="options">
     <!-- Les options seront générées ici -->
   </div>
-  <button id="validate-btn">Valider</button>
+  <button id="validate-btn"><img src="https://i.imgur.com/h1DuiuS.png" alt="Valider" style="width: 100%; height: auto; margin-top: 10px;"></button>
   <div id="result"></div>
 </div>
 
@@ -544,6 +520,14 @@
   </div>
 
   <script>
+   function resetGifs() {
+    const gifImages = document.querySelectorAll('#quiz-container img[src*=".gif"], #result-page img[src*=".gif"]');
+    gifImages.forEach(img => {
+      const originalSrc = img.getAttribute('data-original-src') || img.src.split('?')[0];
+      img.setAttribute('data-original-src', originalSrc);
+      img.src = originalSrc + '?t=' + new Date().getTime();
+    });
+  }
     // Données du quiz
     const quizData = [
       {
@@ -585,23 +569,24 @@
     restartBtn.addEventListener("click", restartQuiz);
 
     // Démarrage du quiz
-      function startQuiz() {
+function startQuiz() {
   const startSound = document.getElementById("start-sound");
   startSound.play();  // Joue le son au clic
-  
-  startBtn.style.animation = "blink 0.3s infinite";  // Démarre le clignotement rapide
+
+  // Blink rapide avec glow vert statique
+  startBtn.style.boxShadow = "0 0 20px rgba(0, 255, 0, 1)";
+  startBtn.style.animation = "blink 0.3s infinite ease-in-out";  // Accélère le clignotement (0.2s)
 
   setTimeout(() => {
-    startBtn.style.animation = "";  // Arrête le clignotement après 3 secondes
+    startBtn.style.animation = "glow-green 1.5s infinite ease-in-out";  // Glow vert animé après le blink
     homeDiv.style.display = "none";
     resultPage.style.display = "none";
     quizContainer.style.display = "block";
     currentQuestion = 0;
     score = 0;
     showQuestion();
-  }, 2500);  
+  }, 1500);
 }
-
     // Affiche la question en cours et ses options
    // Affiche la question en cours et ses options avec son lors du clic sur une checkbox
 // Fonction d'ajustement pour centrer les labels à ligne unique
@@ -665,62 +650,69 @@ function showQuestion() {
 }
 
    // Vérifie la réponse de l'utilisateur
-    function validateAnswer() {
-      const data = quizData[currentQuestion];
-      const selectedOptions = Array.from(document.querySelectorAll('input[name="option"]:checked'))
-                                  .map(el => el.value);
-      // Si aucune option n'est sélectionnée, afficher un popup et ne rien faire
-      if (selectedOptions.length === 0) {
-        alert("Veuillez sélectionner au moins une réponse");
-        return;
-      }
-      
-      // Pour la comparaison, utiliser des copies triées
-      const sortedSelectedOptions = selectedOptions.slice().sort();
-      const sortedCorrectAnswers = data.correctAnswers.slice().sort();
-      const isCorrect = arraysEqual(sortedSelectedOptions, sortedCorrectAnswers);
-      
-      // Masquer le bouton de validation pour la question courante
-      validateBtn.style.display = "none";
-
-     if (isCorrect) {
-  score++; // Incrémente le score pour une réponse correcte
+ function validateAnswer() {
+  const data = quizData[currentQuestion];
+  const selectedOptions = Array.from(document.querySelectorAll('input[name="option"]:checked'))
+                                .map(el => el.value);
   
-  // Jouer le son de bonne réponse
-  const correctSound = document.getElementById("correct-sound");
-  correctSound.currentTime = 0;  // Remet le son au début
-  correctSound.play();
+  // Si aucune option n'est sélectionnée, on affiche un message d'alerte et on arrête la fonction
+  if (selectedOptions.length === 0) {
+    alert("Veuillez sélectionner au moins une réponse");
+    return;
+  }
+  
+  // On compare les réponses sélectionnées avec les réponses correctes (ordre non important)
+  const sortedSelectedOptions = selectedOptions.slice().sort();
+  const sortedCorrectAnswers = data.correctAnswers.slice().sort();
+  const isCorrect = arraysEqual(sortedSelectedOptions, sortedCorrectAnswers);
+  
+  // Masquer le bouton de validation pour la question courante
+  validateBtn.style.display = "none";
+  
+  if (isCorrect) {
+    score++; // Incrémente le score pour une réponse correcte
 
-  // Affiche le pouce central avec les images latérales
-  resultDiv.innerHTML = `
-    <div class="correct-images-wrapper">
-      <img src="https://i.imgur.com/Ns6suhD.png" alt="Left decoration" class="side-image">
-      <img src="https://i.imgur.com/2y2kmUp.png" alt="Correct" class="result-image correct" style="width:60px;">
-      <img src="https://i.imgur.com/6yai60z.png" alt="Right decoration" class="side-image">
-    </div>
-  `;
-      } else {
-        // Jouer le son pour une réponse incorrecte
-  const incorrectSound = document.getElementById("incorrect-sound");
-  incorrectSound.currentTime = 0;  // Remet le son au début
-  incorrectSound.play();
+    // Joue le son de bonne réponse
+    const correctSound = document.getElementById("correct-sound");
+    correctSound.currentTime = 0;
+    correctSound.play();
 
-  // Filtrer les bonnes réponses pour les afficher
-  const correctAnswersInOrder = data.options.filter(option => data.correctAnswers.includes(option));
-  resultDiv.innerHTML = `
-    <div class="incorrect-images-wrapper">
-      <img src="https://i.imgur.com/AhLyHkm.png" alt="Left decoration" class="side-image">
-      <img src="https://i.imgur.com/wGqNOcs.png" alt="Incorrect" class="result-image incorrect" style="width:60px;">
-      <img src="https://i.imgur.com/5twMjUW.png" alt="Right decoration" class="side-image">
-    </div>
-    <div class="incorrect-answer-header">Réponse :</div>
-    <div class="incorrect-answer-text">${correctAnswersInOrder.join(", ")}</div>
-  `;
-}
-      
-   // Définir le délai d'affichage : 2000 ms pour une réponse correcte, 4000 ms pour une réponse incorrecte
+    // Affiche les images de réponse correcte avec des GIF pour les décorations
+    resultDiv.innerHTML = `
+      <div class="correct-images-wrapper">
+        <img src="https://i.imgur.com/zri8rll.gif" alt="Left decoration" class="side-image left">
+        <img src="https://i.imgur.com/2y2kmUp.png" alt="Correct" class="result-image correct" style="width: 60px;">
+        <img src="https://i.imgur.com/VwNEffr.gif" alt="Right decoration" class="side-image right">
+      </div>
+    `;
+    // Réinitialise les GIF afin qu'ils redémarrent leur animation
+    resetGifs();
+    
+  } else {
+    // Joue le son de mauvaise réponse
+    const incorrectSound = document.getElementById("incorrect-sound");
+    incorrectSound.currentTime = 0;
+    incorrectSound.play();
+
+    // Filtre les bonnes réponses pour les afficher dans l'ordre
+    const correctAnswersInOrder = data.options.filter(option => data.correctAnswers.includes(option));
+    
+    // Affiche les images de réponse incorrecte avec le texte de correction
+    resultDiv.innerHTML = `
+      <div class="incorrect-images-wrapper">
+        <img src="https://i.imgur.com/AhLyHkm.png" alt="Left decoration" class="side-image left">
+        <img src="https://i.imgur.com/wGqNOcs.png" alt="Incorrect" class="result-image incorrect" style="width:60px;">
+        <img src="https://i.imgur.com/5twMjUW.png" alt="Right decoration" class="side-image right">
+      </div>
+      <div class="incorrect-answer-header">Réponse :</div>
+      <div class="incorrect-answer-text">${correctAnswersInOrder.join(", ")}</div>
+    `;
+    // Réinitialise les GIF dans le cas d'une réponse incorrecte également
+    resetGifs();
+  }
+  
+  // Définir le délai d'affichage avant de passer à la question suivante
   const delay = isCorrect ? 2000 : 4000;
-  
   setTimeout(() => {
     currentQuestion++;
     if (currentQuestion < quizData.length) {
