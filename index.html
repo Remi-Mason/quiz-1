@@ -41,7 +41,7 @@
     }
     /* Page d'accueil */
     #home {
-      display: block;
+	width: 360px;
 	  background: url('images/wall.png') no-repeat center center;
 	    background-size: cover;
     }
@@ -89,26 +89,26 @@
       font-weight: bold;
       font-size: 22px;
       margin-bottom: 15px;
-       color: white;
-    text-shadow:
-    -1px -1px 0 #000,
-    1px -1px 0 #000,
-    -1px 1px 0 #000,
-    1px 1px 0 #000,
-    3px 3px 5px black;
+      color: white;
+      text-shadow:
+      -1px -1px 0 #000,
+      1px -1px 0 #000,
+      -1px 1px 0 #000,
+      1px 1px 0 #000,
+      3px 3px 5px black;
 	  line-height: 1.5;
     }
     .options {
-       font-family: Arial, sans-serif;  /* Utilise Arial sans graisse */
-     font-weight: normal;  
-     font-size: 18px;
-     color: white;
-     text-shadow:
-    -1px -1px 0 #000,
-    1px -1px 0 #000,
-    -1px 1px 0 #000,
-    1px 1px 0 #000,
-    3px 3px 5px black;
+      font-family: Arial, sans-serif;  /* Utilise Arial sans graisse */
+      font-weight: normal;  
+      font-size: 18px;
+      color: white;
+      text-shadow:
+      -1px -1px 0 #000,
+      1px -1px 0 #000,
+      -1px 1px 0 #000,
+      1px 1px 0 #000,
+      3px 3px 5px black;
       text-align: left;
       margin-bottom: 30px;
       margin-left: 20px;
@@ -116,30 +116,30 @@
 	  margin: 0;
     }
     .option {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start; /* Aligne le contenu à gauche */
-  margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start; /* Aligne le contenu à gauche */
+      margin-bottom: 10px;
     }
     /* Masquer le checkbox natif */
     .option input[type="checkbox"] {
       display: none;
     }
-.option label {
-  display: inline-flex;
-  align-items: center;
-}
-.option label:before {
-  content: "";
-  display: inline-block;
-  width: 60px;      /* Augmenté de 40px à 60px */
-  height: 60px;     /* Augmenté de 40px à 60px */
-  margin-right: 8px;
-  margin-left: -45px;
-  background: url('images/fire empty.png') no-repeat center;
-  background-size: contain;
-  flex-shrink: 0;   /* Empêche l'image de rétrécir */
-}
+    .option label {
+      display: inline-flex;
+      align-items: center;
+    }
+    .option label:before {
+      content: "";
+      display: inline-block;
+      width: 60px;      /* Augmenté de 40px à 60px */
+      height: 60px;     /* Augmenté de 40px à 60px */
+      margin-right: 8px;
+      margin-left: -40px;
+      background: url('images/fire empty.png') no-repeat center;
+      background-size: contain;
+      flex-shrink: 0;   /* Empêche l'image de rétrécir */
+    }
  .option input[type="checkbox"]:checked + label:before {
   background: url('images/fire full.png') no-repeat center;
   background-size: contain;
@@ -162,7 +162,6 @@
 
 #validate-btn:active {
   transform: translateY(2px) scale(0.98); /* Légère translation et réduction pour simuler un appui */
-  box-shadow: 0 0 5px 5px rgba(255, 255, 255, 0.8);
 }
     #result {
       margin-top: 20px;
@@ -222,7 +221,7 @@
   
   <!-- Page d'accueil -->
   <div class="container" id="home">
-    <h1>Quiz Sécurité Incendie</h1>
+    <img src="images/titre.png" alt="quiz ssiap1" style="width:320px; display:block; margin: 0 auto 20px;">
     <button id="mute-btn">Mute</button>
     <button id="start-btn">Commencer</button>
   </div>
@@ -251,7 +250,7 @@
     const quizData = [
       {
         question: "Sur quel feu peut-on utiliser un extincteur à eau pulvérisée avec additif ?",
-        options: ["Feu de classe A avec option tu vas aller a la ligne stp", "Feu de classe B", "Feu de classe C", "Feu de classe D"],
+        options: ["Feu de classe A", "Feu de classe B", "Feu de classe C", "Feu de classe D"],
         correctAnswers: ["Feu de classe A", "Feu de classe B"]
       },
       {
