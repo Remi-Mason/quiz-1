@@ -432,6 +432,14 @@
     restartBtn.addEventListener("click", () => {
       window.location.reload();
     });
+	 window.addEventListener("load", function() {
+    // Sélectionne le GIF (assurez-vous que le sélecteur correspond à votre image)
+    var gif = document.querySelector(".mute");
+    if(gif) {
+      // Ajoute un paramètre unique (timestamp) à l'URL
+      gif.src = "images/mute-off.gif?t=" + new Date().getTime();
+    }
+  });
   </script>
 </body>
 </html>
