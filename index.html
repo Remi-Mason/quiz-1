@@ -60,8 +60,8 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      width: 120px;
-      height: 60px;
+      width: 140px;
+      height: 80px;
       margin: 20px auto;
       padding: 5px 10px;
       font-size: 18px;
@@ -74,10 +74,22 @@
       text-shadow: 1px 1px 2px black;
       transition: transform 0.1s ease-in-out;
       animation: borderGlow 2s ease-in-out infinite;
+      position: relative;
+      overflow: visible;
     }
     #start-btn:active {
       transform: scale(0.95);
       animation: glow-green 1.5s infinite ease-in-out, blink 0.3s infinite ease-in-out;
+    }
+    /* Augmenter la taille de l'image dans le bouton sans agrandir le background */
+    #start-btn img {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 140px; /* Vous pouvez ajuster cette valeur */
+      height: auto;
+      pointer-events: none;
     }
     /* Zone du quiz */
     #quiz-container {
@@ -165,7 +177,7 @@
       margin: 0 auto;
       margin-top: 30px;
       display: block;
-      padding: 10px 20px;
+      padding: 15px 25px;
       font-size: 25px;
       border: 3px solid white;
       border-radius: 10px;
@@ -310,25 +322,23 @@
     const correctSound = document.getElementById("correct-sound");
     const incorrectSound = document.getElementById("incorrect-sound");
     
-    // Écouteur sur le bouton mute
-    muteBtn.addEventListener("click", () => {
-      // Inverse l'état mute
+    // Définition de la fonction de basculement mute
+    function muteToggleHandler() {
       isMuted = !isMuted;
-      
-      // Mute/démute les éléments audio
       [startSound, correctSound, incorrectSound, checkboxSound].forEach(audio => {
         audio.muted = isMuted;
       });
-      
-      // Met à jour l'image et l'attribut alt selon l'état
       if (isMuted) {
-        muteBtn.src = "images/mute-on.gif";  // Image quand le son est désactivé
-        muteBtn.alt = "Son désactivé";
+        this.src = "images/mute-on.gif";
+        this.alt = "Son désactivé";
       } else {
-        muteBtn.src = "images/mute-off.gif";   // Image quand le son est activé
-        muteBtn.alt = "Son activé";
+        this.src = "images/mute-off.gif";
+        this.alt = "Son activé";
       }
-    });
+    }
+    
+    // Écouteur sur le bouton mute
+    muteBtn.addEventListener("click", muteToggleHandler);
     
     // Démarrer le quiz (inclut le verrouillage de l'orientation)
     startBtn.addEventListener("click", () => {
@@ -432,19 +442,17 @@
     restartBtn.addEventListener("click", () => {
       window.location.reload();
     });
-	  window.addEventListener("load", function() {
-    // Sélectionne l'image du mute
-    var muteImg = document.getElementById("mute-btn");
-    // Vérifier que l'image est un GIF (par exemple, son URL contient ".gif")
-    if(muteImg && muteImg.src.indexOf(".gif") !== -1) {
-      // Clonez l'élément
-      var newMuteImg = muteImg.cloneNode(true);
-      // Ajoute un paramètre unique à l'URL pour forcer le rechargement
-      newMuteImg.src = newMuteImg.src.split('?')[0] + '?t=' + new Date().getTime();
-      // Remplacez l'ancien élément par le nouveau
-      muteImg.parentNode.replaceChild(newMuteImg, muteImg);
-    }
-  });
+    
+    // Force reload du GIF du mute et réattache l'écouteur
+    window.addEventListener("load", function() {
+      var muteImg = document.getElementById("mute-btn");
+      if (muteImg && muteImg.src.indexOf(".gif") !== -1) {
+        var newMuteImg = muteImg.cloneNode(true);
+        newMuteImg.src = newMuteImg.src.split('?')[0] + '?t=' + new Date().getTime();
+        muteImg.parentNode.replaceChild(newMuteImg, muteImg);
+        newMuteImg.addEventListener("click", muteToggleHandler);
+      }
+    });
   </script>
 </body>
 </html>
