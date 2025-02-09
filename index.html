@@ -12,11 +12,6 @@
   <link rel="preload" as="image" href="images/incorrect.png">
   <style>
     /* animations */
-	@keyframes quizBGAnimation {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
 	@keyframes borderGlow {
   0%, 100% {
     box-shadow: 0 0 5px 2px #00e5ff;  /* Glow léger autour de la bordure */
@@ -31,7 +26,7 @@ html, body {
   margin: 0;
   padding: 0;
   background: linear-gradient(135deg, #2C2C2C, #555555, #888888, #BBBBBB);
-  background-size: 200% 200%;
+  background-size: 100% 100%;
   animation: quizBGAnimation 10s ease infinite;
 }
 
