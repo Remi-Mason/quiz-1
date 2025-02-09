@@ -3,12 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <title>Quiz Sécurité Incendie</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Couleur pour Android (Chrome) -->
+<meta name="theme-color" content="#87CEFA">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <!-- Préchargement de quelques images critiques -->
   <link rel="preload" as="image" href="images/correct.png">
   <link rel="preload" as="image" href="images/incorrect.png">
   <style>
     /* animations */
+	@keyframes quizBGAnimation {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
 	@keyframes borderGlow {
   0%, 100% {
     box-shadow: 0 0 5px 2px #00e5ff;  /* Glow léger autour de la bordure */
@@ -18,20 +26,25 @@
   }
 }
     /* Styles généraux et mobile-friendly */
-    html, body {
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-      background: #f0f0f0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100%;
-    }
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(135deg, #2C2C2C, #555555, #888888, #BBBBBB);
+  background-size: 200% 200%;
+  animation: quizBGAnimation 10s ease infinite;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
    .container {
       width: 360px;
       max-width: 90%;
-      background: linear-gradient(135deg, #1a1a1a, #333333);
+	  	background: url('images/wall.png') no-repeat center center;
+	background-size: cover;
       border: 3px solid white; /* Bordure rouge vif */
       border-radius: 15px;
       text-align: center;
@@ -42,12 +55,9 @@
     /* Page d'accueil */
     #home {
 	width: 360px;
-	  background: url('images/wall.png') no-repeat center center;
-	    background-size: cover;
-    }
-    #home h1 {
-      font-size: 24px;
-      margin-bottom: 20px;
+
+
+		
     }
     #start-btn, #mute-btn {
       padding: 10px 20px;
@@ -147,10 +157,12 @@
   height: 60px;
 }
   #validate-btn {
+  font-weight: bold;  
   margin: 0 auto;
+  margin-top: 30px;
   display: block;
   padding: 10px 20px;
-  font-size: 18px;
+  font-size: 25px;
   border: 3px solid white;
   border-radius: 10px;
   background-color: #1a1d21;
