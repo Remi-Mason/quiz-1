@@ -3,44 +3,49 @@
 <head>
   <meta charset="UTF-8">
   <title>Quiz Sécurité Incendie</title>
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- Couleur pour Android (Chrome) -->
-<meta name="theme-color" content="#87CEFA">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#BBBBBB">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <!-- Préchargement de quelques images critiques -->
   <link rel="preload" as="image" href="images/correct.png">
   <link rel="preload" as="image" href="images/incorrect.png">
   <style>
     /* animations */
-	@keyframes borderGlow {
-  0%, 100% {
-    box-shadow: 0 0 5px 2px #00e5ff;  /* Glow léger autour de la bordure */
-  }
-  50% {
-    box-shadow: 0 0 20px 2px #00e5ff; /* Intensification du glow */
-  }
-}
+    @keyframes blink {
+      0% { opacity: 1; }
+      50% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+    @keyframes glow-green {
+      0% { box-shadow: 0 0 5px rgba(0, 255, 0, 0.7); }
+      50% { box-shadow: 0 0 20px rgba(0, 255, 0, 0.9); }
+      100% { box-shadow: 0 0 5px rgba(0, 255, 0, 0.7); }
+    }
+    @keyframes borderGlow {
+      0%, 100% { box-shadow: 0 0 5px 2px #00e5ff; }
+      50% { box-shadow: 0 0 20px 2px #00e5ff; }
+    }
     /* Styles généraux et mobile-friendly */
-html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  background: linear-gradient(135deg, #2C2C2C, #555555, #888888, #BBBBBB);
-  background-size: 100% 100%;
-  animation: quizBGAnimation 10s ease infinite;
-}
-
-body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-   .container {
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #2C2C2C, #555555, #888888, #BBBBBB);
+      background-size: 100% 100%;
+      animation: quizBGAnimation 10s ease infinite;
+    }
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .container {
       width: 360px;
       max-width: 90%;
-	  	background: url('images/wall.png') no-repeat center center;
-	background-size: cover;
-      border: 3px solid white; /* Bordure rouge vif */
+      background: url('images/wall.png') no-repeat center center;
+      background-size: cover;
+      border: 3px solid white;
       border-radius: 15px;
       text-align: center;
       padding: 30px;
@@ -49,30 +54,34 @@ body {
     }
     /* Page d'accueil */
     #home {
-	width: 360px;
-
-
-		
-    }
-    #start-btn, #mute-btn {
-      padding: 10px 20px;
-      font-size: 18px;
-      border: none;
-      border-radius: 5px;
-      margin: 5px;
-      cursor: pointer;
+      width: 360px;
     }
     #start-btn {
-      background-color: #1a1d21;
-      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 120px;
+      height: 60px;
+      margin: 20px auto;
+      padding: 5px 10px;
+      font-size: 18px;
+      cursor: pointer;
+      background: linear-gradient(to top, black, gray);
+      color: white;
+      font-weight: bold;
+      border: 2px solid white;
+      border-radius: 10px;
+      text-shadow: 1px 1px 2px black;
+      transition: transform 0.1s ease-in-out;
+      animation: borderGlow 2s ease-in-out infinite;
     }
-    #mute-btn {
-      background-color: #555;
-      color: #fff;
+    #start-btn:active {
+      transform: scale(0.95);
+      animation: glow-green 1.5s infinite ease-in-out, blink 0.3s infinite ease-in-out;
     }
     /* Zone du quiz */
     #quiz-container {
-	  background: linear-gradient(135deg, #2c2c2c, #808080);
+      background: linear-gradient(135deg, #2c2c2c, #808080);
       padding: 30px;
       border-radius: 15px;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
@@ -82,13 +91,13 @@ body {
     #question-counter {
       font-weight: bold;
       margin-bottom: 5px;
-      font-family: 'Arial', Arial, sans-serif;
+      font-family: Arial, sans-serif;
       color: white;
       margin-top: -10px;
-	  margin-bottom: 10px;
+      margin-bottom: 10px;
     }
     #question-text {
-	width: 95%;
+      width: 95%;
       margin: 0 auto;
       font-family: 'Arial Black', Arial, sans-serif;
       font-weight: bold;
@@ -96,34 +105,34 @@ body {
       margin-bottom: 15px;
       color: white;
       text-shadow:
-      -1px -1px 0 #000,
-      1px -1px 0 #000,
-      -1px 1px 0 #000,
-      1px 1px 0 #000,
-      3px 3px 5px black;
-	  line-height: 1.5;
+        -1px -1px 0 #000,
+        1px -1px 0 #000,
+        -1px 1px 0 #000,
+        1px 1px 0 #000,
+        3px 3px 5px black;
+      line-height: 1.5;
     }
     .options {
-      font-family: Arial, sans-serif;  /* Utilise Arial sans graisse */
-      font-weight: normal;  
+      font-family: Arial, sans-serif;
+      font-weight: normal;
       font-size: 18px;
       color: white;
       text-shadow:
-      -1px -1px 0 #000,
-      1px -1px 0 #000,
-      -1px 1px 0 #000,
-      1px 1px 0 #000,
-      3px 3px 5px black;
+        -1px -1px 0 #000,
+        1px -1px 0 #000,
+        -1px 1px 0 #000,
+        1px 1px 0 #000,
+        3px 3px 5px black;
       text-align: left;
       margin-bottom: 30px;
       margin-left: 20px;
-	  padding-left: 20px;
-	  margin: 0;
+      padding-left: 20px;
+      margin: 0;
     }
     .option {
       display: flex;
       align-items: center;
-      justify-content: flex-start; /* Aligne le contenu à gauche */
+      justify-content: flex-start;
       margin-bottom: 10px;
     }
     /* Masquer le checkbox natif */
@@ -137,39 +146,38 @@ body {
     .option label:before {
       content: "";
       display: inline-block;
-      width: 60px;      /* Augmenté de 40px à 60px */
-      height: 60px;     /* Augmenté de 40px à 60px */
+      width: 60px;
+      height: 60px;
       margin-right: 8px;
       margin-left: -40px;
       background: url('images/fire empty.png') no-repeat center;
       background-size: contain;
-      flex-shrink: 0;   /* Empêche l'image de rétrécir */
+      flex-shrink: 0;
     }
- .option input[type="checkbox"]:checked + label:before {
-  background: url('images/fire full.png') no-repeat center;
-  background-size: contain;
-  width: 60px;      /* Même dimension pour conserver l'homogénéité */
-  height: 60px;
-}
-  #validate-btn {
-  font-weight: bold;  
-  margin: 0 auto;
-  margin-top: 30px;
-  display: block;
-  padding: 10px 20px;
-  font-size: 25px;
-  border: 3px solid white;
-  border-radius: 10px;
-  background-color: #1a1d21;
-  color: white;
-  cursor: pointer;
-  transition: transform 0.1s ease, box-shadow 0.1s ease;
-  animation: borderGlow 2s ease-in-out infinite;
-}
-
-#validate-btn:active {
-  transform: translateY(2px) scale(0.98); /* Légère translation et réduction pour simuler un appui */
-}
+    .option input[type="checkbox"]:checked + label:before {
+      background: url('images/fire full.png') no-repeat center;
+      background-size: contain;
+      width: 60px;
+      height: 60px;
+    }
+    #validate-btn {
+      font-weight: bold;
+      margin: 0 auto;
+      margin-top: 30px;
+      display: block;
+      padding: 10px 20px;
+      font-size: 25px;
+      border: 3px solid white;
+      border-radius: 10px;
+      background-color: #1a1d21;
+      color: white;
+      cursor: pointer;
+      transition: transform 0.1s ease, box-shadow 0.1s ease;
+      animation: borderGlow 2s ease-in-out infinite;
+    }
+    #validate-btn:active {
+      transform: translateY(2px) scale(0.98);
+    }
     #result {
       margin-top: 20px;
     }
@@ -217,6 +225,9 @@ body {
         font-size: 20px;
       }
     }
+    .startu {
+      border-radius: 10px;
+    }
   </style>
 </head>
 <body>
@@ -228,9 +239,11 @@ body {
   
   <!-- Page d'accueil -->
   <div class="container" id="home">
-    <img src="images/titre.png" alt="quiz ssiap1" style="width:320px; display:block; margin: 0 auto 20px;">
-    <button id="mute-btn">Mute</button>
-    <button id="start-btn">Commencer</button>
+    <img src="images/titre.png" alt="quiz ssiap1" style="width:350px; display:block; margin: 0 auto 20px;">
+    <img src="images/decor.gif" alt="pik" class="pikachu" style="border: 3px solid white;">
+    <!-- Bouton mute sous forme d'image -->
+    <img id="mute-btn" src="images/mute-off.gif" alt="Son activé" style="cursor: pointer; width: 30px; height: 25px; margin-bottom: -10px; margin-top: 10px">
+    <button id="start-btn"><img src="images/start.png" style="margin-left: 5px;"></button>
   </div>
   
   <!-- Zone du quiz -->
@@ -297,30 +310,44 @@ body {
     const correctSound = document.getElementById("correct-sound");
     const incorrectSound = document.getElementById("incorrect-sound");
     
+    // Écouteur sur le bouton mute
+    muteBtn.addEventListener("click", () => {
+      // Inverse l'état mute
+      isMuted = !isMuted;
+      
+      // Mute/démute les éléments audio
+      [startSound, correctSound, incorrectSound, checkboxSound].forEach(audio => {
+        audio.muted = isMuted;
+      });
+      
+      // Met à jour l'image et l'attribut alt selon l'état
+      if (isMuted) {
+        muteBtn.src = "images/mute-on.gif";  // Image quand le son est désactivé
+        muteBtn.alt = "Son désactivé";
+      } else {
+        muteBtn.src = "images/mute-off.gif";   // Image quand le son est activé
+        muteBtn.alt = "Son activé";
+      }
+    });
+    
     // Démarrer le quiz (inclut le verrouillage de l'orientation)
     startBtn.addEventListener("click", () => {
-      // Verrouillage de l'orientation en portrait (nécessite HTTPS et interaction utilisateur)
       if (screen.orientation && screen.orientation.lock) {
         screen.orientation.lock("portrait").catch(error => {
           console.log("Le verrouillage de l'orientation a échoué :", error);
         });
       }
-      
       startSound.play();
-      homeDiv.style.display = "none";
-      quizContainer.style.display = "block";
-      currentQuestion = 0;
-      score = 0;
-      showQuestion();
-    });
-    
-    // Activer/désactiver le son
-    muteBtn.addEventListener("click", () => {
-      isMuted = !isMuted;
-      [startSound, correctSound, incorrectSound, checkboxSound].forEach(audio => {
-        audio.muted = isMuted;
-      });
-      muteBtn.textContent = isMuted ? "Unmute" : "Mute";
+      startBtn.style.boxShadow = "0 0 20px rgba(0, 255, 0, 1)";
+      startBtn.style.animation = "blink 0.3s infinite ease-in-out";
+      setTimeout(() => {
+        startBtn.style.animation = "glow-green 1.5s infinite ease-in-out";
+        homeDiv.style.display = "none";
+        quizContainer.style.display = "block";
+        currentQuestion = 0;
+        score = 0;
+        showQuestion();
+      }, 1500);
     });
     
     // Affiche la question et les options
@@ -338,7 +365,6 @@ body {
         checkbox.value = option;
         checkbox.name = "option";
         checkbox.id = `option_${index}`;
-        // Ajout du son lors du clic sur la checkbox
         checkbox.addEventListener("click", () => {
           checkboxSound.currentTime = 0;
           checkboxSound.play();
@@ -352,7 +378,7 @@ body {
       });
     }
     
-    // Fonction utilitaire pour comparer deux tableaux (ordre non important)
+    // Compare deux tableaux (ordre non important)
     function arraysEqual(a, b) {
       if (a.length !== b.length) return false;
       const sortedA = a.slice().sort();
@@ -374,12 +400,10 @@ body {
         score++;
         correctSound.currentTime = 0;
         correctSound.play();
-        // Afficher l'image centrale de bonne réponse
         resultDiv.innerHTML = `<img src="images/correct.png" alt="Bonne réponse" class="result-image correct">`;
       } else {
         incorrectSound.currentTime = 0;
         incorrectSound.play();
-        // Afficher l'image centrale de mauvaise réponse et le texte de correction
         resultDiv.innerHTML = `
           <img src="images/incorrect.png" alt="Mauvaise réponse" class="result-image incorrect">
           <div class="correction-text">Bonne réponse : ${data.correctAnswers.join(", ")}</div>
@@ -401,7 +425,6 @@ body {
       quizContainer.style.display = "none";
       resultPage.style.display = "block";
       finalScoreEl.textContent = `Score : ${score} sur ${quizData.length}`;
-      // Choisir l'image finale selon le score
       finalImage.src = (score === quizData.length) ? "images/perfect.png" : "images/imperfect.png";
     }
     
