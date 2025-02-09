@@ -4,10 +4,19 @@
   <meta charset="UTF-8">
   <title>Quiz Sécurité Incendie</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Précharger des images critiques (adaptables) -->
+  <!-- Préchargement de quelques images critiques -->
   <link rel="preload" as="image" href="images/correct.png">
   <link rel="preload" as="image" href="images/incorrect.png">
   <style>
+    /* animations */
+	@keyframes borderGlow {
+  0%, 100% {
+    box-shadow: 0 0 5px 2px #00e5ff;  /* Glow léger autour de la bordure */
+  }
+  50% {
+    box-shadow: 0 0 20px 2px #00e5ff; /* Intensification du glow */
+  }
+}
     /* Styles généraux et mobile-friendly */
     html, body {
       margin: 0;
@@ -19,18 +28,22 @@
       justify-content: center;
       height: 100%;
     }
-    .container {
+   .container {
       width: 360px;
-      background: #fff;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      max-width: 90%;
+      background: linear-gradient(135deg, #1a1a1a, #333333);
+      border: 3px solid white; /* Bordure rouge vif */
+      border-radius: 15px;
       text-align: center;
-      padding: 20px;
-      margin-bottom: 20px;
+      padding: 30px;
+      margin: 20px auto;
+      transition: transform 0.3s ease;
     }
     /* Page d'accueil */
     #home {
       display: block;
+	  background: url('images/wall.png') no-repeat center center;
+	    background-size: cover;
     }
     #home h1 {
       font-size: 24px;
@@ -54,54 +67,101 @@
     }
     /* Zone du quiz */
     #quiz-container {
+	  background: linear-gradient(135deg, #2c2c2c, #808080);
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      text-align: center;
       display: none;
     }
     #question-counter {
       font-weight: bold;
-      margin-bottom: 10px;
+      margin-bottom: 5px;
+      font-family: 'Arial', Arial, sans-serif;
+      color: white;
+      margin-top: -10px;
+	  margin-bottom: 10px;
     }
     #question-text {
-      font-size: 20px;
-      margin-bottom: 20px;
+	width: 95%;
+      margin: 0 auto;
+      font-family: 'Arial Black', Arial, sans-serif;
+      font-weight: bold;
+      font-size: 22px;
+      margin-bottom: 15px;
+       color: white;
+    text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000,
+    3px 3px 5px black;
+	  line-height: 1.5;
     }
     .options {
+       font-family: Arial, sans-serif;  /* Utilise Arial sans graisse */
+     font-weight: normal;  
+     font-size: 18px;
+     color: white;
+     text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000,
+    3px 3px 5px black;
       text-align: left;
-      margin: 0 20px 20px;
+      margin-bottom: 30px;
+      margin-left: 20px;
+	  padding-left: 20px;
+	  margin: 0;
     }
     .option {
-      margin-bottom: 15px;
-      /* Utilisation d'une flexbox pour aligner l'image custom et le texte */
-      display: flex;
-      align-items: center;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* Aligne le contenu à gauche */
+  margin-bottom: 10px;
     }
     /* Masquer le checkbox natif */
     .option input[type="checkbox"] {
       display: none;
     }
-    /* Remplacer la checkbox par une image personnalisée */
-    .option label:before {
-      content: "";
-      display: inline-block;
-      width: 40px;
-      height: 40px;
-      margin-right: 8px;
-      background: url('images/fire empty.png') no-repeat center;
-      background-size: contain;
-    }
-    /* Lorsque le checkbox est coché, changer l'image */
-    .option input[type="checkbox"]:checked + label:before {
-      background: url('images/fire full.png') no-repeat center;
-      background-size: contain;
-    }
-    #validate-btn {
-      padding: 10px 20px;
-      font-size: 18px;
-      border: none;
-      border-radius: 5px;
-      background-color: red;
-      color: #fff;
-      cursor: pointer;
-    }
+.option label {
+  display: inline-flex;
+  align-items: center;
+}
+.option label:before {
+  content: "";
+  display: inline-block;
+  width: 60px;      /* Augmenté de 40px à 60px */
+  height: 60px;     /* Augmenté de 40px à 60px */
+  margin-right: 8px;
+  margin-left: -45px;
+  background: url('images/fire empty.png') no-repeat center;
+  background-size: contain;
+  flex-shrink: 0;   /* Empêche l'image de rétrécir */
+}
+ .option input[type="checkbox"]:checked + label:before {
+  background: url('images/fire full.png') no-repeat center;
+  background-size: contain;
+  width: 60px;      /* Même dimension pour conserver l'homogénéité */
+  height: 60px;
+}
+  #validate-btn {
+  padding: 10px 20px;
+  font-size: 18px;
+  border: 3px solid white;
+  border-radius: 10px;
+  background-color: #1a1d21;
+  color: white;
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  animation: borderGlow 2s ease-in-out infinite;
+}
+
+#validate-btn:active {
+  transform: translateY(2px) scale(0.98); /* Légère translation et réduction pour simuler un appui */
+  box-shadow: 0 0 5px 5px rgba(255, 255, 255, 0.8);
+}
     #result {
       margin-top: 20px;
     }
@@ -152,16 +212,19 @@
   </style>
 </head>
 <body>
-<audio id="checkbox-sound" src="audio/select.mp3" preload="auto"></audio>
+  <!-- Éléments audio -->
+  <audio id="checkbox-sound" src="audio/select.mp3" preload="auto"></audio>
+  <audio id="start-sound" src="audio/start.mp3" preload="auto"></audio>
+  <audio id="correct-sound" src="audio/correct.mp3" preload="auto"></audio>
+  <audio id="incorrect-sound" src="audio/incorrect.mp3" preload="auto"></audio>
+  
   <!-- Page d'accueil -->
   <div class="container" id="home">
     <h1>Quiz Sécurité Incendie</h1>
-    <!-- Bouton Mute -->
     <button id="mute-btn">Mute</button>
-    <!-- Bouton Commencer -->
     <button id="start-btn">Commencer</button>
   </div>
-
+  
   <!-- Zone du quiz -->
   <div class="container" id="quiz-container">
     <div id="question-counter">Question 1 / 3</div>
@@ -172,7 +235,7 @@
     <button id="validate-btn">Valider</button>
     <div id="result"></div>
   </div>
-
+  
   <!-- Page de résultats finale -->
   <div class="container" id="result-page">
     <h2>Résultat du Quiz</h2>
@@ -180,18 +243,13 @@
     <img id="final-image" src="" alt="Résultat" style="width:120px; display:block; margin: 0 auto 20px;">
     <button id="restart-btn">Recommencer</button>
   </div>
-
-  <!-- Éléments audio (ajustez les src selon vos fichiers) -->
-  <audio id="start-sound" src="audio/start.mp3" preload="auto"></audio>
-  <audio id="correct-sound" src="audio/correct.mp3" preload="auto"></audio>
-  <audio id="incorrect-sound" src="audio/incorrect.mp3" preload="auto"></audio>
-
+  
   <script>
     // Données du quiz (exemple)
     const quizData = [
       {
         question: "Sur quel feu peut-on utiliser un extincteur à eau pulvérisée avec additif ?",
-        options: ["Feu de classe A", "Feu de classe B", "Feu de classe C", "Feu de classe D"],
+        options: ["Feu de classe A avec option tu vas aller a la ligne stp", "Feu de classe B", "Feu de classe C", "Feu de classe D"],
         correctAnswers: ["Feu de classe A", "Feu de classe B"]
       },
       {
@@ -226,12 +284,20 @@
     const restartBtn = document.getElementById("restart-btn");
     const muteBtn = document.getElementById("mute-btn");
     
+    const checkboxSound = document.getElementById("checkbox-sound");
     const startSound = document.getElementById("start-sound");
     const correctSound = document.getElementById("correct-sound");
     const incorrectSound = document.getElementById("incorrect-sound");
     
-    // Démarrer le quiz
+    // Démarrer le quiz (inclut le verrouillage de l'orientation)
     startBtn.addEventListener("click", () => {
+      // Verrouillage de l'orientation en portrait (nécessite HTTPS et interaction utilisateur)
+      if (screen.orientation && screen.orientation.lock) {
+        screen.orientation.lock("portrait").catch(error => {
+          console.log("Le verrouillage de l'orientation a échoué :", error);
+        });
+      }
+      
       startSound.play();
       homeDiv.style.display = "none";
       quizContainer.style.display = "block";
@@ -243,7 +309,7 @@
     // Activer/désactiver le son
     muteBtn.addEventListener("click", () => {
       isMuted = !isMuted;
-      [startSound, correctSound, incorrectSound].forEach(audio => {
+      [startSound, correctSound, incorrectSound, checkboxSound].forEach(audio => {
         audio.muted = isMuted;
       });
       muteBtn.textContent = isMuted ? "Unmute" : "Mute";
@@ -253,30 +319,29 @@
     function showQuestion() {
       resultDiv.innerHTML = "";
       const data = quizData[currentQuestion];
-      questionCounterEl.textContent = `Question ${currentQuestion + 1} / ${quizData.length}`;
+      questionCounterEl.textContent = `${currentQuestion + 1} / ${quizData.length}`;
       questionTextEl.textContent = data.question;
       optionsDiv.innerHTML = "";
-data.options.forEach((option, index) => {
-  const div = document.createElement("div");
-  div.className = "option";
-  const checkbox = document.createElement("input");
-  checkbox.type = "checkbox";
-  checkbox.value = option;
-  checkbox.name = "option";
-  checkbox.id = `option_${index}`;
-  // AJOUTEZ L'ÉCOUTEUR ICI :
-  checkbox.addEventListener("click", () => {
-    const checkboxSound = document.getElementById("checkbox-sound");
-    checkboxSound.currentTime = 0;
-    checkboxSound.play();
-  });
-  const label = document.createElement("label");
-  label.htmlFor = `option_${index}`;
-  label.textContent = option;
-  div.appendChild(checkbox);
-  div.appendChild(label);
-  optionsDiv.appendChild(div);
-});
+      data.options.forEach((option, index) => {
+        const div = document.createElement("div");
+        div.className = "option";
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.value = option;
+        checkbox.name = "option";
+        checkbox.id = `option_${index}`;
+        // Ajout du son lors du clic sur la checkbox
+        checkbox.addEventListener("click", () => {
+          checkboxSound.currentTime = 0;
+          checkboxSound.play();
+        });
+        const label = document.createElement("label");
+        label.htmlFor = `option_${index}`;
+        label.textContent = option;
+        div.appendChild(checkbox);
+        div.appendChild(label);
+        optionsDiv.appendChild(div);
+      });
     }
     
     // Fonction utilitaire pour comparer deux tableaux (ordre non important)
@@ -328,7 +393,7 @@ data.options.forEach((option, index) => {
       quizContainer.style.display = "none";
       resultPage.style.display = "block";
       finalScoreEl.textContent = `Score : ${score} sur ${quizData.length}`;
-      // Choisir l'image finale en fonction du score
+      // Choisir l'image finale selon le score
       finalImage.src = (score === quizData.length) ? "images/perfect.png" : "images/imperfect.png";
     }
     
