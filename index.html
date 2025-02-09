@@ -432,12 +432,17 @@
     restartBtn.addEventListener("click", () => {
       window.location.reload();
     });
-	 window.addEventListener("load", function() {
-    // Sélectionne le GIF (assurez-vous que le sélecteur correspond à votre image)
-    var gif = document.querySelector(".mute");
-    if(gif) {
-      // Ajoute un paramètre unique (timestamp) à l'URL
-      gif.src = "images/mute-off.gif?t=" + new Date().getTime();
+	  window.addEventListener("load", function() {
+    // Sélectionne l'image du mute
+    var muteImg = document.getElementById("mute-btn");
+    // Vérifier que l'image est un GIF (par exemple, son URL contient ".gif")
+    if(muteImg && muteImg.src.indexOf(".gif") !== -1) {
+      // Clonez l'élément
+      var newMuteImg = muteImg.cloneNode(true);
+      // Ajoute un paramètre unique à l'URL pour forcer le rechargement
+      newMuteImg.src = newMuteImg.src.split('?')[0] + '?t=' + new Date().getTime();
+      // Remplacez l'ancien élément par le nouveau
+      muteImg.parentNode.replaceChild(newMuteImg, muteImg);
     }
   });
   </script>
