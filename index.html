@@ -443,7 +443,7 @@ margin-top: -15px;
   <div class="container" id="home">
     <!-- L'image du titre avec l'animation de flottement appliquée -->
     <img src="images/titre.png" alt="quiz ssiap1" class="floating-title" style="width:350px; display:block; margin: 0 auto 20px;">
-    <img id="decor-img" alt="pik" class="pikachu" style="border: 3px solid white;">
+    <img src="images/decor.gif" alt="pik" class="pikachu" style="border: 3px solid white;">
     <!-- Bouton mute sous forme d'image -->
     <img id="mute-btn" src="images/mute-off.gif" alt="Son activé" style="cursor: pointer; width: 30px; height: 25px; margin-bottom: -5px; margin-top: 10px">
     <button id="start-btn"><img src="images/start.png" style="margin-left: 5px;"></button>
@@ -744,12 +744,17 @@ function showResultPage() {
         newMuteImg.addEventListener("click", muteToggleHandler);
       }
     });
-window.addEventListener("load", function() {
-  var decorImage = document.getElementById('decor-img');
+	window.addEventListener("load", function() {
+  // Sélectionner l'image décorative par sa classe (ou son id, si vous préférez)
+  var decorImage = document.querySelector('.pikachu');
   if (decorImage) {
+    // Tableau contenant les deux sources possibles
     var decorGifs = ["images/decor1.gif", "images/decor2.gif"];
+    // Choix aléatoire
     var randomIndex = Math.floor(Math.random() * decorGifs.length);
-    decorImage.src = decorGifs[randomIndex];
+    var randomGif = decorGifs[randomIndex];
+    // Met à jour l'attribut src de l'image
+    decorImage.src = randomGif;
   }
 });
 
