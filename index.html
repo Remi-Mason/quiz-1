@@ -428,6 +428,12 @@ margin-top: -15px;
   animation: victoryAnimation 2s ease-in-out infinite;
   transform-origin: center;
 }
+@media (max-width: 480px) {
+  .decor-left,
+  .decor-right, {
+    display: none;
+  }
+}
 
   </style>
 </head>
@@ -681,6 +687,11 @@ function showResultPage() {
 		 finalImage.classList.add("raised");
 		 finalImage.style.width = "190px";
     // Si un intervalle avait été mis en place, on pourrait le nettoyer ici
+	  if (window.innerWidth <= 480) {
+      finalImage.style.width = "150px";  // Plus petit sur mobile
+    } else {
+      finalImage.style.width = "190px";  // Valeur par défaut sur desktop
+    }
   } else {
     restartBtn.style.animation = "borderGlow2 2s ease-in-out infinite";
     resultPage.style.backgroundImage = "url('images/wall2.png')";
@@ -753,14 +764,7 @@ function showResultPage() {
     decorImage.src = randomGif;
   }
 });
-window.addEventListener("load", function() {
-  // Précharger les GIFs de Ryu et Ken
-  const ryuPreload = new Image();
-  ryuPreload.src = "images/ryu.gif";
-  
-  const kenPreload = new Image();
-  kenPreload.src = "images/ken.gif";
-});
+
   </script>
 </body>
 </html>
