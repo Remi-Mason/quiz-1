@@ -753,6 +753,14 @@ function showResultPage() {
     decorImage.src = randomGif;
   }
 });
+window.addEventListener("load", function() {
+  // Précharger les GIFs de Ryu et Ken
+  const ryuPreload = new Image();
+  ryuPreload.src = "images/ryu.gif";
+  
+  const kenPreload = new Image();
+  kenPreload.src = "images/ken.gif";
+});
   </script>
 </body>
 </html>
