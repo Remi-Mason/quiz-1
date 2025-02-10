@@ -8,6 +8,8 @@
   <meta name="theme-color" content="#BBBBBB">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <!-- Préchargement de quelques images critiques -->
+  <link rel="preload" as="image" href="images/wall.png">
+  <link rel="preload" as="image" href="images/wall2.png">
   <link rel="preload" as="image" href="images/correct.png">
   <link rel="preload" as="image" href="images/incorrect.png">
   <link rel="preload" as="image" href="images/decor1.gif">
@@ -405,6 +407,38 @@
 	     width: 85%;
 	      }
 }
+@media (max-width: 480px) {	  
+.decor-right {
+      width: 80px;
+      transform: translate(-22px, -7px);
+      z-index: 0;
+      padding: 12px 0px;
+    }
+	}
+	@media (max-width: 480px) {	  
+    .decor-left {
+      width: 80px;
+      transform: translate(20px, -6px);
+      z-index: 0;
+      padding: 12px 0px;
+    }
+	}
+		@media (max-width: 480px) {	  
+	    .decor-rightX {
+      width: 80px;
+      transform: translate(-18px, 0px);
+      z-index: 0;
+      padding: 12px 0px;
+    }
+	}
+		@media (max-width: 480px) {	  
+    .decor-leftX {
+      width: 80px;
+      transform: translate(20px, 0px);
+      z-index: 0;
+      padding: 12px 0px;
+    }
+	}
   </style>
 </head>
 <body>
