@@ -282,7 +282,6 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 5px;
     }
     .correct-decoration {
       width: 60px;
@@ -290,7 +289,7 @@
     /* Déplacer légèrement l'image correct.png vers le bas */
     .correct-container .result-image.correct {
       animation: popAnimation 0.5s ease-out;
-      position: absolute;
+      position: flex;
       width: 80px;
       margin-bottom: 25px;
       z-index: 1;
@@ -365,14 +364,14 @@ margin-top: -15px;
       border-radius: 10px;
     }
     .decor-right {
-      width: 500px;              /* Agrandit l'image */
-      transform: translate(-175px, -6px);
+      width: 80px;              /* Agrandit l'image */
+      transform: translate(-42px, -7px);
       z-index: 0;
       padding: 12px 0px;
     }
     .decor-left {
-      width: 500px;              /* Agrandit l'image */
-      transform: translate(175px, -6px);
+      width: 80px;              /* Agrandit l'image */
+      transform: translate(40px, -6px);
       z-index: 0;
       padding: 12px 0px;
     }
@@ -383,7 +382,7 @@ margin-top: -15px;
 }
     .decor-rightX {
       width: 80px;              /* Agrandit l'image */
-      transform: translate(-52px, 0px);
+      transform: translate(-50px, 0px);
       z-index: 0;
       padding: 12px 0px;
     }
@@ -429,19 +428,6 @@ margin-top: -15px;
   animation: victoryAnimation 2s ease-in-out infinite;
   transform-origin: center;
 }
-@media (max-width: 480px) {
-  .decor-left,
-  .decor-right {
-    display: none;
-  }
-  /* Pour la bonne réponse, on passe l'image correct en position relative */
-  .correct-container .result-image.correct {
-    position: relative; /* au lieu de absolute */
-    margin: 15px auto 0; /* Ajustez la marge supérieure pour le repositionnement */
-    width: 80px; /* ou ajustez la taille si besoin */
-  }
-}
-
   </style>
 </head>
 <body>
