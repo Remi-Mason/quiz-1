@@ -23,20 +23,20 @@
   <link rel="preload" as="image" href="images/perfect.gif">
   
   <style>
-    /* animations */
-	 @keyframes shake {
-    0% { transform: translate(0, 0); }
-    10% { transform: translate(-10px, -10px); }
-    20% { transform: translate(10px, 10px); }
-    30% { transform: translate(-10px, 10px); }
-    40% { transform: translate(10px, -10px); }
-    50% { transform: translate(-10px, -10px); }
-    60% { transform: translate(10px, 10px); }
-    70% { transform: translate(-10px, 10px); }
-    80% { transform: translate(10px, -10px); }
-    90% { transform: translate(-10px, -10px); }
-    100% { transform: translate(0, 0); }
-  }
+    /* Animations */
+    @keyframes shake {
+      0% { transform: translate(0, 0); }
+      10% { transform: translate(-10px, -10px); }
+      20% { transform: translate(10px, 10px); }
+      30% { transform: translate(-10px, 10px); }
+      40% { transform: translate(10px, -10px); }
+      50% { transform: translate(-10px, -10px); }
+      60% { transform: translate(10px, 10px); }
+      70% { transform: translate(-10px, 10px); }
+      80% { transform: translate(10px, -10px); }
+      90% { transform: translate(-10px, -10px); }
+      100% { transform: translate(0, 0); }
+    }
     @keyframes popAnimation {
       0% { transform: scale(1); }
       50% { transform: scale(1.2); }
@@ -56,16 +56,14 @@
       0%, 100% { box-shadow: 0 0 5px 2px #00e5ff; }
       50% { box-shadow: 0 0 20px 2px #00e5ff; }
     }
-	    @keyframes borderGlow2 {
+    @keyframes borderGlow2 {
       0%, 100% { box-shadow: 0 0 5px 2px rgba(255, 0, 0, 0.7); }
       50% { box-shadow: 0 0 20px 2px rgba(255, 0, 0, 0.7); }
     }
-	@keyframes borderGlowGreen {
-  0%, 100% { box-shadow: 0 0 5px 2px rgba(0, 255, 0, 0.7); }
-  50% { box-shadow: 0 0 20px 2px rgba(0, 255, 0, 0.7); }
-}
-    
-    /* Animation de flottement pour image/titre.png */
+    @keyframes borderGlowGreen {
+      0%, 100% { box-shadow: 0 0 5px 2px rgba(0, 255, 0, 0.7); }
+      50% { box-shadow: 0 0 20px 2px rgba(0, 255, 0, 0.7); }
+    }
     @keyframes floatAnimation {
       0%   { transform: translateY(0); }
       25%  { transform: translateY(-3px); }
@@ -73,12 +71,22 @@
       75%  { transform: translateY(5px); }
       100% { transform: translateY(0); }
     }
-    /* Appliquer l'animation à l'image du titre */
+    /* Appliquer l'animation au titre */
     .floating-title {
       animation: floatAnimation 8s ease-in-out infinite;
+      display: block;
+      margin: 0 auto 20px;
+      max-width: 90%;
+      width: auto; /* Permet d'éviter l'effet d'une largeur fixe trop importante */
     }
-    
-    /* Styles généraux et mobile-friendly */
+    /* Pour centrer l'image décorative */
+    .pikachu {
+      border: 3px solid white;
+      display: block;
+      margin: 0 auto;
+      max-width: 100%;
+    }
+    /* Styles généraux */
     html, body {
       height: 100%;
       margin: 0;
@@ -105,9 +113,7 @@
       transition: transform 0.3s ease;
     }
     /* Page d'accueil */
-    #home {
-      width: 360px;
-    }
+    #home { width: 360px; }
     #start-btn {
       display: flex;
       justify-content: center;
@@ -133,7 +139,6 @@
       transform: scale(0.95);
       animation: glow-green 1.5s infinite ease-in-out, blink 0.3s infinite ease-in-out;
     }
-    /* Augmenter la taille de l'image dans le bouton sans agrandir le background */
     #start-btn img {
       position: absolute;
       left: 50%;
@@ -168,12 +173,7 @@
       font-size: 22px;
       margin-bottom: 15px;
       color: white;
-      text-shadow:
-        -1px -1px 0 #000,
-        1px -1px 0 #000,
-        -1px 1px 0 #000,
-        1px 1px 0 #000,
-        3px 3px 5px black;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 3px 3px 5px black;
       line-height: 1.5;
     }
     .options {
@@ -181,17 +181,12 @@
       font-weight: normal;
       font-size: 18px;
       color: white;
-      text-shadow:
-        -1px -1px 0 #000,
-        1px -1px 0 #000,
-        -1px 1px 0 #000,
-        1px 1px 0 #000,
-        3px 3px 5px black;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 3px 3px 5px black;
       text-align: left;
+      margin: 0;
       margin-bottom: 30px;
       margin-left: 20px;
       padding-left: 20px;
-      margin: 0;
     }
     .option {
       display: flex;
@@ -199,14 +194,8 @@
       justify-content: flex-start;
       margin-bottom: 10px;
     }
-    /* Masquer le checkbox natif */
-    .option input[type="checkbox"] {
-      display: none;
-    }
-    .option label {
-      display: inline-flex;
-      align-items: center;
-    }
+    .option input[type="checkbox"] { display: none; }
+    .option label { display: inline-flex; align-items: center; }
     .option label:before {
       content: "";
       display: inline-block;
@@ -239,91 +228,62 @@
       transition: transform 0.1s ease, box-shadow 0.1s ease;
       animation: borderGlow 2s ease-in-out infinite;
     }
-    #validate-btn:active {
-      transform: translateY(2px) scale(0.98);
-    }
-    #result {
-      margin-top: 20px;
-    }
+    #validate-btn:active { transform: translateY(2px) scale(0.98); }
+    #result { margin-top: 20px; }
     .result-image {
       width: 60px;
       display: block;
       margin: 10px auto;
     }
- .incorrect-answer-text {
-     color: red;      /* Choisissez la couleur souhaitée, ici rouge */
-     font-size: 20px;     /* Ajustez la taille du texte */
-     font-weight: bold;   /* Par exemple, en gras */
-	font-family: 'Arial Black', Arial, sans-serif;
-    text-shadow:
-    -1px -1px 0 #fff,
-    1px -1px 0 #fff,
-    -1px 1px 0 #fff,
-    1px 1px 0 #fff,
-	  3px 3px 5px black;
-	margin-bottom: 10px;
-	margin-top: 5px;
+    .incorrect-answer-text {
+      color: red;
+      font-size: 20px;
+      font-weight: bold;
+      font-family: 'Arial Black', Arial, sans-serif;
+      text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff, 3px 3px 5px black;
+      margin-bottom: 10px;
+      margin-top: 5px;
     }
-	.incorrect-answer-header {
-  margin-top: 0px; /* Ajustez cette valeur pour positionner le texte plus haut */
-  font-weight: bold; 
-  font-size: 18px;   /* Vous pouvez adapter la taille selon vos préférences */
-   font-family: 'Arial Black', Arial, sans-serif;
-  text-shadow:
-    -1px -1px 0 #000,
-    1px -1px 0 #000,
-    -1px 1px 0 #000,
-    1px 1px 0 #000,
-    3px 3px 5px black;
-	color: white;
-}
-    /* Nouveaux styles pour la décoration de la bonne réponse */
+    .incorrect-answer-header {
+      margin-top: 0px;
+      font-weight: bold;
+      font-size: 18px;
+      font-family: 'Arial Black', Arial, sans-serif;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 3px 3px 5px black;
+      color: white;
+    }
     .correct-container {
       display: flex;
       align-items: center;
       justify-content: center;
     }
-    .correct-decoration {
-      width: 60px;
-    }
-    /* Déplacer légèrement l'image correct.png vers le bas */
+    .correct-decoration { width: 60px; }
+    /* Pour l'image de la bonne réponse, on utilise une largeur de 80px (adaptée aux GIFs) */
     .correct-container .result-image.correct {
       animation: popAnimation 0.5s ease-out;
-      position: flex;
       width: 80px;
       margin-bottom: 25px;
       z-index: 1;
     }
-.result-image.incorrect {
-position: flex;
-width: 80px;
+    .result-image.incorrect {
+      width: 80px;
       margin-top: 25px;
-	    animation: shake 0.5s ease-in-out;
+      animation: shake 0.5s ease-in-out;
     }
     /* Page finale */
-    #result-page {
-      display: none;
-    }
-    #result-page h2 {
-      font-size: 24px;
-      margin-bottom: 20px;
-    }
+    #result-page { display: none; }
+    #result-page h2 { font-size: 24px; margin-bottom: 20px; }
     #final-score {
-margin-top: -15px;
-  margin-bottom: 15px;
-  font-weight: bold; 
-  font-size: 25px;   /* Vous pouvez adapter la taille selon vos préférences */
-   font-family: 'Arial Black', Arial, sans-serif;
-  text-shadow:
-    -1px -1px 0 #000,
-    1px -1px 0 #000,
-    -1px 1px 0 #000,
-    1px 1px 0 #000,
-    3px 3px 5px black;
-	color: #00ff1a;
+      margin-top: -15px;
+      margin-bottom: 15px;
+      font-weight: bold;
+      font-size: 25px;
+      font-family: 'Arial Black', Arial, sans-serif;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 3px 3px 5px black;
+      color: #00ff1a;
     }
     #restart-btn {
-     display: flex;
+      display: flex;
       justify-content: center;
       align-items: center;
       width: 160px;
@@ -341,93 +301,83 @@ margin-top: -15px;
       transition: transform 0.1s ease-in-out;
       position: relative;
       overflow: visible;
-	  animation: borderGlow2 2s ease-in-out infinite;
-
+      animation: borderGlow2 2s ease-in-out infinite;
     }
-	  #restart-btn:active {
-      transform: scale(0.95);
-	  }
+    #restart-btn:active { transform: scale(0.95); }
     /* Media Query pour mobile */
     @media (max-width: 480px) {
-      .container {
-        width: 90%;
-        padding: 15px;
-      }
-      #question-text {
-        font-size: 18px;
-      }
-      #final-score {
-        font-size: 20px;
-      }
+      .container { width: 90%; padding: 15px; }
+      #question-text { font-size: 18px; }
+      #final-score { font-size: 20px; }
+      /* On s'assure que le titre et le décor sont centrés */
+      .floating-title { margin: 0 auto 20px; }
+      .pikachu { margin: 0 auto; }
     }
-    .startu {
-      border-radius: 10px;
-    }
+    .startu { border-radius: 10px; }
     .decor-right {
-      width: 80px;              /* Agrandit l'image */
+      width: 80px;
       transform: translate(-42px, -7px);
       z-index: 0;
       padding: 12px 0px;
     }
     .decor-left {
-      width: 80px;              /* Agrandit l'image */
+      width: 80px;
       transform: translate(40px, -6px);
       z-index: 0;
       padding: 12px 0px;
     }
-	.incorrect-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+    .incorrect-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
     .decor-rightX {
-      width: 80px;              /* Agrandit l'image */
+      width: 80px;
       transform: translate(-50px, 0px);
       z-index: 0;
       padding: 12px 0px;
     }
     .decor-leftX {
-      width: 80px;              /* Agrandit l'image */
+      width: 80px;
       transform: translate(50px, 0px);
       z-index: 0;
       padding: 12px 0px;
     }
-	    .again {            
-  display: block;
-  margin: 0 auto 20px;
+    .again {
+      display: block;
+      margin: 0 auto 20px;
     }
-@keyframes windmillShake {
-  0%   { transform: rotate(0deg); }
-  15%  { transform: rotate(15deg); }
-  30%  { transform: rotate(-15deg); }
-  45%  { transform: rotate(10deg); }
-  60%  { transform: rotate(-10deg); }
-  75%  { transform: rotate(5deg); }
-  90%  { transform: rotate(-5deg); }
-  100% { transform: rotate(0deg); }
-}
-
-.windmill-shake {
-  animation: windmillShake 0.8s ease-in-out forwards;
-  transform-origin: center;
-}
-.raised {
-  transform: translateY(-20px);
-  margin-bottom: -10px !important;
-}
-@keyframes victoryAnimation {
-  0%   { transform: translateX(10px) scale(1) rotate(0deg); }
-  20%  { transform: translateX(10px) scale(1.1) rotate(3deg); }
-  40%  { transform: translateX(10px) scale(1) rotate(-3deg); }
-  60%  { transform: translateX(10px) scale(1.1) rotate(3deg); }
-  80%  { transform: translateX(10px) scale(1) rotate(-3deg); }
-  90%  { transform: translateX(10px) scale(1) rotate(0deg); }
-  100% { transform: translateX(10px) scale(1) rotate(0deg); } /* Période de repos */
-}
-.victory-animation {
-  animation: victoryAnimation 2s ease-in-out infinite;
-  transform-origin: center;
-}
+    @keyframes windmillShake {
+      0%   { transform: rotate(0deg); }
+      15%  { transform: rotate(15deg); }
+      30%  { transform: rotate(-15deg); }
+      45%  { transform: rotate(10deg); }
+      60%  { transform: rotate(-10deg); }
+      75%  { transform: rotate(5deg); }
+      90%  { transform: rotate(-5deg); }
+      100% { transform: rotate(0deg); }
+    }
+    .windmill-shake {
+      animation: windmillShake 0.8s ease-in-out forwards;
+      transform-origin: center;
+    }
+    .raised {
+      transform: translateY(-20px);
+      margin-bottom: -10px !important;
+    }
+    @keyframes victoryAnimation {
+      0%   { transform: translateX(10px) scale(1) rotate(0deg); }
+      20%  { transform: translateX(10px) scale(1.1) rotate(3deg); }
+      40%  { transform: translateX(10px) scale(1) rotate(-3deg); }
+      60%  { transform: translateX(10px) scale(1.1) rotate(3deg); }
+      80%  { transform: translateX(10px) scale(1) rotate(-3deg); }
+      90%  { transform: translateX(10px) scale(1) rotate(0deg); }
+      100% { transform: translateX(10px) scale(1) rotate(0deg); }
+    }
+    .victory-animation {
+      animation: victoryAnimation 2s ease-in-out infinite;
+      transform-origin: center;
+    }
   </style>
 </head>
 <body>
@@ -438,13 +388,15 @@ margin-top: -15px;
   <audio id="incorrect-sound" src="audio/incorrect.mp3" preload="auto"></audio>
   <audio id="incorrect-sound2" src="audio/incorrect2.mp3" preload="auto"></audio>
   <audio id="perfect-sound" src="audio/perfect.mp3" preload="auto"></audio>
-<audio id="imperfect-sound" src="audio/imperfect.mp3" preload="auto"></audio>
+  <audio id="imperfect-sound" src="audio/imperfect.mp3" preload="auto"></audio>
+  
   <!-- Page d'accueil -->
   <div class="container" id="home">
-    <!-- L'image du titre avec l'animation de flottement appliquée -->
-    <img src="images/titre.png" alt="quiz ssiap1" class="floating-title" style="width:350px; display:block; margin: 0 auto 20px;">
-    <img src="images/decor.gif" alt="pik" class="pikachu" style="border: 3px solid white;">
-    <!-- Bouton mute sous forme d'image -->
+    <!-- Titre centré via la classe floating-title -->
+    <img src="images/titre.png" alt="quiz ssiap1" class="floating-title">
+    <!-- Image décorative centrée via la classe pikachu -->
+    <img src="images/decor.gif" alt="pik" class="pikachu">
+    <!-- Bouton mute -->
     <img id="mute-btn" src="images/mute-off.gif" alt="Son activé" style="cursor: pointer; width: 30px; height: 25px; margin-bottom: -5px; margin-top: 10px">
     <button id="start-btn"><img src="images/start.png" style="margin-left: 5px;"></button>
   </div>
@@ -469,7 +421,7 @@ margin-top: -15px;
   </div>
   
   <script>
-    // Données du quiz (exemple)
+    // Données du quiz
     const quizData = [
       {
         question: "Sur quel feu peut-on utiliser un extincteur à eau pulvérisée avec additif ?",
@@ -513,33 +465,27 @@ margin-top: -15px;
     const correctSound = document.getElementById("correct-sound");
     const incorrectSound = document.getElementById("incorrect-sound");
     
-    // Définition de la fonction de basculement mute
-   function muteToggleHandler() {
-  isMuted = !isMuted;
-  [startSound, correctSound, incorrectSound, checkboxSound,
-   document.getElementById("perfect-sound"),
-   document.getElementById("imperfect-sound")
-  ].forEach(audio => {
-    audio.muted = isMuted;
-  });
-  if (isMuted) {
-    this.src = "images/mute-on.gif";
-    this.alt = "Son désactivé";
-  } else {
-    this.src = "images/mute-off.gif";
-    this.alt = "Son activé";
-  }
-}
-    
-    // Écouteur sur le bouton mute
+    // Fonction de basculement mute
+    function muteToggleHandler() {
+      isMuted = !isMuted;
+      [startSound, correctSound, incorrectSound, checkboxSound,
+       document.getElementById("perfect-sound"),
+       document.getElementById("imperfect-sound")
+      ].forEach(audio => { audio.muted = isMuted; });
+      if (isMuted) {
+        this.src = "images/mute-on.gif";
+        this.alt = "Son désactivé";
+      } else {
+        this.src = "images/mute-off.gif";
+        this.alt = "Son activé";
+      }
+    }
     muteBtn.addEventListener("click", muteToggleHandler);
     
-    // Démarrer le quiz (inclut le verrouillage de l'orientation)
+    // Démarrage du quiz
     startBtn.addEventListener("click", () => {
       if (screen.orientation && screen.orientation.lock) {
-        screen.orientation.lock("portrait").catch(error => {
-          console.log("Le verrouillage de l'orientation a échoué :", error);
-        });
+        screen.orientation.lock("portrait").catch(error => { console.log("Le verrouillage de l'orientation a échoué :", error); });
       }
       startSound.play();
       startBtn.style.boxShadow = "0 0 20px rgba(0, 255, 0, 1)";
@@ -554,7 +500,7 @@ margin-top: -15px;
       }, 1500);
     });
     
-    // Affiche la question et les options
+    // Affichage de la question
     function showQuestion() {
       resultDiv.innerHTML = "";
       const data = quizData[currentQuestion];
@@ -569,10 +515,7 @@ margin-top: -15px;
         checkbox.value = option;
         checkbox.name = "option";
         checkbox.id = `option_${index}`;
-        checkbox.addEventListener("click", () => {
-          checkboxSound.currentTime = 0;
-          checkboxSound.play();
-        });
+        checkbox.addEventListener("click", () => { checkboxSound.currentTime = 0; checkboxSound.play(); });
         const label = document.createElement("label");
         label.htmlFor = `option_${index}`;
         label.textContent = option;
@@ -582,7 +525,7 @@ margin-top: -15px;
       });
     }
     
-    // Compare deux tableaux (ordre non important)
+    // Comparaison des tableaux
     function arraysEqual(a, b) {
       if (a.length !== b.length) return false;
       const sortedA = a.slice().sort();
@@ -590,15 +533,11 @@ margin-top: -15px;
       return sortedA.every((val, index) => val === sortedB[index]);
     }
     
-    // Validation de la réponse
-	const incorrectSound2 = document.getElementById("incorrect-sound2");
+    const incorrectSound2 = document.getElementById("incorrect-sound2");
     validateBtn.addEventListener("click", () => {
       const data = quizData[currentQuestion];
       const selected = Array.from(document.querySelectorAll('input[name="option"]:checked')).map(el => el.value);
-      if (selected.length === 0) {
-        alert("Veuillez sélectionner au moins une réponse");
-        return;
-      }
+      if (selected.length === 0) { alert("Veuillez sélectionner au moins une réponse"); return; }
       const isCorrect = arraysEqual(selected, data.correctAnswers);
       validateBtn.style.display = "none";
       if (isCorrect) {
@@ -612,129 +551,88 @@ margin-top: -15px;
             <img src="images/ken.gif" alt="Décoration droite" class="decor-right">
           </div>
         `;
-  
-        // Forcer le redémarrage des GIFs en modifiant leur src avec un timestamp
         let ryuGif = document.querySelector('.decor-left');
         let kenGif = document.querySelector('.decor-right');
-        if (ryuGif) {
-          let originalSrc = ryuGif.src.split('?')[0];
-          ryuGif.src = originalSrc + '?t=' + new Date().getTime();
-        }
-        if (kenGif) {
-          let originalSrc = kenGif.src.split('?')[0];
-          kenGif.src = originalSrc + '?t=' + new Date().getTime();
-        }
-     } else {
-    // Choisir aléatoirement entre incorrectSound et incorrectSound2
-    const selectedSound = (Math.random() < 0.5) ? incorrectSound : incorrectSound2;
-    selectedSound.currentTime = 0;
-    selectedSound.play();
-  resultDiv.innerHTML = `
-    <div class="incorrect-container">
-      <img src="images/ryu2.gif" alt="Décoration gauche" class="decor-leftX">
-      <img src="images/incorrect.png" alt="Mauvaise réponse" class="result-image incorrect">
-      <img src="images/ken2.gif" alt="Décoration droite" class="decor-rightX">
-    </div>
-    <div class="incorrect-answer-header">Réponse :</div>
-    <div class="incorrect-answer-text">${data.correctAnswers.join(", ")}</div>
-  `;
-   // Forcer le redémarrage des GIFs en modifiant leur src avec un timestamp
+        if (ryuGif) { let originalSrc = ryuGif.src.split('?')[0]; ryuGif.src = originalSrc + '?t=' + new Date().getTime(); }
+        if (kenGif) { let originalSrc = kenGif.src.split('?')[0]; kenGif.src = originalSrc + '?t=' + new Date().getTime(); }
+      } else {
+        const selectedSound = (Math.random() < 0.5) ? incorrectSound : incorrectSound2;
+        selectedSound.currentTime = 0;
+        selectedSound.play();
+        resultDiv.innerHTML = `
+          <div class="incorrect-container">
+            <img src="images/ryu2.gif" alt="Décoration gauche" class="decor-leftX">
+            <img src="images/incorrect.png" alt="Mauvaise réponse" class="result-image incorrect">
+            <img src="images/ken2.gif" alt="Décoration droite" class="decor-rightX">
+          </div>
+          <div class="incorrect-answer-header">Réponse :</div>
+          <div class="incorrect-answer-text">${data.correctAnswers.join(", ")}</div>
+        `;
         let ryu2Gif = document.querySelector('.decor-leftX');
         let ken2Gif = document.querySelector('.decor-rightX');
-        if (ryu2Gif) {
-          let originalSrc = ryu2Gif.src.split('?')[0];
-          ryu2Gif.src = originalSrc + '?t=' + new Date().getTime();
-        }
-        if (ken2Gif) {
-          let originalSrc = ken2Gif.src.split('?')[0];
-          ken2Gif.src = originalSrc + '?t=' + new Date().getTime();
-        }
+        if (ryu2Gif) { let originalSrc = ryu2Gif.src.split('?')[0]; ryu2Gif.src = originalSrc + '?t=' + new Date().getTime(); }
+        if (ken2Gif) { let originalSrc = ken2Gif.src.split('?')[0]; ken2Gif.src = originalSrc + '?t=' + new Date().getTime(); }
       }
       const delayTime = isCorrect ? 2000 : 3000;
-  setTimeout(() => {
-    currentQuestion++;
-    if (currentQuestion < quizData.length) {
-      showQuestion();
-      validateBtn.style.display = "block";
-    } else {
-      showResultPage();
-    }
-  }, delayTime);
-});
-    
-    // Affichage de la page finale
-function showResultPage() {
-  quizContainer.style.display = "none";
-  resultPage.style.display = "block";
-  
-  const resultHeader = document.getElementById("result-header");
-  
-  if (score === quizData.length) {
-   restartBtn.style.animation = "borderGlowGreen 2s ease-in-out infinite";
-    resultPage.style.backgroundImage = "url('images/wall.png')";
-    resultHeader.src = "images/youwin.png";
-	resultHeader.style.transform = "translateX(40px)";
-	  resultHeader.style.marginTop = "10px";
-	      resultHeader.classList.add("victory-animation");
-    finalScoreEl.style.color = "#00ff1a"; // Couleur pour score parfait
-		 finalImage.classList.add("raised");
-		 finalImage.style.width = "190px";
-    // Si un intervalle avait été mis en place, on pourrait le nettoyer ici
-	  if (window.innerWidth <= 480) {
-      finalImage.style.width = "150px";  // Plus petit sur mobile
-    } else {
-      finalImage.style.width = "190px";  // Valeur par défaut sur desktop
-    }
-  } else {
-    restartBtn.style.animation = "borderGlow2 2s ease-in-out infinite";
-    resultPage.style.backgroundImage = "url('images/wall2.png')";
-    resultHeader.src = "images/tryagain.png";
-	resultHeader.style.transform = "";
-	  resultHeader.style.marginTop = "";
-    finalScoreEl.style.color = "red"; // Texte rouge pour score imparfait
-    
-    // Lancer l'animation une première fois :
-    resultHeader.classList.add("windmill-shake");
-	    finalImage.classList.remove("raised");
-		finalImage.style.width = "190px";
-    
-    // Puis, relancer l'animation après 2 secondes de délai après la fin de l'animation (0.8s)
-    // Ici, l'intervalle est de 2800ms (0.8 + 2 secondes)
-    setInterval(() => {
-      // Pour forcer le redémarrage de l'animation, il faut retirer puis ré-ajouter la classe
-      resultHeader.classList.remove("windmill-shake");
-      // Forcer un reflow pour que le navigateur reconnaisse le changement
-      void resultHeader.offsetWidth;
-      resultHeader.classList.add("windmill-shake");
-    }, 2800);
-  }
-  
-  resultPage.style.backgroundSize = "cover";
-  resultPage.style.backgroundPosition = "center";
-  
-  finalScoreEl.textContent = `Score : ${score} sur ${quizData.length}`;
-  
-  finalImage.src = (score === quizData.length)
-    ? "images/perfect.gif"
-    : ((Math.random() < 0.5) ? "images/lose1.gif" : "images/lose2.gif");
-  
-  // Lecture du son correspondant
-  if (score === quizData.length) {
-    document.getElementById("perfect-sound").currentTime = 0;
-    document.getElementById("perfect-sound").play();
-	
-  } else {
-    document.getElementById("imperfect-sound").currentTime = 0;
-    document.getElementById("imperfect-sound").play();
-  }
-}
-    
-    // Bouton de redémarrage
-    restartBtn.addEventListener("click", () => {
-      window.location.reload();
+      setTimeout(() => {
+        currentQuestion++;
+        if (currentQuestion < quizData.length) {
+          showQuestion();
+          validateBtn.style.display = "block";
+        } else {
+          showResultPage();
+        }
+      }, delayTime);
     });
     
-    // Force reload du GIF du mute et réattache l'écouteur
+    // Affichage de la page finale
+    function showResultPage() {
+      quizContainer.style.display = "none";
+      resultPage.style.display = "block";
+      const resultHeader = document.getElementById("result-header");
+      if (score === quizData.length) {
+        restartBtn.style.animation = "borderGlowGreen 2s ease-in-out infinite";
+        resultPage.style.backgroundImage = "url('images/wall.png')";
+        resultHeader.src = "images/youwin.png";
+        resultHeader.style.transform = "translateX(40px)";
+        resultHeader.style.marginTop = "10px";
+        resultHeader.classList.add("victory-animation");
+        finalScoreEl.style.color = "#00ff1a";
+        finalImage.classList.add("raised");
+        finalImage.style.width = (window.innerWidth <= 480) ? "150px" : "190px";
+      } else {
+        restartBtn.style.animation = "borderGlow2 2s ease-in-out infinite";
+        resultPage.style.backgroundImage = "url('images/wall2.png')";
+        resultHeader.src = "images/tryagain.png";
+        resultHeader.style.transform = "";
+        resultHeader.style.marginTop = "";
+        finalScoreEl.style.color = "red";
+        resultHeader.classList.add("windmill-shake");
+        finalImage.classList.remove("raised");
+        finalImage.style.width = "190px";
+        setInterval(() => {
+          resultHeader.classList.remove("windmill-shake");
+          void resultHeader.offsetWidth;
+          resultHeader.classList.add("windmill-shake");
+        }, 2800);
+      }
+      resultPage.style.backgroundSize = "cover";
+      resultPage.style.backgroundPosition = "center";
+      finalScoreEl.textContent = `Score : ${score} sur ${quizData.length}`;
+      finalImage.src = (score === quizData.length)
+        ? "images/perfect.gif"
+        : ((Math.random() < 0.5) ? "images/lose1.gif" : "images/lose2.gif");
+      if (score === quizData.length) {
+        document.getElementById("perfect-sound").currentTime = 0;
+        document.getElementById("perfect-sound").play();
+      } else {
+        document.getElementById("imperfect-sound").currentTime = 0;
+        document.getElementById("imperfect-sound").play();
+      }
+    }
+    
+    restartBtn.addEventListener("click", () => { window.location.reload(); });
+    
     window.addEventListener("load", function() {
       var muteImg = document.getElementById("mute-btn");
       if (muteImg && muteImg.src.indexOf(".gif") !== -1) {
@@ -744,20 +642,16 @@ function showResultPage() {
         newMuteImg.addEventListener("click", muteToggleHandler);
       }
     });
-	window.addEventListener("load", function() {
-  // Sélectionner l'image décorative par sa classe (ou son id, si vous préférez)
-  var decorImage = document.querySelector('.pikachu');
-  if (decorImage) {
-    // Tableau contenant les deux sources possibles
-    var decorGifs = ["images/decor1.gif", "images/decor2.gif"];
-    // Choix aléatoire
-    var randomIndex = Math.floor(Math.random() * decorGifs.length);
-    var randomGif = decorGifs[randomIndex];
-    // Met à jour l'attribut src de l'image
-    decorImage.src = randomGif;
-  }
-});
-
+    
+    window.addEventListener("load", function() {
+      var decorImage = document.querySelector('.pikachu');
+      if (decorImage) {
+        var decorGifs = ["images/decor1.gif", "images/decor2.gif"];
+        var randomIndex = Math.floor(Math.random() * decorGifs.length);
+        var randomGif = decorGifs[randomIndex];
+        decorImage.src = randomGif;
+      }
+    });
   </script>
 </body>
 </html>
