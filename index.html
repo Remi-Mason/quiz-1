@@ -86,7 +86,7 @@
       margin: 0 auto;
       max-width: 100%;
     }
-    /* Centrage général des images de résultat */
+    /* Forcer le centrage de l'image de résultat */
     #result-header {
       display: block;
       margin: 0 auto 20px;
@@ -314,7 +314,7 @@
       .container { width: 90%; padding: 15px; }
       #question-text { font-size: 18px; }
       #final-score { font-size: 20px; }
-      .floating-title { margin: 0 auto 0px; }
+      .floating-title { margin: 0 auto 20px; }
       .pikachu { margin: 0 auto; }
     }
     .startu { border-radius: 10px; }
@@ -351,15 +351,16 @@
       display: block;
       margin: 0 auto 20px;
     }
+    /* Modification de l'animation windmillShake pour forcer translateX(0) */
     @keyframes windmillShake {
-      0% { transform: rotate(0deg); }
-      15% { transform: rotate(15deg); }
-      30% { transform: rotate(-15deg); }
-      45% { transform: rotate(10deg); }
-      60% { transform: rotate(-10deg); }
-      75% { transform: rotate(5deg); }
-      90% { transform: rotate(-5deg); }
-      100% { transform: rotate(0deg); }
+      0%   { transform: translateX(0) rotate(0deg); }
+      15%  { transform: translateX(0) rotate(15deg); }
+      30%  { transform: translateX(0) rotate(-15deg); }
+      45%  { transform: translateX(0) rotate(10deg); }
+      60%  { transform: translateX(0) rotate(-10deg); }
+      75%  { transform: translateX(0) rotate(5deg); }
+      90%  { transform: translateX(0) rotate(-5deg); }
+      100% { transform: translateX(0) rotate(0deg); }
     }
     .windmill-shake {
       animation: windmillShake 0.8s ease-in-out forwards;
@@ -370,26 +371,18 @@
       margin-bottom: -10px !important;
     }
     @keyframes victoryAnimation {
-      0% { transform: scale(1) rotate(0deg); }
-      20% { transform: scale(1.1) rotate(3deg); }
-      40% { transform: scale(1) rotate(-3deg); }
-      60% { transform: scale(1.1) rotate(3deg); }
-      80% { transform: scale(1) rotate(-3deg); }
-      90% { transform: scale(1) rotate(0deg); }
+      0%   { transform: scale(1) rotate(0deg); }
+      20%  { transform: scale(1.1) rotate(3deg); }
+      40%  { transform: scale(1) rotate(-3deg); }
+      60%  { transform: scale(1.1) rotate(3deg); }
+      80%  { transform: scale(1) rotate(-3deg); }
+      90%  { transform: scale(1) rotate(0deg); }
       100% { transform: scale(1) rotate(0deg); }
     }
     .victory-animation {
       animation: victoryAnimation 2s ease-in-out infinite;
       transform-origin: center;
     }
-	@media (max-width: 480px) {
-  .pikachu {
-    width: 90%;
-    margin: 0 auto;
-    transform: translateX(0px); /* Ajustez la valeur pour centrer visuellement */
-  }
-}
-
   </style>
 </head>
 <body>
@@ -404,9 +397,9 @@
   
   <!-- Page d'accueil -->
   <div class="container" id="home">
-    <!-- Titre centré via la classe floating-title -->
+    <!-- Titre centré -->
     <img src="images/titre.png" alt="quiz ssiap1" class="floating-title">
-    <!-- Image décorative centrée via la classe pikachu -->
+    <!-- Décor centré -->
     <img src="images/decor.gif" alt="pik" class="pikachu">
     <!-- Bouton mute -->
     <img id="mute-btn" src="images/mute-off.gif" alt="Son activé" style="cursor: pointer; width: 30px; height: 25px; margin-bottom: -5px; margin-top: 10px">
@@ -606,7 +599,7 @@
         restartBtn.style.animation = "borderGlowGreen 2s ease-in-out infinite";
         resultPage.style.backgroundImage = "url('images/wall.png')";
         resultHeader.src = "images/youwin.png";
-        // Suppression du décalage horizontal pour centrer l'image
+        // Pour le score parfait, on centre l'image sans décalage
         resultHeader.style.transform = "translateX(0)";
         resultHeader.style.marginTop = "10px";
         resultHeader.classList.add("victory-animation");
@@ -617,8 +610,9 @@
         restartBtn.style.animation = "borderGlow2 2s ease-in-out infinite";
         resultPage.style.backgroundImage = "url('images/wall2.png')";
         resultHeader.src = "images/tryagain.png";
-        resultHeader.style.transform = "";
-        resultHeader.style.marginTop = "";
+        // Supprimer tout décalage afin de centrer tryagain.png
+        resultHeader.style.transform = "translateX(0)";
+        resultHeader.style.marginTop = "10px";
         finalScoreEl.style.color = "red";
         resultHeader.classList.add("windmill-shake");
         finalImage.classList.remove("raised");
