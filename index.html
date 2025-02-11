@@ -482,6 +482,26 @@
   </div>
   
   <script>
+	document.addEventListener("DOMContentLoaded", function() {
+  var muteImg = document.getElementById("mute-btn");
+  if (muteImg && muteImg.src.indexOf(".gif") !== -1) {
+    var newMuteImg = muteImg.cloneNode(true);
+    newMuteImg.src = newMuteImg.src.split('?')[0] + '?t=' + new Date().getTime();
+    muteImg.parentNode.replaceChild(newMuteImg, muteImg);
+    newMuteImg.addEventListener("click", muteToggleHandler);
+  }
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+  var decorImage = document.querySelector('.pikachu');
+  if (decorImage) {
+    var decorGifs = ["images/decor1.gif", "images/decor2.gif"];
+    var randomIndex = Math.floor(Math.random() * decorGifs.length);
+    var randomGif = decorGifs[randomIndex];
+    decorImage.src = randomGif;
+  }
+});
+  
     // Données du quiz
     const quizData = [
       {
@@ -694,26 +714,6 @@
     }
     
     restartBtn.addEventListener("click", () => { window.location.reload(); });
-    
-    window.addEventListener("load", function() {
-      var muteImg = document.getElementById("mute-btn");
-      if (muteImg && muteImg.src.indexOf(".gif") !== -1) {
-        var newMuteImg = muteImg.cloneNode(true);
-        newMuteImg.src = newMuteImg.src.split('?')[0] + '?t=' + new Date().getTime();
-        muteImg.parentNode.replaceChild(newMuteImg, muteImg);
-        newMuteImg.addEventListener("click", muteToggleHandler);
-      }
-    });
-    
-    window.addEventListener("load", function() {
-      var decorImage = document.querySelector('.pikachu');
-      if (decorImage) {
-        var decorGifs = ["images/decor1.gif", "images/decor2.gif"];
-        var randomIndex = Math.floor(Math.random() * decorGifs.length);
-        var randomGif = decorGifs[randomIndex];
-        decorImage.src = randomGif;
-      }
-    });
   </script>
 </body>
 </html>
