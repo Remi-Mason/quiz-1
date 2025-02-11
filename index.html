@@ -633,9 +633,17 @@ document.addEventListener("DOMContentLoaded", function() {
           </div>
         `;
         let ryuGif = document.querySelector('.decor-left');
-        let kenGif = document.querySelector('.decor-right');
-        if (ryuGif) { let originalSrc = ryuGif.src.split('?')[0]; ryuGif.src = originalSrc + '?t=' + new Date().getTime(); }
-        if (kenGif) { let originalSrc = kenGif.src.split('?')[0]; kenGif.src = originalSrc + '?t=' + new Date().getTime(); }
+if (ryuGif) {
+  // Clone l'image pour redémarrer l'animation sans forcer un rechargement depuis le serveur
+  const newRyuGif = ryuGif.cloneNode(true);
+  ryuGif.parentNode.replaceChild(newRyuGif, ryuGif);
+}
+let kenGif = document.querySelector('.decor-right');
+if (KenGif) {
+  // Clone l'image pour redémarrer l'animation sans forcer un rechargement depuis le serveur
+  const newKenGif = kenGif.cloneNode(true);
+  ryuGif.parentNode.replaceChild(newKenGif, kenGif);
+}
       } else {
         const selectedSound = (Math.random() < 0.5) ? incorrectSound : incorrectSound2;
         selectedSound.currentTime = 0;
