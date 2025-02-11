@@ -482,26 +482,6 @@
   </div>
   
   <script>
-	document.addEventListener("DOMContentLoaded", function() {
-  var muteImg = document.getElementById("mute-btn");
-  if (muteImg && muteImg.src.indexOf(".gif") !== -1) {
-    var newMuteImg = muteImg.cloneNode(true);
-    newMuteImg.src = newMuteImg.src.split('?')[0] + '?t=' + new Date().getTime();
-    muteImg.parentNode.replaceChild(newMuteImg, muteImg);
-    newMuteImg.addEventListener("click", muteToggleHandler);
-  }
-});
-
-document.addEventListener("DOMContentLoaded", function() {
-  var decorImage = document.querySelector('.pikachu');
-  if (decorImage) {
-    var decorGifs = ["images/decor1.gif", "images/decor2.gif"];
-    var randomIndex = Math.floor(Math.random() * decorGifs.length);
-    var randomGif = decorGifs[randomIndex];
-    decorImage.src = randomGif;
-  }
-});
-  
     // Données du quiz
     const quizData = [
       {
@@ -545,6 +525,13 @@ document.addEventListener("DOMContentLoaded", function() {
     const startSound = document.getElementById("start-sound");
     const correctSound = document.getElementById("correct-sound");
     const incorrectSound = document.getElementById("incorrect-sound");
+    
+    // Précharger les images des GIFs
+    const preloadImages = ["images/ryu.gif", "images/ken.gif", "images/ryu2.gif", "images/ken2.gif"];
+    preloadImages.forEach(src => {
+      const img = new Image();
+      img.src = src;
+    });
     
     // Fonction de basculement mute
     function muteToggleHandler() {
@@ -632,18 +619,17 @@ document.addEventListener("DOMContentLoaded", function() {
             <img src="images/ken.gif" alt="Décoration droite" class="decor-right">
           </div>
         `;
+        // Clonage pour redémarrer l'animation des GIFs
         let ryuGif = document.querySelector('.decor-left');
-if (ryuGif) {
-  // Clone l'image pour redémarrer l'animation sans forcer un rechargement depuis le serveur
-  const newRyuGif = ryuGif.cloneNode(true);
-  ryuGif.parentNode.replaceChild(newRyuGif, ryuGif);
-}
-let kenGif = document.querySelector('.decor-right');
-if (KenGif) {
-  // Clone l'image pour redémarrer l'animation sans forcer un rechargement depuis le serveur
-  const newKenGif = kenGif.cloneNode(true);
-  ryuGif.parentNode.replaceChild(newKenGif, kenGif);
-}
+        if (ryuGif) {
+          const newRyuGif = ryuGif.cloneNode(true);
+          ryuGif.parentNode.replaceChild(newRyuGif, ryuGif);
+        }
+        let kenGif = document.querySelector('.decor-right');
+        if (kenGif) {
+          const newKenGif = kenGif.cloneNode(true);
+          kenGif.parentNode.replaceChild(newKenGif, kenGif);
+        }
       } else {
         const selectedSound = (Math.random() < 0.5) ? incorrectSound : incorrectSound2;
         selectedSound.currentTime = 0;
@@ -657,10 +643,17 @@ if (KenGif) {
           <div class="incorrect-answer-header">Réponse :</div>
           <div class="incorrect-answer-text">${data.correctAnswers.join(", ")}</div>
         `;
+        // Clonage pour redémarrer l'animation des GIFs
         let ryu2Gif = document.querySelector('.decor-leftX');
+        if (ryu2Gif) {
+          const newRyu2Gif = ryu2Gif.cloneNode(true);
+          ryu2Gif.parentNode.replaceChild(newRyu2Gif, ryu2Gif);
+        }
         let ken2Gif = document.querySelector('.decor-rightX');
-        if (ryu2Gif) { let originalSrc = ryu2Gif.src.split('?')[0]; ryu2Gif.src = originalSrc + '?t=' + new Date().getTime(); }
-        if (ken2Gif) { let originalSrc = ken2Gif.src.split('?')[0]; ken2Gif.src = originalSrc + '?t=' + new Date().getTime(); }
+        if (ken2Gif) {
+          const newKen2Gif = ken2Gif.cloneNode(true);
+          ken2Gif.parentNode.replaceChild(newKen2Gif, ken2Gif);
+        }
       }
       const delayTime = isCorrect ? 2000 : 3000;
       setTimeout(() => {
@@ -722,6 +715,26 @@ if (KenGif) {
     }
     
     restartBtn.addEventListener("click", () => { window.location.reload(); });
+    
+    window.addEventListener("load", function() {
+      var muteImg = document.getElementById("mute-btn");
+      if (muteImg && muteImg.src.indexOf(".gif") !== -1) {
+        var newMuteImg = muteImg.cloneNode(true);
+        newMuteImg.src = newMuteImg.src.split('?')[0] + '?t=' + new Date().getTime();
+        muteImg.parentNode.replaceChild(newMuteImg, muteImg);
+        newMuteImg.addEventListener("click", muteToggleHandler);
+      }
+    });
+    
+    window.addEventListener("load", function() {
+      var decorImage = document.querySelector('.pikachu');
+      if (decorImage) {
+        var decorGifs = ["images/decor1.gif", "images/decor2.gif"];
+        var randomIndex = Math.floor(Math.random() * decorGifs.length);
+        var randomGif = decorGifs[randomIndex];
+        decorImage.src = randomGif;
+      }
+    });
   </script>
 </body>
 </html>
