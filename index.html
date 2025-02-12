@@ -727,16 +727,16 @@
         newMuteImg.addEventListener("click", muteToggleHandler);
       }
     });
-    
-    window.addEventListener("load", function() {
-      var decorImage = document.querySelector('.pikachu');
-      if (decorImage) {
-        var decorGifs = ["images/decor1.gif", "images/decor2.gif"];
-        var randomIndex = Math.floor(Math.random() * decorGifs.length);
-        var randomGif = decorGifs[randomIndex];
-        decorImage.src = randomGif;
-      }
-    });
+	  document.addEventListener("DOMContentLoaded", function() {
+  var decorImage = document.querySelector('.pikachu');
+  if (decorImage) {
+    var decorGifs = ["images/decor1.gif", "images/decor2.gif"];
+    var randomIndex = Math.floor(Math.random() * decorGifs.length);
+    var randomGif = decorGifs[randomIndex];
+    decorImage.src = randomGif;
+    decorImage.style.visibility = 'visible';
+  }
+});
   </script>
 </body>
 </html>
