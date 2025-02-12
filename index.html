@@ -551,6 +551,15 @@
       }
     }
     muteBtn.addEventListener("click", muteToggleHandler);
+	  document.addEventListener("DOMContentLoaded", function() {
+  var muteImg = document.getElementById("mute-btn");
+  if (muteImg && muteImg.src.indexOf(".gif") !== -1) {
+    var newMuteImg = muteImg.cloneNode(true);
+    newMuteImg.src = newMuteImg.src.split('?')[0] + '?t=' + new Date().getTime();
+    muteImg.parentNode.replaceChild(newMuteImg, muteImg);
+    newMuteImg.addEventListener("click", muteToggleHandler);
+  }
+});
     
     // Démarrage du quiz
     startBtn.addEventListener("click", () => {
@@ -718,15 +727,6 @@
     
     restartBtn.addEventListener("click", () => { window.location.reload(); });
     
-    window.addEventListener("load", function() {
-      var muteImg = document.getElementById("mute-btn");
-      if (muteImg && muteImg.src.indexOf(".gif") !== -1) {
-        var newMuteImg = muteImg.cloneNode(true);
-        newMuteImg.src = newMuteImg.src.split('?')[0] + '?t=' + new Date().getTime();
-        muteImg.parentNode.replaceChild(newMuteImg, muteImg);
-        newMuteImg.addEventListener("click", muteToggleHandler);
-      }
-    });
 	  document.addEventListener("DOMContentLoaded", function() {
   var decorImage = document.querySelector('.pikachu');
   if (decorImage) {
