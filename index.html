@@ -750,7 +750,14 @@
 document.addEventListener("DOMContentLoaded", function() {
   const audios = document.querySelectorAll("audio");
   audios.forEach(audio => {
-    audio.load(); // Force le chargement de l'audio
+    audio.volume = 0;         // Met le volume à zéro
+    audio.play().then(() => {
+      audio.pause();          // Pause juste après le démarrage
+      audio.currentTime = 0;  // Réinitialise le temps de lecture
+      audio.volume = 1;       // Rétablit le volume initial (selon vos réglages)
+    }).catch(error => {
+      console.error("Erreur lors du préchargement audio:", error);
+    });
   });
 });
   </script>
