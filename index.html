@@ -750,13 +750,18 @@
 document.addEventListener("DOMContentLoaded", function() {
   const audios = document.querySelectorAll("audio");
   audios.forEach(audio => {
-    audio.volume = 0;         // Met le volume à zéro
+    // Stocke le volume initial
+    const initialVolume = audio.volume;
+    // Tente de précharger
+    audio.volume = 0;
     audio.play().then(() => {
-      audio.pause();          // Pause juste après le démarrage
-      audio.currentTime = 0;  // Réinitialise le temps de lecture
-      audio.volume = 1;       // Rétablit le volume initial (selon vos réglages)
+      audio.pause();
+      audio.currentTime = 0;
+      audio.volume = initialVolume; // Rétablit le volume initial
     }).catch(error => {
       console.error("Erreur lors du préchargement audio:", error);
+      // Même en cas d'erreur, rétablis le volume
+      audio.volume = initialVolume;
     });
   });
 });
