@@ -747,6 +747,12 @@
     decorImage.style.visibility = 'visible';
   }
 });
+document.addEventListener("DOMContentLoaded", function() {
+  const audios = document.querySelectorAll("audio");
+  audios.forEach(audio => {
+    audio.load(); // Force le chargement de l'audio
+  });
+});
   </script>
 </body>
 </html>
