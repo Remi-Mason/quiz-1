@@ -91,11 +91,13 @@
       display: block;
       margin: 0 auto;
       max-width: 100%;
+	  margin-bottom: 20px;
     }
     /* Centrage général des images de résultat */
     #result-header {
       display: block;
       margin: 0 auto 20px;
+	  margin-left: 20px;
     }
     /* Styles généraux */
     html, body {
@@ -170,11 +172,10 @@
     }
     #question-counter {
       font-weight: bold;
-      margin-bottom: 5px;
       font-family: Arial, sans-serif;
       color: white;
-      margin-top: -10px;
-      margin-bottom: 10px;
+      margin-top: -20px;
+      margin-bottom: 0px;
     }
     #question-text {
       width: 95%;
@@ -256,12 +257,13 @@
       margin-top: 5px;
     }
     .incorrect-answer-header {
-      margin-top: 0px;
+      margin-top: -40px;
       font-weight: bold;
       font-size: 18px;
       font-family: 'Arial Black', Arial, sans-serif;
       text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 3px 3px 5px black;
       color: white;
+
     }
     .correct-container {
       display: flex;
@@ -273,12 +275,12 @@
     .correct-container .result-image.correct {
       animation: popAnimation 0.5s ease-out;
       width: 80px;
-      margin-bottom: 25px;
+      margin-top: -40px;
       z-index: 1;
     }
     .result-image.incorrect {
       width: 80px;
-      margin-top: 25px;
+      margin-top: -60px;
       animation: shake 0.5s ease-in-out;
     }
     /* Page finale */
@@ -326,13 +328,13 @@
     .startu { border-radius: 10px; }
     .decor-right {
       width: 80px;
-      transform: translate(-42px, -7px);
+      transform: translate(-42px, -20px);
       z-index: 0;
       padding: 12px 0px;
     }
     .decor-left {
       width: 80px;
-      transform: translate(40px, -6px);
+      transform: translate(40px, -20px);
       z-index: 0;
       padding: 12px 0px;
     }
@@ -343,13 +345,13 @@
     }
     .decor-rightX {
       width: 80px;
-      transform: translate(-50px, 0px);
+      transform: translate(-50px, -40px);
       z-index: 0;
       padding: 12px 0px;
     }
     .decor-leftX {
       width: 80px;
-      transform: translate(50px, 0px);
+      transform: translate(50px, -40px);
       z-index: 0;
       padding: 12px 0px;
     }
@@ -463,7 +465,7 @@
     <!-- Image décorative centrée via la classe pikachu -->
     <img src="" alt="pik" class="pikachu" style="visibility: hidden;">
     <!-- Bouton mute -->
-    <img id="mute-btn" src="images/mute-off.gif" alt="Son activé" style="cursor: pointer; width: 30px; height: 25px; margin-bottom: -5px; margin-top: 10px">
+    <img id="mute-btn" src="images/mute-off.gif" alt="Son activé" style="cursor: pointer; width: 30px; height: 25px; margin-bottom: 10px; margin-top: 10px">
     <button id="start-btn"><img src="images/start.png" style="margin-left: 5px;"></button>
   </div>
   
@@ -692,7 +694,6 @@
         resultPage.style.backgroundImage = "url('images/wall.png')";
         resultHeader.src = "images/youwin.png";
         // Suppression du décalage horizontal pour centrer l'image
-        resultHeader.style.transform = "translateX(0)";
         resultHeader.style.marginTop = "10px";
         resultHeader.classList.add("victory-animation");
         finalScoreEl.style.color = "#00ff1a";
