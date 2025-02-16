@@ -668,10 +668,10 @@
           <div class="incorrect-answer-header">Réponse :</div>
           <div class="incorrect-answer-text">${data.correctAnswers.join(", ")}</div>
         `;
-        // Après 2 secondes, remplacer les images par un bouton "Suivant"
+        // Après 2 secondes, remplacer les images par un bouton "Suivant" positionné plus haut
         setTimeout(() => {
           resultDiv.innerHTML = `
-            <button id="next-btn">Suivant</button>
+            <button id="next-btn" style="margin-bottom: -20px;">Suivant</button>
             <div class="incorrect-answer-header">Réponse :</div>
             <div class="incorrect-answer-text">${data.correctAnswers.join(", ")}</div>
           `;
