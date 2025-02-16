@@ -1,62 +1,735 @@
-validateBtn.addEventListener("click", () => {
-  // Si le bouton affiche "Suivant", passer à la question suivante
-  if (validateBtn.textContent === "Suivant") {
-    currentQuestion++;
-    if (currentQuestion < quizData.length) {
-      showQuestion();
-      validateBtn.style.display = "block";
-    } else {
-      showResultPage();
-    }
-    return; // On quitte le gestionnaire ici
-  }
-
-  const data = quizData[currentQuestion];
-  const selected = Array.from(document.querySelectorAll('input[name="option"]:checked')).map(el => el.value);
-  if (selected.length === 0) { 
-    alert("Veuillez sélectionner au moins une réponse"); 
-    return; 
-  }
-  const isCorrect = arraysEqual(selected, data.correctAnswers);
-  validateBtn.style.display = "none";
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Quiz Sécurité Incendie</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Couleur pour Android (Chrome) -->
+  <meta name="theme-color" content="#A9A9A9">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <!-- Préchargement de quelques images critiques -->
+  <link rel="preload" as="image" href="images/wall.png">
+  <link rel="preload" as="image" href="images/wall2.png">
+  <link rel="preload" as="image" href="images/correct.png">
+  <link rel="preload" as="image" href="images/incorrect.png">
+  <link rel="preload" as="image" href="images/decor1.gif">
+  <link rel="preload" as="image" href="images/decor2.gif">
+  <link rel="preload" as="image" href="images/fire empty.png">
+  <link rel="preload" as="image" href="images/fire full.png">
+  <link rel="preload" as="image" href="images/ryu.gif">
+  <link rel="preload" as="image" href="images/ken.gif">
+  <link rel="preload" as="image" href="images/ryu2.gif">
+  <link rel="preload" as="image" href="images/ken2.gif">
+  <link rel="preload" as="image" href="images/mute-off.gif">
+  <link rel="preload" as="image" href="images/mute-on.gif">
+  <link rel="preload" as="image" href="images/perfect.gif">
+  <link rel="preload" as="image" href="images/tryagain.png">
+  <link rel="preload" as="image" href="images/youwin.png">
+  <link rel="preload" as="image" href="images/lose1.gif">
+  <link rel="preload" as="image" href="images/lose2.gif">
   
-  if (isCorrect) {
-    score++;
-    correctSound.currentTime = 0;
-    correctSound.play();
-    resultDiv.innerHTML = `
-      <div class="correct-container">
-        <img src="images/ryu.gif" alt="Décoration gauche" class="decor-left">
-        <img src="images/correct.png" alt="Bonne réponse" class="result-image correct">
-        <img src="images/ken.gif" alt="Décoration droite" class="decor-right">
-      </div>
-    `;
-    // Pour une bonne réponse, on passe automatiquement à la question suivante après un délai
-    const delayTime = 2000;
-    setTimeout(() => {
-      currentQuestion++;
-      if (currentQuestion < quizData.length) {
-        showQuestion();
-        validateBtn.style.display = "block";
-      } else {
-        showResultPage();
+  <style>
+    /* Animations et styles identiques à votre version initiale */
+    @keyframes shake {
+      0% { transform: translate(0, 0); }
+      10% { transform: translate(-10px, -10px); }
+      20% { transform: translate(10px, 10px); }
+      30% { transform: translate(-10px, 10px); }
+      40% { transform: translate(10px, -10px); }
+      50% { transform: translate(-10px, -10px); }
+      60% { transform: translate(10px, 10px); }
+      70% { transform: translate(-10px, 10px); }
+      80% { transform: translate(10px, -10px); }
+      90% { transform: translate(-10px, -10px); }
+      100% { transform: translate(0, 0); }
+    }
+    @keyframes popAnimation {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1); }
+    }
+    @keyframes blink {
+      0% { opacity: 1; }
+      50% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+    @keyframes glow-green {
+      0% { box-shadow: 0 0 5px rgba(0,255,0,0.7); }
+      50% { box-shadow: 0 0 20px rgba(0,255,0,0.9); }
+      100% { box-shadow: 0 0 5px rgba(0,255,0,0.7); }
+    }
+    @keyframes borderGlow {
+      0%, 100% { box-shadow: 0 0 5px 2px #00e5ff; }
+      50% { box-shadow: 0 0 20px 2px #00e5ff; }
+    }
+    @keyframes borderGlow2 {
+      0%, 100% { box-shadow: 0 0 5px 2px rgba(255,0,0,0.7); }
+      50% { box-shadow: 0 0 20px 2px rgba(255,0,0,0.7); }
+    }
+    @keyframes borderGlowGreen {
+      0%, 100% { box-shadow: 0 0 5px 2px rgba(0,255,0,0.7); }
+      50% { box-shadow: 0 0 20px 2px rgba(0,255,0,0.7); }
+    }
+    @keyframes floatAnimation {
+      0%   { transform: translateY(0); }
+      25%  { transform: translateY(-3px); }
+      50%  { transform: translateY(0); }
+      75%  { transform: translateY(5px); }
+      100% { transform: translateY(0); }
+    }
+    .floating-title {
+      animation: floatAnimation 8s ease-in-out infinite;
+      display: block;
+      margin: 0 auto 20px;
+      max-width: 90%;
+    }
+    .pikachu {
+      border: 3px solid white;
+      display: block;
+      margin: 0 auto;
+      max-width: 100%;
+      margin-bottom: 20px;
+    }
+    #result-header {
+      display: block;
+      margin: 0 auto 20px;
+      margin-left: 20px;
+    }
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #2C2C2C, #555555, #888888, #BBBBBB);
+      background-size: 100% 100%;
+    }
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .container {
+      width: 360px;
+      max-width: 90%;
+      background: url('images/wall.png') no-repeat center center;
+      background-size: cover;
+      border: 3px solid white;
+      border-radius: 15px;
+      text-align: center;
+      padding: 30px;
+      margin: 20px auto;
+      transition: transform 0.3s ease;
+    }
+    #home { width: 360px; }
+    #start-btn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 140px;
+      height: 80px;
+      margin: 20px auto;
+      padding: 5px 10px;
+      font-size: 18px;
+      cursor: pointer;
+      background: linear-gradient(to top, black, gray);
+      color: white;
+      font-weight: bold;
+      border: 2px solid white;
+      border-radius: 10px;
+      text-shadow: 1px 1px 2px black;
+      transition: transform 0.1s ease-in-out;
+      animation: borderGlow 2s ease-in-out infinite;
+      position: relative;
+      overflow: visible;
+    }
+    #start-btn:active {
+      transform: scale(0.95);
+      animation: glow-green 1.5s infinite ease-in-out, blink 0.3s infinite ease-in-out;
+    }
+    #start-btn img {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 140px;
+      height: auto;
+      pointer-events: none;
+    }
+    #quiz-container {
+      background: linear-gradient(135deg, #2c2c2c, #808080);
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      text-align: center;
+      display: none;
+    }
+    #question-counter {
+      font-weight: bold;
+      font-family: Arial, sans-serif;
+      color: white;
+      margin-top: -20px;
+      margin-bottom: 0px;
+    }
+    #question-text {
+      width: 95%;
+      margin: 0 auto;
+      font-family: 'Arial Black', Arial, sans-serif;
+      font-weight: bold;
+      font-size: 22px;
+      margin-bottom: 15px;
+      color: white;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 3px 3px 5px black;
+      line-height: 1.5;
+    }
+    .options {
+      font-family: Arial, sans-serif;
+      font-size: 18px;
+      color: white;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 3px 3px 5px black;
+      text-align: left;
+      margin: 0 0 30px 20px;
+      padding-left: 20px;
+    }
+    .option {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      margin-bottom: 10px;
+    }
+    .option input[type="checkbox"] { display: none; }
+    .option label { display: inline-flex; align-items: center; }
+    .option label:before {
+      content: "";
+      display: inline-block;
+      width: 60px;
+      height: 60px;
+      margin-right: 8px;
+      margin-left: -60px;
+      background: url('images/fire empty.png') no-repeat center;
+      background-size: contain;
+      flex-shrink: 0;
+    }
+    .option input[type="checkbox"]:checked + label:before {
+      background: url('images/fire full.png') no-repeat center;
+      background-size: contain;
+      width: 60px;
+      height: 60px;
+    }
+    #validate-btn {
+      font-weight: bold;
+      margin: 0 auto;
+      margin-top: 30px;
+      display: block;
+      padding: 15px 25px;
+      font-size: 25px;
+      border: 3px solid white;
+      border-radius: 10px;
+      background-color: #1a1d21;
+      color: white;
+      cursor: pointer;
+      transition: transform 0.1s ease, box-shadow 0.1s ease;
+      animation: borderGlow 2s ease-in-out infinite;
+    }
+    #validate-btn:active { transform: translateY(2px) scale(0.98); }
+    #result { margin-top: 20px; }
+    .result-image {
+      width: 60px;
+      display: block;
+      margin: 10px auto;
+    }
+    .incorrect-answer-text {
+      color: red;
+      font-size: 20px;
+      font-weight: bold;
+      font-family: 'Arial Black', Arial, sans-serif;
+      text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff, 3px 3px 5px black;
+      margin: 5px 0 10px;
+    }
+    .incorrect-answer-header {
+      margin-top: -40px;
+      font-weight: bold;
+      font-size: 18px;
+      font-family: 'Arial Black', Arial, sans-serif;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 3px 3px 5px black;
+      color: white;
+    }
+    .correct-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .correct-decoration { width: 60px; }
+    .correct-container .result-image.correct {
+      animation: popAnimation 0.5s ease-out;
+      width: 80px;
+      margin-top: -40px;
+      z-index: 1;
+    }
+    .result-image.incorrect {
+      width: 80px;
+      margin-top: -60px;
+      animation: shake 0.5s ease-in-out;
+    }
+    #result-page { display: none; }
+    #result-page h2 { font-size: 24px; margin-bottom: 20px; }
+    #final-score {
+      margin-top: -15px;
+      margin-bottom: 15px;
+      font-weight: bold;
+      font-size: 25px;
+      font-family: 'Arial Black', Arial, sans-serif;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 3px 3px 5px black;
+      color: #00ff1a;
+    }
+    #restart-btn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 160px;
+      height: 65px;
+      margin: 20px auto;
+      padding: 5px 20px;
+      font-size: 18px;
+      cursor: pointer;
+      background: linear-gradient(to top, black, gray);
+      color: white;
+      font-weight: bold;
+      border: 2px solid white;
+      border-radius: 10px;
+      text-shadow: 1px 1px 2px black;
+      transition: transform 0.1s ease-in-out;
+      position: relative;
+      overflow: visible;
+      animation: borderGlow2 2s ease-in-out infinite;
+    }
+    #restart-btn:active { transform: scale(0.95); }
+    @media (max-width: 480px) {
+      .container { width: 90%; padding: 15px; padding-top: 20px; }
+      #question-text { font-size: 18px; }
+      #final-score { font-size: 20px; }
+      .floating-title { margin: 0 auto 10px; }
+      .pikachu { margin: 0 auto; }
+    }
+    .startu { border-radius: 10px; }
+    .decor-right {
+      width: 80px;
+      transform: translate(-32px, -20px);
+      z-index: 0;
+      padding: 12px 0px;
+    }
+    .decor-left {
+      width: 80px;
+      transform: translate(30px, -20px);
+      z-index: 0;
+      padding: 12px 0px;
+    }
+    .incorrect-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .decor-rightX {
+      width: 80px;
+      transform: translate(-40px, -40px);
+      z-index: 0;
+      padding: 12px 0px;
+    }
+    .decor-leftX {
+      width: 80px;
+      transform: translate(40px, -40px);
+      z-index: 0;
+      padding: 12px 0px;
+    }
+    .again {
+      display: block;
+      margin: 0 auto;
+    }
+    @keyframes windmillShake {
+      0% { transform: rotate(0deg); }
+      15% { transform: rotate(15deg); }
+      30% { transform: rotate(-15deg); }
+      45% { transform: rotate(10deg); }
+      60% { transform: rotate(-10deg); }
+      75% { transform: rotate(5deg); }
+      90% { transform: rotate(-5deg); }
+      100% { transform: rotate(0deg); }
+    }
+    .windmill-shake {
+      animation: windmillShake 0.8s ease-in-out forwards;
+      transform-origin: center;
+    }
+    .raised {
+      transform: translateY(-20px);
+      margin-bottom: -10px !important;
+    }
+    @keyframes victoryAnimation {
+      0% { transform: scale(1) rotate(0deg); }
+      20% { transform: scale(1.1) rotate(3deg); }
+      40% { transform: scale(1) rotate(-3deg); }
+      60% { transform: scale(1.1) rotate(3deg); }
+      80% { transform: scale(1) rotate(-3deg); }
+      90% { transform: scale(1) rotate(0deg); }
+      100% { transform: scale(1) rotate(0deg); }
+    }
+    .victory-animation {
+      animation: victoryAnimation 2s ease-in-out infinite;
+      transform-origin: center;
+    }
+    @media (max-width: 480px) {
+      .pikachu {
+        width: 85%;
+        margin: 0 auto;
+        transform: translateX(0px);
       }
-    }, delayTime);
-  } else {
-    const selectedSound = (Math.random() < 0.5) ? incorrectSound : incorrectSound2;
-    selectedSound.currentTime = 0;
-    selectedSound.play();
-    resultDiv.innerHTML = `
-      <div class="incorrect-container">
-        <img src="images/ryu2.gif" alt="Décoration gauche" class="decor-leftX">
-        <img src="images/incorrect.png" alt="Mauvaise réponse" class="result-image incorrect">
-        <img src="images/ken2.gif" alt="Décoration droite" class="decor-rightX">
-      </div>
-      <div class="incorrect-answer-header">Réponse :</div>
-      <div class="incorrect-answer-text">${data.correctAnswers.join(", ")}</div>
-    `;
-    // Changer le texte du bouton en "Suivant"
-    validateBtn.textContent = "Suivant";
-    // On n'appelle pas de setTimeout ici, on attend le clic de l'utilisateur
-  }
-});
+    }
+    @media (max-width: 480px) {
+      .again {
+        width: 85%;
+        margin: 0 auto;
+        transform: translateX(0px);
+      }
+    }
+    @media (max-width: 480px) {
+      #result-header {
+        display: block;
+        margin: 0 auto 20px;
+        width: 85%;
+      }
+    }
+    @media (max-width: 480px) {
+      .decor-right {
+        width: 80px;
+        transform: translate(-12px, -20px);
+        z-index: 0;
+        padding: 12px 0px;
+      }
+    }
+    @media (max-width: 480px) {
+      .decor-left {
+        width: 80px;
+        transform: translate(10px, -20px);
+        z-index: 0;
+        padding: 12px 0px;
+      }
+    }
+    @media (max-width: 480px) {
+      .decor-rightX {
+        width: 80px;
+        transform: translate(-10px, -40px);
+        z-index: 0;
+        padding: 12px 0px;
+      }
+    }
+    @media (max-width: 480px) {
+      .decor-leftX {
+        width: 80px;
+        transform: translate(10px, -40px);
+        z-index: 0;
+        padding: 12px 0px;
+      }
+    }
+    @media (max-width: 480px) {
+      #question-text { font-size: 22px; }
+    }
+    @media (max-width: 480px) {
+      #mute-btn {
+        margin-top: 30px!important;
+      }
+    }
+    @media (max-width: 480px) {
+      #final-score {
+        font-size: 28px !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Éléments audio -->
+  <audio id="checkbox-sound" src="audio/select.mp3" preload="auto"></audio>
+  <audio id="start-sound" src="audio/start.mp3" preload="auto"></audio>
+  <audio id="correct-sound" src="audio/correct.mp3" preload="auto"></audio>
+  <audio id="incorrect-sound" src="audio/incorrect.mp3" preload="auto"></audio>
+  <audio id="incorrect-sound2" src="audio/incorrect2.mp3" preload="auto"></audio>
+  <audio id="perfect-sound" src="audio/perfect.mp3" preload="auto"></audio>
+  <audio id="imperfect-sound" src="audio/imperfect.mp3" preload="auto"></audio>
+  
+  <!-- Page d'accueil -->
+  <div class="container" id="home">
+    <img src="images/titre.png" alt="quiz ssiap1" class="floating-title">
+    <img src="" alt="pik" class="pikachu" style="visibility: hidden;">
+    <img id="mute-btn" src="images/mute-off.gif" alt="Son activé" style="cursor: pointer; width: 30px; height: 25px; margin-bottom: 10px; margin-top: 10px">
+    <button id="start-btn"><img src="images/start.png" style="margin-left: 5px;"></button>
+  </div>
+  
+  <!-- Zone du quiz -->
+  <div class="container" id="quiz-container">
+    <div id="question-counter">Question 1 / <span id="total-questions"></span></div>
+    <div id="question-text">[Texte de la question]</div>
+    <div class="options" id="options">
+      <!-- Les options seront générées dynamiquement -->
+    </div>
+    <button id="validate-btn">Valider</button>
+    <div id="result"></div>
+  </div>
+  
+  <!-- Page de résultats finale -->
+  <div class="container" id="result-page">
+    <img id="result-header" src="images/tryagain.png" alt="encore" class="again">
+    <img id="final-image" src="images/lose1.gif" alt="Résultat" style="width:120px; display:block; margin: -15px auto 20px;">
+    <p id="final-score">Score : 0 sur <span id="total-questions-result"></span></p>
+    <button id="restart-btn" style="text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 3px 3px 5px black;">RECOMMENCER</button>
+  </div>
+  
+  <script>
+    // Données du quiz générées à partir du questionnaire
+    const quizData = [
+      {
+        question: "Quelles sont les trois conditions nécessaires à la formation d’un feu (triangle du feu) ?",
+        options: [
+          "Un combustible",
+          "Un comburant (souvent l’oxygène de l’air)",
+          "Une énergie d’activation (chaleur, flamme…)",
+          "Un refroidissement constant"
+        ],
+        correctAnswers: [
+          "Un combustible",
+          "Un comburant (souvent l’oxygène de l’air)",
+          "Une énergie d’activation (chaleur, flamme…)"
+        ]
+      }
+    ];
+
+    // Initialisation des variables du quiz
+    let currentQuestion = 0;
+    let score = 0;
+    let isMuted = false;
+
+    // Références aux éléments HTML
+    const homeDiv = document.getElementById("home");
+    const quizContainer = document.getElementById("quiz-container");
+    const resultPage = document.getElementById("result-page");
+    const questionCounterEl = document.getElementById("question-counter");
+    const questionTextEl = document.getElementById("question-text");
+    const optionsDiv = document.getElementById("options");
+    const resultDiv = document.getElementById("result");
+    const finalScoreEl = document.getElementById("final-score");
+    const finalImage = document.getElementById("final-image");
+    const totalQuestionsSpan = document.getElementById("total-questions");
+    const totalQuestionsResult = document.getElementById("total-questions-result");
+
+    const startBtn = document.getElementById("start-btn");
+    const validateBtn = document.getElementById("validate-btn");
+    const restartBtn = document.getElementById("restart-btn");
+    const muteBtn = document.getElementById("mute-btn");
+
+    const checkboxSound = document.getElementById("checkbox-sound");
+    const startSound = document.getElementById("start-sound");
+    const correctSound = document.getElementById("correct-sound");
+    const incorrectSound = document.getElementById("incorrect-sound");
+
+    // Mise à jour du nombre total de questions
+    totalQuestionsSpan.textContent = quizData.length;
+    totalQuestionsResult.textContent = quizData.length;
+
+    // Précharger certaines images GIF
+    const preloadImages = ["images/ryu.gif", "images/ken.gif", "images/ryu2.gif", "images/ken2.gif"];
+    preloadImages.forEach(src => {
+      const img = new Image();
+      img.src = src;
+    });
+
+    // Fonction de basculement du son
+    function muteToggleHandler() {
+      isMuted = !isMuted;
+      [startSound, correctSound, incorrectSound, checkboxSound,
+       document.getElementById("incorrect-sound2"),
+       document.getElementById("perfect-sound"),
+       document.getElementById("imperfect-sound")
+      ].forEach(audio => { audio.muted = isMuted; });
+      if (isMuted) {
+        this.src = "images/mute-on.gif";
+        this.alt = "Son désactivé";
+      } else {
+        this.src = "images/mute-off.gif";
+        this.alt = "Son activé";
+      }
+    }
+    muteBtn.addEventListener("click", muteToggleHandler);
+    document.addEventListener("DOMContentLoaded", function() {
+      var muteImg = document.getElementById("mute-btn");
+      if (muteImg && muteImg.src.indexOf(".gif") !== -1) {
+        var newMuteImg = muteImg.cloneNode(true);
+        newMuteImg.src = newMuteImg.src.split('?')[0] + '?t=' + new Date().getTime();
+        muteImg.parentNode.replaceChild(newMuteImg, muteImg);
+        newMuteImg.addEventListener("click", muteToggleHandler);
+      }
+    });
+
+    // Démarrage du quiz
+    startBtn.addEventListener("click", () => {
+      if (screen.orientation && screen.orientation.lock) {
+        screen.orientation.lock("portrait").catch(error => { console.log("Le verrouillage de l'orientation a échoué :", error); });
+      }
+      startSound.play();
+      startBtn.style.boxShadow = "0 0 20px rgba(0, 255, 0, 1)";
+      startBtn.style.animation = "blink 0.3s infinite ease-in-out";
+      setTimeout(() => {
+        startBtn.style.animation = "glow-green 1.5s infinite ease-in-out";
+        homeDiv.style.display = "none";
+        quizContainer.style.display = "block";
+        currentQuestion = 0;
+        score = 0;
+        showQuestion();
+      }, 1500);
+    });
+
+    // Affichage d'une question
+    function showQuestion() {
+      resultDiv.innerHTML = "";
+      const data = quizData[currentQuestion];
+      questionCounterEl.textContent = Question ${currentQuestion + 1} / ${quizData.length};
+      questionTextEl.textContent = data.question;
+      optionsDiv.innerHTML = "";
+      data.options.forEach((option, index) => {
+        const div = document.createElement("div");
+        div.className = "option";
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.value = option;
+        checkbox.name = "option";
+        checkbox.id = option_${index};
+        checkbox.addEventListener("click", () => { checkboxSound.currentTime = 0; checkboxSound.play(); });
+        const label = document.createElement("label");
+        label.htmlFor = option_${index};
+        label.textContent = option;
+        div.appendChild(checkbox);
+        div.appendChild(label);
+        optionsDiv.appendChild(div);
+      });
+    }
+
+    // Fonction de comparaison des tableaux (ordre sans importance)
+    function arraysEqual(a, b) {
+      if (a.length !== b.length) return false;
+      const sortedA = a.slice().sort();
+      const sortedB = b.slice().sort();
+      return sortedA.every((val, index) => val === sortedB[index]);
+    }
+
+    const incorrectSound2 = document.getElementById("incorrect-sound2");
+    validateBtn.addEventListener("click", () => {
+      const data = quizData[currentQuestion];
+      const selected = Array.from(document.querySelectorAll('input[name="option"]:checked')).map(el => el.value);
+      if (selected.length === 0) { alert("Veuillez sélectionner au moins une réponse"); return; }
+      const isCorrect = arraysEqual(selected, data.correctAnswers);
+      validateBtn.style.display = "none";
+      if (isCorrect) {
+        score++;
+        correctSound.currentTime = 0;
+        correctSound.play();
+        resultDiv.innerHTML = 
+          <div class="correct-container">
+            <img src="images/ryu.gif" alt="Décoration gauche" class="decor-left">
+            <img src="images/correct.png" alt="Bonne réponse" class="result-image correct">
+            <img src="images/ken.gif" alt="Décoration droite" class="decor-right">
+          </div>
+        ;
+      } else {
+        const selectedSound = (Math.random() < 0.5) ? incorrectSound : incorrectSound2;
+        selectedSound.currentTime = 0;
+        selectedSound.play();
+        resultDiv.innerHTML = 
+          <div class="incorrect-container">
+            <img src="images/ryu2.gif" alt="Décoration gauche" class="decor-leftX">
+            <img src="images/incorrect.png" alt="Mauvaise réponse" class="result-image incorrect">
+            <img src="images/ken2.gif" alt="Décoration droite" class="decor-rightX">
+          </div>
+          <div class="incorrect-answer-header">Réponse :</div>
+          <div class="incorrect-answer-text">${data.correctAnswers.join(", ")}</div>
+        ;
+      }
+      const delayTime = isCorrect ? 2000 : 3000;
+      setTimeout(() => {
+        currentQuestion++;
+        if (currentQuestion < quizData.length) {
+          showQuestion();
+          validateBtn.style.display = "block";
+        } else {
+          showResultPage();
+        }
+      }, delayTime);
+    });
+
+    // Affichage de la page finale
+    function showResultPage() {
+      quizContainer.style.display = "none";
+      resultPage.style.display = "block";
+      const resultHeader = document.getElementById("result-header");
+      if (score === quizData.length) {
+        restartBtn.style.animation = "borderGlowGreen 2s ease-in-out infinite";
+        resultPage.style.backgroundImage = "url('images/wall.png')";
+        resultHeader.src = "images/youwin.png";
+        resultHeader.style.marginTop = "10px";
+        resultHeader.classList.add("victory-animation");
+        finalScoreEl.style.color = "#00ff1a";
+        finalImage.classList.add("raised");
+        finalImage.style.width = (window.innerWidth <= 480) ? "150px" : "190px";
+        document.getElementById("perfect-sound").currentTime = 0;
+        document.getElementById("perfect-sound").play();
+      } else {
+        restartBtn.style.animation = "borderGlow2 2s ease-in-out infinite";
+        resultPage.style.backgroundImage = "url('images/wall2.png')";
+        resultHeader.src = "images/tryagain.png";
+        resultHeader.classList.add("windmill-shake");
+        finalScoreEl.style.color = "red";
+        finalImage.classList.remove("raised");
+        finalImage.style.width = "190px";
+        document.getElementById("imperfect-sound").currentTime = 0;
+        document.getElementById("imperfect-sound").play();
+      }
+      finalScoreEl.textContent = Score : ${score} sur ${quizData.length};
+      resultPage.style.backgroundSize = "cover";
+      resultPage.style.backgroundPosition = "center";
+    }
+
+    restartBtn.addEventListener("click", () => { window.location.reload(); });
+
+    document.addEventListener("DOMContentLoaded", function() {
+      var decorImage = document.querySelector('.pikachu');
+      if (decorImage) {
+        var decorGifs = ["images/decor1.gif", "images/decor2.gif"];
+        var randomIndex = Math.floor(Math.random() * decorGifs.length);
+        var randomGif = decorGifs[randomIndex];
+        decorImage.src = randomGif;
+        decorImage.style.visibility = 'visible';
+      }
+    });
+
+    document.addEventListener("DOMContentLoaded", function() {
+      const audios = document.querySelectorAll("audio");
+      audios.forEach(audio => {
+        const initialVolume = audio.volume;
+        audio.volume = 0;
+        audio.play().then(() => {
+          audio.pause();
+          audio.currentTime = 0;
+          audio.volume = initialVolume;
+        }).catch(error => {
+          console.error("Erreur lors du préchargement audio:", error);
+          audio.volume = initialVolume;
+        });
+      });
+    });
+
+    document.addEventListener("DOMContentLoaded", function() {
+      var decorImage = document.querySelector('.pikachu');
+      if (decorImage) {
+        var decorGifs = ["images/decor1.gif", "images/decor2.gif"];
+        var randomIndex = Math.floor(Math.random() * decorGifs.length);
+        var randomGif = decorGifs[randomIndex];
+        decorImage.src = randomGif + '?t=' + new Date().getTime();
+        decorImage.style.visibility = 'visible';
+      }
+    });
+  </script>
+</body>
+</html>
