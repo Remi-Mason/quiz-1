@@ -106,7 +106,6 @@
       padding: 0;
       background: linear-gradient(135deg, #2C2C2C, #555555, #888888, #BBBBBB);
       background-size: 100% 100%;
-      animation: quizBGAnimation 10s ease infinite;
     }
     body {
       display: flex;
@@ -315,7 +314,7 @@
       animation: borderGlow2 2s ease-in-out infinite;
     }
     #restart-btn:active { transform: scale(0.95); }
-    /* Nouveau bouton INDEX */
+    /* Bouton INDEX déjà présent sur la page finale */
     #index-btn {
       display: flex;
       justify-content: center;
@@ -337,6 +336,44 @@
     }
     #result-page img, #result-page p, #result-page button {
       margin-bottom: 10px;
+    }
+    /* Modal (container pour l'index) */
+    #indexModal {
+      display: none; /* caché par défaut */
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.7); /* fond noir translucide */
+    }
+    .modal-content {
+      background-color: #333;
+      margin: 15% auto;
+      padding: 20px;
+      border: 2px solid #fff;
+      width: 300px;
+      text-align: center;
+      border-radius: 10px;
+    }
+    /* Styles pour les petits boutons à l'intérieur du modal */
+    .small-btn {
+      margin: 10px;
+      width: 60px;
+      height: 60px;
+      font-size: 20px;
+      background: linear-gradient(to top, black, gray);
+      border: 2px solid white;
+      border-radius: 10px;
+      color: white;
+      cursor: pointer;
+      text-shadow: 1px 1px 2px black;
+      transition: transform 0.1s ease-in-out;
+    }
+    .small-btn:active {
+      transform: scale(0.95);
     }
     /* Media Query pour mobile */
     @media (max-width: 480px) {
@@ -411,72 +448,6 @@
       animation: victoryAnimation 2s ease-in-out infinite;
       transform-origin: center;
     }
-    @media (max-width: 480px) {
-      .pikachu {
-        width: 85%;
-        margin: 0 auto;
-        transform: translateX(0px);
-      }
-    }
-    @media (max-width: 480px) {
-      .again {
-        width: 85%;
-        margin: 0 auto;
-        transform: translateX(0px);
-      }
-    }
-    @media (max-width: 480px) {	  
-      #result-header {
-        display: block;
-        margin: 0 auto 20px;
-        width: 85%;
-      }
-    }
-    @media (max-width: 480px) {	  
-      .decor-right {
-        width: 80px;
-        transform: translate(-12px, -20px);
-        z-index: 0;
-        padding: 12px 0px;
-      }
-    }
-    @media (max-width: 480px) {	  
-      .decor-left {
-        width: 80px;
-        transform: translate(10px, -20px);
-        z-index: 0;
-        padding: 12px 0px;
-      }
-    }
-    @media (max-width: 480px) {	  
-      .decor-rightX {
-        width: 80px;
-        transform: translate(-10px, -40px);
-        z-index: 0;
-        padding: 12px 0px;
-      }
-    }
-    @media (max-width: 480px) {	  
-      .decor-leftX {
-        width: 80px;
-        transform: translate(10px, -40px);
-        z-index: 0;
-        padding: 12px 0px;
-      }
-    }
-    @media (max-width: 480px) {
-      #question-text { font-size: 22px; }
-    }
-    @media (max-width: 480px) {
-      #mute-btn {
-        margin-top: 30px!important;
-      }
-    }
-    @media (max-width: 480px) {
-      #final-score {
-        font-size: 28px !important;
-      }
-    }
   </style>
 </head>
 <body>
@@ -514,8 +485,17 @@
     <img id="final-image" src="images/lose1.gif" alt="Résultat" style="width:120px; display:block; margin: -15px auto 20px;">
     <p id="final-score">Score : 0 sur 60</p>
     <button id="restart-btn" style="text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 3px 3px 5px black;">RECOMMENCER</button>
-    <!-- Nouveau bouton INDEX -->
+    <!-- Bouton INDEX qui déclenche l'ouverture du modal -->
     <button id="index-btn" style="text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 3px 3px 5px black;">INDEX</button>
+  </div>
+  
+  <!-- Modal pour afficher les boutons 1, 2 et 3 -->
+  <div id="indexModal">
+    <div class="modal-content">
+      <button class="small-btn" id="btn1">1</button>
+      <button class="small-btn" id="btn2">2</button>
+      <button class="small-btn" id="btn3">3</button>
+    </div>
   </div>
   
   <script>
@@ -756,9 +736,20 @@
     
     restartBtn.addEventListener("click", () => { window.location.reload(); });
     
-    // Nouveau listener pour le bouton INDEX
+    // Lorsque l'utilisateur clique sur INDEX, le modal s'affiche
     indexBtn.addEventListener("click", () => {
-      window.location.href = "index.html";
+      document.getElementById("indexModal").style.display = "block";
+    });
+    
+    // Ajout des événements sur les boutons du modal pour rediriger vers un lien HTML modifiable
+    document.getElementById("btn1").addEventListener("click", () => {
+      window.location.href = "page1.html"; // modifiez cette adresse selon vos besoins
+    });
+    document.getElementById("btn2").addEventListener("click", () => {
+      window.location.href = "page2.html"; // modifiez cette adresse selon vos besoins
+    });
+    document.getElementById("btn3").addEventListener("click", () => {
+      window.location.href = "page3.html"; // modifiez cette adresse selon vos besoins
     });
     
     document.addEventListener("DOMContentLoaded", function() {
