@@ -214,7 +214,7 @@
       width: 60px;
       height: 60px;
     }
-    #validate-btn {
+    #validate-btn, #next-btn {
       font-weight: bold;
       margin: 0 auto;
       margin-top: 30px;
@@ -229,7 +229,7 @@
       transition: transform 0.1s ease, box-shadow 0.1s ease;
       animation: borderGlow 2s ease-in-out infinite;
     }
-    #validate-btn:active { transform: translateY(2px) scale(0.98); }
+    #validate-btn:active, #next-btn:active { transform: translateY(2px) scale(0.98); }
     #result { margin-top: 20px; }
     .result-image {
       width: 60px;
@@ -495,7 +495,18 @@
           "Un comburant (souvent l’oxygène de l’air)",
           "Une énergie d’activation (chaleur, flamme…)"
         ]
+      },
+      {
+        question: "Quelle est la définition du feu ?",
+        options: [
+          "Une réaction de fusion des matériaux",
+          "Une réaction d’oxydation exothermique",
+          "Un simple changement d’état de la matière",
+          "Un phénomène réversible sans production de chaleur"
+        ],
+        correctAnswers: ["Une réaction d’oxydation exothermique"]
       }
+      // ... (le reste des questions)
     ];
 
     // Initialisation des variables du quiz
@@ -525,6 +536,7 @@
     const startSound = document.getElementById("start-sound");
     const correctSound = document.getElementById("correct-sound");
     const incorrectSound = document.getElementById("incorrect-sound");
+    const incorrectSound2 = document.getElementById("incorrect-sound2");
 
     // Mise à jour du nombre total de questions
     totalQuestionsSpan.textContent = quizData.length;
@@ -541,7 +553,7 @@
     function muteToggleHandler() {
       isMuted = !isMuted;
       [startSound, correctSound, incorrectSound, checkboxSound,
-       document.getElementById("incorrect-sound2"),
+       incorrectSound2,
        document.getElementById("perfect-sound"),
        document.getElementById("imperfect-sound")
       ].forEach(audio => { audio.muted = isMuted; });
@@ -585,8 +597,9 @@
     // Affichage d'une question
     function showQuestion() {
       resultDiv.innerHTML = "";
+      validateBtn.style.display = "block";
       const data = quizData[currentQuestion];
-      questionCounterEl.textContent = Question ${currentQuestion + 1} / ${quizData.length};
+      questionCounterEl.textContent = `Question ${currentQuestion + 1} / ${quizData.length}`;
       questionTextEl.textContent = data.question;
       optionsDiv.innerHTML = "";
       data.options.forEach((option, index) => {
@@ -596,10 +609,10 @@
         checkbox.type = "checkbox";
         checkbox.value = option;
         checkbox.name = "option";
-        checkbox.id = option_${index};
+        checkbox.id = `option_${index}`;
         checkbox.addEventListener("click", () => { checkboxSound.currentTime = 0; checkboxSound.play(); });
         const label = document.createElement("label");
-        label.htmlFor = option_${index};
+        label.htmlFor = `option_${index}`;
         label.textContent = option;
         div.appendChild(checkbox);
         div.appendChild(label);
@@ -615,7 +628,7 @@
       return sortedA.every((val, index) => val === sortedB[index]);
     }
 
-    const incorrectSound2 = document.getElementById("incorrect-sound2");
+    // Traitement de la validation de la réponse
     validateBtn.addEventListener("click", () => {
       const data = quizData[currentQuestion];
       const selected = Array.from(document.querySelectorAll('input[name="option"]:checked')).map(el => el.value);
@@ -626,18 +639,27 @@
         score++;
         correctSound.currentTime = 0;
         correctSound.play();
-        resultDiv.innerHTML = 
+        resultDiv.innerHTML = `
           <div class="correct-container">
             <img src="images/ryu.gif" alt="Décoration gauche" class="decor-left">
             <img src="images/correct.png" alt="Bonne réponse" class="result-image correct">
             <img src="images/ken.gif" alt="Décoration droite" class="decor-right">
           </div>
-        ;
+        `;
+        setTimeout(() => {
+          currentQuestion++;
+          if (currentQuestion < quizData.length) {
+            showQuestion();
+          } else {
+            showResultPage();
+          }
+        }, 2000);
       } else {
+        // En cas de réponse incorrecte, jouer l'un des sons d'erreur et afficher les décorations
         const selectedSound = (Math.random() < 0.5) ? incorrectSound : incorrectSound2;
         selectedSound.currentTime = 0;
         selectedSound.play();
-        resultDiv.innerHTML = 
+        resultDiv.innerHTML = `
           <div class="incorrect-container">
             <img src="images/ryu2.gif" alt="Décoration gauche" class="decor-leftX">
             <img src="images/incorrect.png" alt="Mauvaise réponse" class="result-image incorrect">
@@ -645,18 +667,25 @@
           </div>
           <div class="incorrect-answer-header">Réponse :</div>
           <div class="incorrect-answer-text">${data.correctAnswers.join(", ")}</div>
-        ;
+        `;
+        // Après 2 secondes, remplacer les images par un bouton "Suivant"
+        setTimeout(() => {
+          resultDiv.innerHTML = `
+            <button id="next-btn">Suivant</button>
+            <div class="incorrect-answer-header">Réponse :</div>
+            <div class="incorrect-answer-text">${data.correctAnswers.join(", ")}</div>
+          `;
+          // Ajouter l'écouteur sur le bouton "Suivant"
+          document.getElementById("next-btn").addEventListener("click", () => {
+            currentQuestion++;
+            if (currentQuestion < quizData.length) {
+              showQuestion();
+            } else {
+              showResultPage();
+            }
+          });
+        }, 2000);
       }
-      const delayTime = isCorrect ? 2000 : 3000;
-      setTimeout(() => {
-        currentQuestion++;
-        if (currentQuestion < quizData.length) {
-          showQuestion();
-          validateBtn.style.display = "block";
-        } else {
-          showResultPage();
-        }
-      }, delayTime);
     });
 
     // Affichage de la page finale
@@ -686,7 +715,7 @@
         document.getElementById("imperfect-sound").currentTime = 0;
         document.getElementById("imperfect-sound").play();
       }
-      finalScoreEl.textContent = Score : ${score} sur ${quizData.length};
+      finalScoreEl.textContent = `Score : ${score} sur ${quizData.length}`;
       resultPage.style.backgroundSize = "cover";
       resultPage.style.backgroundPosition = "center";
     }
