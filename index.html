@@ -810,6 +810,12 @@
         finalScoreEl.style.color = "red";
         finalImage.classList.remove("raised");
         finalImage.style.width = "190px";
+               setInterval(() => {
+          resultHeader.classList.remove("windmill-shake");
+          void resultHeader.offsetWidth;
+          resultHeader.classList.add("windmill-shake");
+        }, 2800);
+      }
         document.getElementById("imperfect-sound").currentTime = 0;
         document.getElementById("imperfect-sound").play();
       }
