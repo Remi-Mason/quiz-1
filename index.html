@@ -91,13 +91,13 @@
       display: block;
       margin: 0 auto;
       max-width: 100%;
-      margin-bottom: 20px;
+	  margin-bottom: 20px;
     }
     /* Centrage général des images de résultat */
     #result-header {
       display: block;
       margin: 0 auto 20px;
-      margin-left: 20px;
+	  margin-left: 20px;
     }
     /* Styles généraux */
     html, body {
@@ -106,6 +106,7 @@
       padding: 0;
       background: linear-gradient(135deg, #2C2C2C, #555555, #888888, #BBBBBB);
       background-size: 100% 100%;
+      animation: quizBGAnimation 10s ease infinite;
     }
     body {
       display: flex;
@@ -262,6 +263,7 @@
       font-family: 'Arial Black', Arial, sans-serif;
       text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 3px 3px 5px black;
       color: white;
+
     }
     .correct-container {
       display: flex;
@@ -269,6 +271,7 @@
       justify-content: center;
     }
     .correct-decoration { width: 60px; }
+    /* Pour l'image de bonne réponse, largeur de 80px adaptée aux GIFs */
     .correct-container .result-image.correct {
       animation: popAnimation 0.5s ease-out;
       width: 80px;
@@ -314,67 +317,6 @@
       animation: borderGlow2 2s ease-in-out infinite;
     }
     #restart-btn:active { transform: scale(0.95); }
-    /* Bouton INDEX déjà présent sur la page finale */
-    #index-btn {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 140px;
-      height: 65px;
-      margin: 20px auto;
-      padding: 5px 20px;
-      font-size: 16px;
-      cursor: pointer;
-      background: linear-gradient(to top, black, gray);
-      color: white;
-      font-weight: bold;
-      border: 2px solid white;
-      border-radius: 10px;
-      text-shadow: 1px 1px 2px black;
-      transition: transform 0.1s ease-in-out;
-      animation: borderGlow2 2s ease-in-out infinite;
-    }
-    #result-page img, #result-page p, #result-page button {
-      margin-bottom: 10px;
-    }
-    /* Modal (container pour l'index) */
-    #indexModal {
-      display: none; /* caché par défaut */
-      position: fixed;
-      z-index: 1000;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      background-color: rgba(0,0,0,0.7); /* fond noir translucide */
-    }
-    .modal-content {
-      background-color: #333;
-      margin: 15% auto;
-      padding: 20px;
-      border: 2px solid #fff;
-      width: 300px;
-      text-align: center;
-      border-radius: 10px;
-    }
-    /* Styles pour les petits boutons à l'intérieur du modal */
-    .small-btn {
-      margin: 10px;
-      width: 60px;
-      height: 60px;
-      font-size: 20px;
-      background: linear-gradient(to top, black, gray);
-      border: 2px solid white;
-      border-radius: 10px;
-      color: white;
-      cursor: pointer;
-      text-shadow: 1px 1px 2px black;
-      transition: transform 0.1s ease-in-out;
-    }
-    .small-btn:active {
-      transform: scale(0.95);
-    }
     /* Media Query pour mobile */
     @media (max-width: 480px) {
       .container { width: 90%; padding: 15px; padding-top: 20px; }
@@ -448,6 +390,67 @@
       animation: victoryAnimation 2s ease-in-out infinite;
       transform-origin: center;
     }
+	@media (max-width: 480px) {
+  .pikachu {
+    width: 85%;
+    margin: 0 auto;
+    transform: translateX(0px); /* Ajustez la valeur pour centrer visuellement */
+  }
+}
+@media (max-width: 480px) {
+  .again {
+    width: 85%;
+    margin: 0 auto;
+    transform: translateX(0px); /* Ajustez la valeur pour centrer visuellement */
+  }
+}
+@media (max-width: 480px) {	  
+    #result-header {
+      display: block;
+      margin: 0 auto 20px;
+	     width: 85%;
+	      }
+}
+@media (max-width: 480px) {	  
+.decor-right {
+      width: 80px;
+      transform: translate(-12px, -20px);
+      z-index: 0;
+      padding: 12px 0px;
+    }
+	}
+	@media (max-width: 480px) {	  
+    .decor-left {
+      width: 80px;
+      transform: translate(10px, -20px);
+      z-index: 0;
+      padding: 12px 0px;
+    }
+	}
+		@media (max-width: 480px) {	  
+	    .decor-rightX {
+      width: 80px;
+      transform: translate(-10px, -40px);
+      z-index: 0;
+      padding: 12px 0px;
+    }
+	}
+		@media (max-width: 480px) {	  
+    .decor-leftX {
+      width: 80px;
+      transform: translate(10px, -40px);
+      z-index: 0;
+      padding: 12px 0px;
+    }
+	}
+	  @media (max-width: 480px) {
+  #question-text { font-size: 22px; }
+}
+@media (max-width: 480px) {
+  #mute-btn {
+    margin-top: 30px!important; /* Ajustez la valeur selon vos besoins */
+  }
+}
   </style>
 </head>
 <body>
@@ -462,15 +465,18 @@
   
   <!-- Page d'accueil -->
   <div class="container" id="home">
+    <!-- Titre centré via la classe floating-title -->
     <img src="images/titre.png" alt="quiz ssiap1" class="floating-title">
+    <!-- Image décorative centrée via la classe pikachu -->
     <img src="" alt="pik" class="pikachu" style="visibility: hidden;">
+    <!-- Bouton mute -->
     <img id="mute-btn" src="images/mute-off.gif" alt="Son activé" style="cursor: pointer; width: 30px; height: 25px; margin-bottom: 10px; margin-top: 10px">
     <button id="start-btn"><img src="images/start.png" style="margin-left: 5px;"></button>
   </div>
   
   <!-- Zone du quiz -->
   <div class="container" id="quiz-container">
-    <div id="question-counter">Question 1 / 60</div>
+    <div id="question-counter">Question 1 / 3</div>
     <div id="question-text">[Texte de la question]</div>
     <div class="options" id="options">
       <!-- Les options seront générées dynamiquement -->
@@ -483,34 +489,28 @@
   <div class="container" id="result-page">
     <img id="result-header" src="images/tryagain.png" alt="encore" class="again">
     <img id="final-image" src="images/lose1.gif" alt="Résultat" style="width:120px; display:block; margin: -15px auto 20px;">
-    <p id="final-score">Score : 0 sur 60</p>
+    <p id="final-score">Score : 0 sur 3</p>
     <button id="restart-btn" style="text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 3px 3px 5px black;">RECOMMENCER</button>
-    <!-- Bouton INDEX qui déclenche l'ouverture du modal -->
-    <button id="index-btn" style="text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 3px 3px 5px black;">INDEX</button>
-  </div>
-  
-  <!-- Modal pour afficher les boutons 1, 2 et 3 -->
-  <div id="indexModal">
-    <div class="modal-content">
-      <button class="small-btn" id="btn1">1</button>
-      <button class="small-btn" id="btn2">2</button>
-      <button class="small-btn" id="btn3">3</button>
-    </div>
   </div>
   
   <script>
-    // Données du quiz avec 60 questions
+    // Données du quiz
     const quizData = [
       {
-        question: "À quoi correspond la classe de feu A ?",
-        options: [
-          "Feux de matériaux solides (bois, papier, textiles)",
-          "Feux de liquides inflammables",
-          "Feux d’huiles de cuisson"
-        ],
-        correctAnswers: ["Feux de matériaux solides (bois, papier, textiles)"]
+        question: "Sur quel feu peut-on utiliser un extincteur à eau pulvérisée avec additif ?",
+        options: ["Feu de classe A", "Feu de classe B", "Feu de classe C", "Feu de classe D"],
+        correctAnswers: ["Feu de classe A", "Feu de classe B"]
       },
-      // Ajoutez ici les autres questions...
+      {
+        question: "Que signifie le signal d'alarme incendie ?",
+        options: ["Évacuation immédiate", "Appeler le service incendie", "Rester à votre poste", "Ignorer le signal"],
+        correctAnswers: ["Évacuation immédiate"]
+      },
+      {
+        question: "Quel équipement de sécurité incendie est obligatoire dans un établissement ?",
+        options: ["Extincteur", "Détecteur de fumée", "Réseau d'alarme", "Toutes les réponses"],
+        correctAnswers: ["Toutes les réponses"]
+      }
     ];
     
     let currentQuestion = 0;
@@ -531,7 +531,6 @@
     const startBtn = document.getElementById("start-btn");
     const validateBtn = document.getElementById("validate-btn");
     const restartBtn = document.getElementById("restart-btn");
-    const indexBtn = document.getElementById("index-btn");
     const muteBtn = document.getElementById("mute-btn");
     
     const checkboxSound = document.getElementById("checkbox-sound");
@@ -563,15 +562,15 @@
       }
     }
     muteBtn.addEventListener("click", muteToggleHandler);
-    document.addEventListener("DOMContentLoaded", function() {
-      var muteImg = document.getElementById("mute-btn");
-      if (muteImg && muteImg.src.indexOf(".gif") !== -1) {
-        var newMuteImg = muteImg.cloneNode(true);
-        newMuteImg.src = newMuteImg.src.split('?')[0] + '?t=' + new Date().getTime();
-        muteImg.parentNode.replaceChild(newMuteImg, muteImg);
-        newMuteImg.addEventListener("click", muteToggleHandler);
-      }
-    });
+	  document.addEventListener("DOMContentLoaded", function() {
+  var muteImg = document.getElementById("mute-btn");
+  if (muteImg && muteImg.src.indexOf(".gif") !== -1) {
+    var newMuteImg = muteImg.cloneNode(true);
+    newMuteImg.src = newMuteImg.src.split('?')[0] + '?t=' + new Date().getTime();
+    muteImg.parentNode.replaceChild(newMuteImg, muteImg);
+    newMuteImg.addEventListener("click", muteToggleHandler);
+  }
+});
     
     // Démarrage du quiz
     startBtn.addEventListener("click", () => {
@@ -595,7 +594,7 @@
     function showQuestion() {
       resultDiv.innerHTML = "";
       const data = quizData[currentQuestion];
-      questionCounterEl.textContent = `Question ${currentQuestion + 1} / ${quizData.length}`;
+      questionCounterEl.textContent = `${currentQuestion + 1} / ${quizData.length}`;
       questionTextEl.textContent = data.question;
       optionsDiv.innerHTML = "";
       data.options.forEach((option, index) => {
@@ -642,7 +641,7 @@
             <img src="images/ken.gif" alt="Décoration droite" class="decor-right">
           </div>
         `;
-        // Redémarrage des animations GIF
+        // Clonage pour redémarrer l'animation des GIFs
         let ryuGif = document.querySelector('.decor-left');
         if (ryuGif) {
           const newRyuGif = ryuGif.cloneNode(true);
@@ -666,6 +665,7 @@
           <div class="incorrect-answer-header">Réponse :</div>
           <div class="incorrect-answer-text">${data.correctAnswers.join(", ")}</div>
         `;
+        // Clonage pour redémarrer l'animation des GIFs
         let ryu2Gif = document.querySelector('.decor-leftX');
         if (ryu2Gif) {
           const newRyu2Gif = ryu2Gif.cloneNode(true);
@@ -698,6 +698,7 @@
         restartBtn.style.animation = "borderGlowGreen 2s ease-in-out infinite";
         resultPage.style.backgroundImage = "url('images/wall.png')";
         resultHeader.src = "images/youwin.png";
+        // Suppression du décalage horizontal pour centrer l'image
         resultHeader.style.marginTop = "10px";
         resultHeader.classList.add("victory-animation");
         finalScoreEl.style.color = "#00ff1a";
@@ -736,57 +737,34 @@
     
     restartBtn.addEventListener("click", () => { window.location.reload(); });
     
-    // Lorsque l'utilisateur clique sur INDEX, le modal s'affiche
-    indexBtn.addEventListener("click", () => {
-      document.getElementById("indexModal").style.display = "block";
+	  document.addEventListener("DOMContentLoaded", function() {
+  var decorImage = document.querySelector('.pikachu');
+  if (decorImage) {
+    var decorGifs = ["images/decor1.gif", "images/decor2.gif"];
+    var randomIndex = Math.floor(Math.random() * decorGifs.length);
+    var randomGif = decorGifs[randomIndex];
+    decorImage.src = randomGif;
+    decorImage.style.visibility = 'visible';
+  }
+});
+document.addEventListener("DOMContentLoaded", function() {
+  const audios = document.querySelectorAll("audio");
+  audios.forEach(audio => {
+    // Stocke le volume initial
+    const initialVolume = audio.volume;
+    // Tente de précharger
+    audio.volume = 0;
+    audio.play().then(() => {
+      audio.pause();
+      audio.currentTime = 0;
+      audio.volume = initialVolume; // Rétablit le volume initial
+    }).catch(error => {
+      console.error("Erreur lors du préchargement audio:", error);
+      // Même en cas d'erreur, rétablis le volume
+      audio.volume = initialVolume;
     });
-    
-    // Ajout des événements sur les boutons du modal pour rediriger vers un lien HTML modifiable
-    document.getElementById("btn1").addEventListener("click", () => {
-      window.location.href = "page1.html"; // modifiez cette adresse selon vos besoins
-    });
-    document.getElementById("btn2").addEventListener("click", () => {
-      window.location.href = "page2.html"; // modifiez cette adresse selon vos besoins
-    });
-    document.getElementById("btn3").addEventListener("click", () => {
-      window.location.href = "page3.html"; // modifiez cette adresse selon vos besoins
-    });
-    
-    document.addEventListener("DOMContentLoaded", function() {
-      var decorImage = document.querySelector('.pikachu');
-      if (decorImage) {
-        var decorGifs = ["images/decor1.gif", "images/decor2.gif"];
-        var randomIndex = Math.floor(Math.random() * decorGifs.length);
-        var randomGif = decorGifs[randomIndex];
-        decorImage.src = randomGif;
-        decorImage.style.visibility = 'visible';
-      }
-    });
-    document.addEventListener("DOMContentLoaded", function() {
-      const audios = document.querySelectorAll("audio");
-      audios.forEach(audio => {
-        const initialVolume = audio.volume;
-        audio.volume = 0;
-        audio.play().then(() => {
-          audio.pause();
-          audio.currentTime = 0;
-          audio.volume = initialVolume;
-        }).catch(error => {
-          console.error("Erreur lors du préchargement audio:", error);
-          audio.volume = initialVolume;
-        });
-      });
-    });
-    document.addEventListener("DOMContentLoaded", function() {
-      var decorImage = document.querySelector('.pikachu');
-      if (decorImage) {
-        var decorGifs = ["images/decor1.gif", "images/decor2.gif"];
-        var randomIndex = Math.floor(Math.random() * decorGifs.length);
-        var randomGif = decorGifs[randomIndex];
-        decorImage.src = randomGif + '?t=' + new Date().getTime();
-        decorImage.style.visibility = 'visible';
-      }
-    });
+  });
+});
   </script>
 </body>
 </html>
