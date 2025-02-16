@@ -252,7 +252,6 @@
       text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 3px 3px 5px black;
       color: white;
     }
-    /* Nouveau conteneur pour décaler le bloc réponse quand le bouton "Suivant" apparaît */
     .incorrect-answer-wrapper {
       margin-top: 20px;
     }
@@ -306,7 +305,7 @@
       animation: borderGlow2 2s ease-in-out infinite;
     }
     #restart-btn:active { transform: scale(0.95); }
-    /* Bouton INDEX dans le même style que RECOMMENCER avec texte bleu ciel fluo */
+    /* Bouton INDEX agrandi, avec texte bleu ciel fluo */
     #index-btn {
       display: flex;
       justify-content: center;
@@ -330,7 +329,7 @@
     }
     #index-btn:active { transform: scale(0.95); }
     
-    /* Styles pour le modal de l'index : plus grand et transparent */
+    /* Styles pour le modal de l'index (inchangés) */
     #index-modal {
       display: none;
       position: fixed;
@@ -549,7 +548,7 @@
     <button id="index-btn">INDEX</button>
   </div>
   
-  <!-- Container modal pour l'index -->
+  <!-- Container modal pour l'index (inchangé) -->
   <div id="index-modal">
     <button class="index-option" data-url="page1.html">1</button>
     <button class="index-option" data-url="page2.html">2</button>
