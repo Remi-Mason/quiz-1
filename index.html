@@ -608,7 +608,7 @@
       resultDiv.innerHTML = "";
       validateBtn.style.display = "block";
       const data = quizData[currentQuestion];
-      questionCounterEl.textContent = `Question ${currentQuestion + 1} / ${quizData.length}`;
+      questionCounterEl.textContent = `${currentQuestion + 1} / ${quizData.length}`;
       questionTextEl.textContent = data.question;
       optionsDiv.innerHTML = "";
       data.options.forEach((option, index) => {
