@@ -252,6 +252,10 @@
       text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 3px 3px 5px black;
       color: white;
     }
+    /* Nouveau conteneur pour décaler le bloc réponse quand le bouton "Suivant" apparaît */
+    .incorrect-answer-wrapper {
+      margin-top: 20px; /* Ajustez cette valeur selon le rendu souhaité */
+    }
     .correct-container {
       display: flex;
       align-items: center;
@@ -440,11 +444,11 @@
         font-size: 28px !important;
       }
     }
+    /* Fin ajout règle */
     #next-btn {
-  position: relative;
-  top: -30px; /* Ajustez cette valeur pour remonter le bouton */
-       margin-bottom: -20px;
-}
+      position: relative;
+      top: -30px;
+    }
   </style>
 </head>
 <body>
@@ -673,14 +677,15 @@
           <div class="incorrect-answer-header">Réponse :</div>
           <div class="incorrect-answer-text">${data.correctAnswers.join(", ")}</div>
         `;
-        // Après 2 secondes, remplacer les images par un bouton "Suivant" positionné plus haut
+        // Après 2 secondes, remplacer les images par le bouton "Suivant" et envelopper le texte dans un conteneur
         setTimeout(() => {
           resultDiv.innerHTML = `
-            <button id="next-btn" style="margin-bottom: -20px;">Suivant</button>
-            <div class="incorrect-answer-header">Réponse :</div>
-            <div class="incorrect-answer-text">${data.correctAnswers.join(", ")}</div>
+            <button id="next-btn">Suivant</button>
+            <div class="incorrect-answer-wrapper">
+              <div class="incorrect-answer-header">Réponse :</div>
+              <div class="incorrect-answer-text">${data.correctAnswers.join(", ")}</div>
+            </div>
           `;
-          // Ajouter l'écouteur sur le bouton "Suivant"
           document.getElementById("next-btn").addEventListener("click", () => {
             currentQuestion++;
             if (currentQuestion < quizData.length) {
