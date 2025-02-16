@@ -451,19 +451,19 @@
     }
     
     /* Styles pour le modal de l'index */
-   #index-modal {
+#index-modal {
   display: none;
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: rgba(0, 0, 0, 0.8);  /* Fond noir transparent (80% opacité) */
-  padding: 40px;                /* Plus d'espace intérieur */
+  background: rgba(0, 0, 0, 0.5); /* Fond noir avec 50% d'opacité */
+  padding: 20px;
   border-radius: 15px;
   z-index: 1000;
   text-align: center;
-  width: 350px;                 /* Largeur augmentée */
-  max-width: 90%;
+  width: 300px;      /* Largeur définie pour ne pas prendre toute la largeur */
+  max-width: 80%;    /* Adaptatif sur mobile */
 }
 
 /* Boutons INDEX agrandis à l'intérieur du modal */
@@ -497,15 +497,15 @@
   cursor: pointer;
   transition: transform 0.1s ease-in-out;
 }
-    #index-btn {
+#index-btn {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 220px;               /* Augmente la largeur */
-  height: 80px;               /* Augmente la hauteur */
+  width: 160px;               /* Taille adaptée */
+  height: 65px;               /* Taille adaptée */
   margin: 20px auto;
-  padding: 10px 20px;         /* Plus d'espace pour le clic */
-  font-size: 22px;            /* Texte agrandi */
+  padding: 5px 20px;
+  font-size: 18px;
   cursor: pointer;
   background: linear-gradient(to top, black, gray);
   color: white;
@@ -514,9 +514,11 @@
   border-radius: 10px;
   text-shadow: 1px 1px 2px black;
   transition: transform 0.1s ease-in-out;
-  position: relative;
-  overflow: visible;
-  /* Vous pouvez ajouter ici d'autres animations si nécessaire */
+  animation: borderGlow 2s ease-in-out infinite;  /* Border glow bleu */
+}
+
+#index-btn:active {
+  transform: scale(0.95);  /* Effet push-button */
 }
   </style>
 </head>
