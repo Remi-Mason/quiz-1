@@ -804,24 +804,41 @@
         document.getElementById("perfect-sound").play();
       } else {
         restartBtn.style.animation = "borderGlow2 2s ease-in-out infinite";
-        resultPage.style.backgroundImage = "url('images/wall2.png')";
+        resultPage.style.background = "black";
         resultHeader.src = "images/tryagain.png";
-        resultHeader.classList.add("windmill-shake");
+        resultHeader.style.transform = "translateX(0)";
+        resultHeader.style.marginTop = "10px";
         finalScoreEl.style.color = "red";
+        resultHeader.classList.add("windmill-shake");
         finalImage.classList.remove("raised");
         finalImage.style.width = "190px";
-               setInterval(() => {
+        finalImage.style.transform = "";
+        setInterval(() => {
           resultHeader.classList.remove("windmill-shake");
           void resultHeader.offsetWidth;
           resultHeader.classList.add("windmill-shake");
         }, 2800);
       }
+      resultPage.style.backgroundSize = "cover";
+      resultPage.style.backgroundPosition = "center";
+      finalScoreEl.textContent = `Score : ${score} sur ${quizData.length}`;
+      finalImage.src = (score === quizData.length)
+        ? "images/perfect.gif"
+        : ((Math.random() < 0.5) ? "images/lose1.gif" : "images/lose2.gif");
+      
+      if (finalImage.src.indexOf("lose1.gif") !== -1 && window.innerWidth <= 480) {
+        finalImage.style.transform = "translateY(-10px)";
+      } else {
+        finalImage.style.transform = "";
+      }
+      
+      if (score === quizData.length) {
+        document.getElementById("perfect-sound").currentTime = 0;
+        document.getElementById("perfect-sound").play();
+      } else {
         document.getElementById("imperfect-sound").currentTime = 0;
         document.getElementById("imperfect-sound").play();
       }
-      finalScoreEl.textContent = `Score : ${score} sur ${quizData.length}`;
-      resultPage.style.backgroundSize = "cover";
-      resultPage.style.backgroundPosition = "center";
     }
 
     restartBtn.addEventListener("click", () => { window.location.reload(); });
