@@ -254,7 +254,7 @@
     }
     /* Nouveau conteneur pour décaler le bloc réponse quand le bouton "Suivant" apparaît */
     .incorrect-answer-wrapper {
-      margin-top: 20px; /* Ajustez cette valeur selon le rendu souhaité */
+      margin-top: 20px;
     }
     .correct-container {
       display: flex;
@@ -450,24 +450,20 @@
       top: -30px;
     }
     
-    /* Ajout des styles pour le bouton INDEX et les boutons d'index */
-    #index-btn {
-      display: block;
-      margin: 10px auto;
-      padding: 10px 20px;
-      font-size: 18px;
-      background: linear-gradient(to top, black, gray);
-      color: white;
-      font-weight: bold;
-      border: 2px solid white;
+    /* Styles pour le modal de l'index */
+    #index-modal {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0,0,0,0.9);
+      padding: 20px;
       border-radius: 10px;
-      cursor: pointer;
-      transition: transform 0.1s ease-in-out;
+      z-index: 1000;
+      text-align: center;
     }
-    #index-btn:active {
-      transform: scale(0.95);
-    }
-    #index-container .index-option {
+    #index-modal .index-option {
       width: 50px;
       height: 50px;
       margin: 0 5px;
@@ -480,8 +476,18 @@
       cursor: pointer;
       transition: transform 0.1s ease-in-out;
     }
-    #index-container .index-option:active {
+    #index-modal .index-option:active {
       transform: scale(0.95);
+    }
+    #close-index-modal {
+      margin-top: 10px;
+      padding: 5px 10px;
+      font-size: 16px;
+      border: 2px solid white;
+      border-radius: 5px;
+      background: linear-gradient(to top, black, gray);
+      color: white;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -520,14 +526,16 @@
     <img id="final-image" src="images/lose1.gif" alt="Résultat" style="width:120px; display:block; margin: -15px auto 20px;">
     <p id="final-score">Score : 0 sur <span id="total-questions-result"></span></p>
     <button id="restart-btn" style="text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 3px 3px 5px black;">RECOMMENCER</button>
-    
-    <!-- Bouton INDEX et conteneur des liens -->
     <button id="index-btn" style="text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 3px 3px 5px black;">INDEX</button>
-    <div id="index-container" style="display: none; text-align: center; margin-top: 15px;">
-      <button class="index-option" data-url="page1.html" style="width: 50px; height: 50px; margin: 0 5px;">1</button>
-      <button class="index-option" data-url="page2.html" style="width: 50px; height: 50px; margin: 0 5px;">2</button>
-      <button class="index-option" data-url="page3.html" style="width: 50px; height: 50px; margin: 0 5px;">3</button>
-    </div>
+  </div>
+  
+  <!-- Container modal pour l'index -->
+  <div id="index-modal">
+    <button class="index-option" data-url="page1.html">1</button>
+    <button class="index-option" data-url="page2.html">2</button>
+    <button class="index-option" data-url="page3.html">3</button>
+    <br>
+    <button id="close-index-modal">Fermer</button>
   </div>
   
   <script>
@@ -581,6 +589,7 @@
     const startBtn = document.getElementById("start-btn");
     const validateBtn = document.getElementById("validate-btn");
     const restartBtn = document.getElementById("restart-btn");
+    const indexBtn = document.getElementById("index-btn");
     const muteBtn = document.getElementById("mute-btn");
 
     const checkboxSound = document.getElementById("checkbox-sound");
@@ -705,7 +714,6 @@
           }
         }, 2000);
       } else {
-        // En cas de réponse incorrecte, jouer l'un des sons d'erreur et afficher les décorations
         const selectedSound = (Math.random() < 0.5) ? incorrectSound : incorrectSound2;
         selectedSound.currentTime = 0;
         selectedSound.play();
@@ -717,7 +725,6 @@
           </div>
           <div class="incorrect-answer-header">Réponse :</div>
           <div class="incorrect-answer-text">${data.correctAnswers.join(", ")}</div>`;
-        // Après 2 secondes, remplacer les images par le bouton "Suivant" et envelopper le texte dans un conteneur
         setTimeout(() => {
           resultDiv.innerHTML = 
             `<button id="next-btn">Suivant</button>
@@ -809,21 +816,22 @@
       }
     });
     
-    /* Ajout de la logique pour le bouton INDEX */
-    const indexBtn = document.getElementById("index-btn");
-    const indexContainer = document.getElementById("index-container");
+    /* Logique pour le bouton INDEX et le modal correspondant */
+    const indexModal = document.getElementById("index-modal");
+    const closeIndexModal = document.getElementById("close-index-modal");
 
+    // Affiche le modal lorsque l'on clique sur INDEX
     indexBtn.addEventListener("click", () => {
-      // Bascule l'affichage du conteneur d'index
-      if (indexContainer.style.display === "none" || indexContainer.style.display === "") {
-        indexContainer.style.display = "block";
-      } else {
-        indexContainer.style.display = "none";
-      }
+      indexModal.style.display = "block";
     });
 
-    // Pour chaque bouton d'index, ajoute un écouteur qui redirige vers l'URL spécifiée
-    const indexOptions = document.querySelectorAll(".index-option");
+    // Ferme le modal lorsqu'on clique sur le bouton "Fermer"
+    closeIndexModal.addEventListener("click", () => {
+      indexModal.style.display = "none";
+    });
+
+    // Pour chaque bouton dans le modal, rediriger vers l'URL spécifiée
+    const indexOptions = document.querySelectorAll("#index-modal .index-option");
     indexOptions.forEach(button => {
       button.addEventListener("click", () => {
         window.location.href = button.dataset.url;
