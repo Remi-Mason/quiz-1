@@ -306,6 +306,71 @@
       animation: borderGlow2 2s ease-in-out infinite;
     }
     #restart-btn:active { transform: scale(0.95); }
+    /* Bouton INDEX dans le même style que RECOMMENCER avec texte bleu ciel fluo */
+    #index-btn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 160px;
+      height: 65px;
+      margin: 20px auto;
+      padding: 5px 20px;
+      font-size: 18px;
+      cursor: pointer;
+      background: linear-gradient(to top, black, gray);
+      color: #00e5ff;
+      font-weight: bold;
+      border: 2px solid white;
+      border-radius: 10px;
+      text-shadow: 1px 1px 2px black;
+      transition: transform 0.1s ease-in-out;
+      position: relative;
+      overflow: visible;
+      animation: borderGlow2 2s ease-in-out infinite;
+    }
+    #index-btn:active { transform: scale(0.95); }
+    
+    /* Styles pour le modal de l'index : plus grand et transparent */
+    #index-modal {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0,0,0,0.5);
+      padding: 30px;
+      width: 300px;
+      border-radius: 10px;
+      z-index: 1000;
+      text-align: center;
+    }
+    #index-modal .index-option {
+      width: 50px;
+      height: 50px;
+      margin: 0 5px;
+      font-size: 16px;
+      border: 2px solid white;
+      border-radius: 50%;
+      background: linear-gradient(to top, black, gray);
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.1s ease-in-out;
+    }
+    #index-modal .index-option:active {
+      transform: scale(0.95);
+    }
+    #close-index-modal {
+      margin-top: 10px;
+      padding: 5px 10px;
+      font-size: 16px;
+      border: 2px solid white;
+      border-radius: 5px;
+      background: linear-gradient(to top, black, gray);
+      color: white;
+      cursor: pointer;
+    }
+    
     @media (max-width: 480px) {
       .container { width: 90%; padding: 15px; padding-top: 20px; }
       #question-text { font-size: 18px; }
@@ -444,51 +509,6 @@
         font-size: 28px !important;
       }
     }
-    /* Fin ajout règle */
-    #next-btn {
-      position: relative;
-      top: -30px;
-    }
-    
-    /* Styles pour le modal de l'index */
-    #index-modal {
-      display: none;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: rgba(0,0,0,0.9);
-      padding: 20px;
-      border-radius: 10px;
-      z-index: 1000;
-      text-align: center;
-    }
-    #index-modal .index-option {
-      width: 50px;
-      height: 50px;
-      margin: 0 5px;
-      font-size: 16px;
-      border: 2px solid white;
-      border-radius: 50%;
-      background: linear-gradient(to top, black, gray);
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-      transition: transform 0.1s ease-in-out;
-    }
-    #index-modal .index-option:active {
-      transform: scale(0.95);
-    }
-    #close-index-modal {
-      margin-top: 10px;
-      padding: 5px 10px;
-      font-size: 16px;
-      border: 2px solid white;
-      border-radius: 5px;
-      background: linear-gradient(to top, black, gray);
-      color: white;
-      cursor: pointer;
-    }
   </style>
 </head>
 <body>
@@ -525,8 +545,8 @@
     <img id="result-header" src="images/tryagain.png" alt="encore" class="again">
     <img id="final-image" src="images/lose1.gif" alt="Résultat" style="width:120px; display:block; margin: -15px auto 20px;">
     <p id="final-score">Score : 0 sur <span id="total-questions-result"></span></p>
-    <button id="restart-btn" style="text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 3px 3px 5px black;">RECOMMENCER</button>
-    <button id="index-btn" style="text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 3px 3px 5px black;">INDEX</button>
+    <button id="restart-btn">RECOMMENCER</button>
+    <button id="index-btn">INDEX</button>
   </div>
   
   <!-- Container modal pour l'index -->
