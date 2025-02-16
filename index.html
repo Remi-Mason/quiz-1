@@ -451,44 +451,73 @@
     }
     
     /* Styles pour le modal de l'index */
-    #index-modal {
-      display: none;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: rgba(0,0,0,0.9);
-      padding: 20px;
-      border-radius: 10px;
-      z-index: 1000;
-      text-align: center;
-    }
-    #index-modal .index-option {
-      width: 50px;
-      height: 50px;
-      margin: 0 5px;
-      font-size: 16px;
-      border: 2px solid white;
-      border-radius: 50%;
-      background: linear-gradient(to top, black, gray);
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-      transition: transform 0.1s ease-in-out;
-    }
-    #index-modal .index-option:active {
-      transform: scale(0.95);
-    }
-    #close-index-modal {
-      margin-top: 10px;
-      padding: 5px 10px;
-      font-size: 16px;
-      border: 2px solid white;
-      border-radius: 5px;
-      background: linear-gradient(to top, black, gray);
-      color: white;
-      cursor: pointer;
-    }
+   #index-modal {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.8);  /* Fond noir transparent (80% opacité) */
+  padding: 40px;                /* Plus d'espace intérieur */
+  border-radius: 15px;
+  z-index: 1000;
+  text-align: center;
+  width: 350px;                 /* Largeur augmentée */
+  max-width: 90%;
+}
+
+/* Boutons INDEX agrandis à l'intérieur du modal */
+#index-modal .index-option {
+  width: 60px;                  /* Bouton plus grand */
+  height: 60px;
+  margin: 0 10px;
+  font-size: 18px;              /* Texte agrandi */
+  border: 2px solid white;
+  border-radius: 50%;
+  background: linear-gradient(to top, black, gray);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.1s ease-in-out;
+}
+
+#index-modal .index-option:active {
+  transform: scale(0.95);
+}
+
+/* Optionnel : ajuster le bouton de fermeture */
+#index-modal #close-index-modal {
+  margin-top: 20px;
+  padding: 8px 16px;
+  font-size: 16px;
+  border: 2px solid white;
+  border-radius: 5px;
+  background: linear-gradient(to top, black, gray);
+  color: white;
+  cursor: pointer;
+  transition: transform 0.1s ease-in-out;
+}
+    #index-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 220px;               /* Augmente la largeur */
+  height: 80px;               /* Augmente la hauteur */
+  margin: 20px auto;
+  padding: 10px 20px;         /* Plus d'espace pour le clic */
+  font-size: 22px;            /* Texte agrandi */
+  cursor: pointer;
+  background: linear-gradient(to top, black, gray);
+  color: white;
+  font-weight: bold;
+  border: 2px solid white;
+  border-radius: 10px;
+  text-shadow: 1px 1px 2px black;
+  transition: transform 0.1s ease-in-out;
+  position: relative;
+  overflow: visible;
+  /* Vous pouvez ajouter ici d'autres animations si nécessaire */
+}
   </style>
 </head>
 <body>
