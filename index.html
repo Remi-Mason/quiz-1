@@ -1412,6 +1412,12 @@ document.addEventListener("DOMContentLoaded", function(){
     });
   }
 });
+    window.addEventListener('beforeunload', function (e) {
+  // Annule l'événement comme indiqué par la norme.
+  e.preventDefault();
+  // Chrome nécessite que returnValue soit défini.
+  e.returnValue = '';
+});
 
   </script>
 </body>
