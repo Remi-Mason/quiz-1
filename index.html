@@ -1054,9 +1054,13 @@ shuffleArray(quizData);
 
     // Affichage d'une question
     function showQuestion() {
-      resultDiv.innerHTML = "";
-      validateBtn.style.display = "block";
-      const data = quizData[currentQuestion];
+  resultDiv.innerHTML = "";
+  validateBtn.style.display = "block";
+  const data = quizData[currentQuestion];
+  
+  // Cloner et mélanger les options
+  let options = data.options.slice(); // clone l'array d'options
+  shuffleArray(options); // mélange les options
       questionCounterEl.textContent = `${currentQuestion + 1} / ${quizData.length}`;
       questionTextEl.textContent = data.question;
       optionsDiv.innerHTML = "";
